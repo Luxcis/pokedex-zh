@@ -4,6 +4,7 @@ import { ViewTransitions } from 'next-view-transitions'
 import { Analytics } from '@vercel/analytics/react'
 import { cn } from '@/lib/utils'
 import './globals.css'
+import ApolloWrapper from './ApolloWrapper'
 
 const fontZpix = localFont({
   src: '../../public/fonts/zpix.ttf',
@@ -25,8 +26,13 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang='en'>
-        <body className={cn(fontZpix.variable, 'mx-auto h-[100vh] w-[100vw]')}>
-          {children}
+        <body
+          className={cn(
+            fontZpix.variable,
+            'mx-auto h-[100vh] w-[100vw] bg-slate-200'
+          )}
+        >
+          <ApolloWrapper>{children}</ApolloWrapper>
           <Analytics />
         </body>
       </html>
