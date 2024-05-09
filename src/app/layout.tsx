@@ -29,7 +29,7 @@ export default function RootLayout({
         <body
           className={cn(
             fontZpix.variable,
-            'mx-auto h-[100vh] w-[100vw] bg-slate-200'
+            'mx-auto h-[100vh] w-[100vw] bg-gray-100'
           )}
         >
           <ApolloWrapper>{children}</ApolloWrapper>

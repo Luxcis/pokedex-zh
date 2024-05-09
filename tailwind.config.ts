@@ -22,6 +22,8 @@ const config = {
         zpix: ['var(--font-zpix)']
       },
       colors: {
+        theme: '#3764d2',
+        'sub-theme': '#ffcb03',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
