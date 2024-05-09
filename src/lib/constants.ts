@@ -1,6 +1,6 @@
 import { Type } from '@/types'
 
-export const TYPES: Type[] = [
+export const types: Type[] = [
   {
     id: 1,
     name: 'normal',

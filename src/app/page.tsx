@@ -3,13 +3,12 @@
 import { GET_POKEMONS } from '@/graphql/queries'
 import { useQuery } from '@apollo/client'
 import { InView } from 'react-intersection-observer'
+import { PiCaretDownFill } from "react-icons/pi";
 import { useState } from 'react'
 import PokemonCard from './PokemonCard'
-import { TYPES } from '@/lib/constants'
+import { types } from '@/lib/constants'
 import { TbSearch } from 'react-icons/tb'
-import MultiSelect from '@/components/ui/multi-select'
-import SimpleSelect from '@/components/ui/simple-select'
-import { SingleValue } from 'react-select'
+import { Input, Button, Select, SelectItem, Dropdown, DropdownTrigger, DropdownItem, DropdownMenu } from '@nextui-org/react'
 
 interface Pokemon {
   no: number
@@ -18,18 +17,13 @@ interface Pokemon {
   types: { id: number; name: string; localName: string; color: string }[]
 }
 
-const SortOptions = [
+const sorts = [
   { value: '1', label: '按编号排列' },
   { value: '2', label: '按名字排列' }
 ]
 
 export default function Home() {
-  const [sortOption, setSortOption] = useState<
-    SingleValue<{ value: string; label: string }>
-  >({
-    value: '1',
-    label: '按编号排列'
-  })
+  const [sort, setSort] = useState('1')
   const [pokemons, setPokemons] = useState<Pokemon[]>([])
   const { data, loading, fetchMore, error } = useQuery(GET_POKEMONS, {
     notifyOnNetworkStatusChange: true,
@@ -50,7 +44,7 @@ export default function Home() {
             id: type.type_id,
             name: type.pokemon_v2_type.name,
             localName: type.pokemon_v2_type.pokemon_v2_typenames[0]?.name,
-            color: TYPES.find((i) => i.id === type.type_id)?.color || '#ff0000'
+            color: types.find((i) => i.id === type.type_id)?.color || '#ff0000'
           }))
         }
       })
@@ -61,9 +55,6 @@ export default function Home() {
     }
   })
 
-  const handleTypesChange = (value) => {
-    console.log(value)
-  }
 
   if (error) {
     return <div>{error.message}</div>
@@ -71,57 +62,118 @@ export default function Home() {
 
   return (
     <div className='mx-48 h-full'>
-      <header className='p-6 text-center text-4xl font-bold'>
+      {/* <header className='p-6 text-center text-4xl font-bold'>
         POKEDEX-NEXT
-      </header>
-      <main>
-        <div className='relative flex h-14 w-full items-center'>
-          <TbSearch className='text-theme absolute left-4 text-2xl opacity-60' />
-          <input
-            className='outline-theme h-14 w-full rounded-lg py-2 pl-12 text-xl outline-2 placeholder:text-base placeholder:font-normal focus:outline-4'
-            placeholder='名称，编号或类型'
-          />
-          <button className='text-theme bg-sub-theme absolute right-4 rounded-md px-6 py-1 text-base font-normal'>
-            搜索
-          </button>
+      </header> */}
+      <main className='py-4'>
+        <div className='w-full h-14'>
+          <Input
+          variant='bordered'
+          size='lg'
+          placeholder="输入名称，编号或属性"
+          labelPlacement="outside"
+          classNames={{
+            mainWrapper: "border-2 rounded-md border-theme hover:border-2",
+            inputWrapper: "border-none ",
+          }}
+          startContent={
+            <TbSearch className='text-2xl text-theme opacity-60' />
+          }
+          endContent={
+            <Button className='h-8 bg-sub-theme text-theme'>搜索</Button>
+          }
+        />
         </div>
+
+
         <div className='flex w-full pt-8'>
           <div className='mr-4 w-1/4'>
             <div className='flex h-12 w-full items-center'>
-              <MultiSelect
+              <Select
+                items={types}
+                onChange={(e) => {
+                  console.log(9998888, e.target.value)
+                }}
+                aria-label='type'
+                variant='bordered'
                 placeholder='选择属性'
-                onChange={handleTypesChange}
-                options={[
-                  { value: 'chocolate', label: '草' },
-                  { value: 'strawberry', label: '毒' },
-                  { value: 'vanilla', label: '水' }
-                ]}
-              />
+                selectionMode="multiple"
+                classNames={{
+                  mainWrapper: "border-2 rounded-md border-theme hover:border-2",
+                  trigger: "border-none"
+                }}
+              >
+              {
+                (type) => (<SelectItem key={type.name} textValue={type.name} value={type.name}>
+                  <div className='flex gap-2 items-center'>
+                    <span>{type.name}</span>
+                  </div>
+                </SelectItem>)
+              }
+              </Select>
             </div>
           </div>
           <div className='ml-4 w-3/4'>
             <div className='flex h-12 items-center justify-between'>
-              <div className='bg-transparent'>
-                <SimpleSelect
-                  onChange={(option) => setSortOption(option)}
-                  defaultValue={sortOption}
-                  options={SortOptions}
-                />
+              <div className='w-36'>
+              <Select 
+                variant='bordered'
+                className="max-w-xs"
+                aria-label='sorts'
+                classNames={{
+                  mainWrapper: "border-none shadow-none",
+                  innerWrapper: "shadow-none",
+                  trigger: "border-none shadow-none"
+                }}
+                selectedKeys={[sort]}
+                // value={sort}
+                onChange={(e) => 
+                  setSort(e.target.value)
+                }
+              >
+                {sorts.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </Select>
               </div>
-              <div>编号范围</div>
+              <div className='flex items-center'>
+                <span className='mr-4'>
+                  编号范围:
+                </span>
+                <div className='flex items-center h-8 justify-evenly'>
+                  <Input type='number' label='' size='sm' className='w-30'
+                    variant='bordered'
+                    classNames={{
+                      mainWrapper: "border-2 rounded-md border-theme hover:border-2",
+                      inputWrapper: "border-none hover:bg-transparent",
+                    }}
+                  />
+                  <span className='px-4'>-</span>
+                  <Input type='number' label='' size='sm' className='w-30'
+                    variant='bordered'
+                    classNames={{
+                      mainWrapper: "border-2 rounded-md border-theme hover:border-2",
+                      inputWrapper: "border-none hover:bg-transparent",
+                    }}
+                  />
+                </div>
+                
+                </div>
             </div>
 
             <div className='grid grid-cols-3 gap-2'>
-              {pokemons.map((item) => (
+              {/* {pokemons.map((item) => (
                 <PokemonCard
                   key={item.no}
                   no={item.no}
                   types={item.types}
                   name={item.localName}
                 />
-              ))}
+              ))} */}
             </div>
-            {pokemons.length > 0 && (
+            {/* {pokemons.length > 0 && (
               <InView
                 as='div'
                 className='h-6'
@@ -147,7 +199,7 @@ export default function Home() {
                   }
                 }}
               ></InView>
-            )}
+            )} */}
           </div>
         </div>
       </main>
