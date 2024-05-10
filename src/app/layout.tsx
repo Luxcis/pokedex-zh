@@ -28,10 +28,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html lang='en'>
         <body
-          className={cn(
-            fontZpix.variable,
-            'mx-auto h-[100vh] w-[100vw] bg-gray-100'
-          )}
+          className={cn(fontZpix.variable, 'mx-aut min-h-screen bg-gray-100')}
         >
           <NextUIProvider>
             <ApolloWrapper>{children}</ApolloWrapper>

@@ -1,23 +1,44 @@
 import { gql } from '@apollo/client'
 
 export const GET_POKEMONS = gql`
-  query PokemonsQuery($langId: Int = 12, $limit: Int = 10, $offset: Int = 0) {
-    pokemon_v2_pokemon(limit: $limit, offset: $offset) {
+  query PokemonsQuery(
+    $lang: String = "zh-Hans"
+    $limit: Int = 10
+    $offset: Int = 0
+    $search: String = ""
+    $types: [String!] = ["grass", "poison"]
+  ) {
+    pokemons: pokemon_v2_pokemon(
+      limit: $limit
+      offset: $offset
+      where: {
+        pokemon_v2_pokemonspecy: {
+          pokemon_v2_pokemonspeciesnames: {
+            pokemon_v2_language: { name: { _eq: $lang } }
+            name: { _regex: $search }
+          }
+        }
+        pokemon_v2_pokemontypes: { pokemon_v2_type: { name: { _in: $types } } }
+      }
+      order_by: { id: asc, name: asc }
+    ) {
       name
       id
-      pokemon_v2_pokemonspecy {
-        pokemon_v2_pokemonspeciesnames(
-          where: { language_id: { _eq: $langId } }
+      specy: pokemon_v2_pokemonspecy {
+        names: pokemon_v2_pokemonspeciesnames(
+          where: { pokemon_v2_language: { name: { _eq: $lang } } }
         ) {
           id
           name
         }
       }
-      pokemon_v2_pokemontypes {
+      types: pokemon_v2_pokemontypes {
         type_id
-        pokemon_v2_type {
+        type: pokemon_v2_type {
           name
-          pokemon_v2_typenames(where: { language_id: { _eq: $langId } }) {
+          localNames: pokemon_v2_typenames(
+            where: { pokemon_v2_language: { name: { _eq: $lang } } }
+          ) {
             name
           }
         }

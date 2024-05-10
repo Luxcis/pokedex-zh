@@ -40,3 +40,25 @@ export type Stat = {
   base: number
   effort: number
 }
+
+export type Specy = {
+  names: {
+    id: number
+    name: string
+  }[]
+}
+
+export type TypeResult = {
+  type_id: number
+  type: {
+    name: TypeName
+    localNames: { name: string }[]
+  }
+}
+
+export type PokemonData = {
+  name: string
+  id: number
+  specy: Specy
+  types: TypesResult[]
+}
