@@ -41,8 +41,6 @@ export default function PokemonPage() {
     onCompleted: (data) => {
       const pkInfo = data.pokemon_v2_pokemon_by_pk
 
-      console.log(888888, pkInfo)
-
       const pokemonInfo: PokemonInfo = {
         id: id,
         name: pkInfo.name,
@@ -70,8 +68,8 @@ export default function PokemonPage() {
   })
 
   return (
-    <div className='mx-48 mt-12 h-full'>
-      <div className='h-12 w-full'>
+    <div className='mx-48 h-full'>
+      <div className='h-12 w-full pt-6'>
         <Link href={'/'} as='div' className='flex items-center'>
           <FiArrowLeft className='text-2xl' />
           <span className='ml-4 text-xl font-bold'>Pokedex</span>
@@ -87,10 +85,10 @@ export default function PokemonPage() {
           </div>
           <img
             style={{
-              width: '80px',
-              height: '80px'
+              width: '180px',
+              height: '180px'
             }}
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${id}.gif`}
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
           />
           <div className='mt-4 flex items-end justify-center gap-2'>
             {pokemonInfo?.types.map((type) => (

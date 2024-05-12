@@ -3,13 +3,13 @@
 import { GET_POKEMONS } from '@/graphql/queries'
 import { useQuery } from '@apollo/client'
 import { InView } from 'react-intersection-observer'
-import { PiCaretDownFill } from 'react-icons/pi'
 import { useState } from 'react'
 import PokemonCard from './PokemonCard'
 import { typeList } from '@/lib/constants'
 import { TbSearch } from 'react-icons/tb'
-import { Input, Button, Select, SelectItem } from '@nextui-org/react'
+import { Input } from '@nextui-org/react'
 import { PokemonData } from '@/types'
+import TypeSelect from '@/components/TypeSelect'
 
 const sorts = [
   { value: '1', label: '按编号排列' },
@@ -43,12 +43,12 @@ export default function Home() {
   }
 
   return (
-    <div className='mx-48 h-full font-zpix'>
-      <header className=' h-20 p-6 text-center text-4xl font-bold'>
-        POKEDEX-NEXT
+    <div className='mx-6 h-full font-zpix sm:mx-24 md:mx-36 lg:mx-48'>
+      <header className='h-20 p-6 text-center text-4xl font-bold'>
+        宝可梦图鉴 Next
       </header>
       <main className='sticky top-0 py-2'>
-        <div className='h-14 w-full'>
+        <div className='flex w-full flex-col'>
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -57,25 +57,43 @@ export default function Home() {
             placeholder='输入宝可梦名称'
             labelPlacement='outside'
             classNames={{
-              mainWrapper: 'border-2 rounded-md border-theme hover:border-2',
-              inputWrapper: 'border-none '
+              mainWrapper:
+                'border-2 pixel-corners rounded-md border-theme hover:border-2',
+              inputWrapper: 'border-none'
             }}
             startContent={
               <TbSearch className='text-2xl text-theme opacity-60' />
             }
             endContent={
-              <Button
-                className='h-8 bg-sub-theme text-theme'
+              <button
+                className='pixel-corners h-9 w-24 bg-sub-theme px-6 text-sm'
                 onClick={handleSearch}
               >
                 搜索
-              </Button>
+              </button>
             }
           />
+
+          <div className='flex w-full justify-center gap-8 pt-4'>
+            <div className=''>
+              <TypeSelect onChange={() => {}} />
+            </div>
+
+            <button className='pixel-corners h-8 w-32 bg-sub-theme px-6'>
+              随机一个
+            </button>
+
+            {/* <button className='pixel-corners h-8 w-32 bg-sub-theme px-6'>
+              筛选排序
+            </button>
+            <button className='pixel-corners h-8 w-32 bg-sub-theme px-6'>
+              随机一个
+            </button> */}
+          </div>
         </div>
 
-        <div className='flex w-full pt-8'>
-          <div className='mr-4 w-1/4'>
+        <div className='flex w-full flex-col pt-4'>
+          {/* <div className='mr-4 w-1/4'>
             <div className='flex h-12 w-full items-center'>
               <Select
                 items={typeList}
@@ -105,9 +123,9 @@ export default function Home() {
                 )}
               </Select>
             </div>
-          </div>
-          <div className='ml-4 w-3/4'>
-            <div className='flex h-12 items-center justify-between'>
+          </div> */}
+          <div className='w-full'>
+            {/* <div className='flex h-12 items-center justify-between'>
               <div className='w-36'>
                 <Select
                   variant='bordered'
@@ -129,39 +147,10 @@ export default function Home() {
                   ))}
                 </Select>
               </div>
-              <div className='flex items-center'>
-                {/* <span className='mr-4'>编号范围:</span>
-                <div className='flex h-8 items-center justify-evenly'>
-                  <Input
-                    type='number'
-                    label=''
-                    size='sm'
-                    className='w-30'
-                    variant='bordered'
-                    classNames={{
-                      mainWrapper:
-                        'border-2 rounded-md border-theme hover:border-2',
-                      inputWrapper: 'border-none hover:bg-transparent'
-                    }}
-                  />
-                  <span className='px-4'>-</span>
-                  <Input
-                    type='number'
-                    label=''
-                    size='sm'
-                    className='w-30'
-                    variant='bordered'
-                    classNames={{
-                      mainWrapper:
-                        'border-2 rounded-md border-theme hover:border-2',
-                      inputWrapper: 'border-none hover:bg-transparent'
-                    }}
-                  />
-                </div> */}
-              </div>
-            </div>
+              <div className='flex items-center'></div>
+            </div> */}
 
-            <div className='grid grid-cols-3 justify-between gap-6 pt-4'>
+            <div className='grid grid-cols-1 justify-between gap-6 pt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
               {data?.pokemons.map((item) => <PokemonCard data={item} />)}
             </div>
 

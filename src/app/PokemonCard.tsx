@@ -16,7 +16,7 @@ export default function PokemonCard({ data }: Props) {
     <Link
       href={`/${data.id}`}
       as='div'
-      className='flex h-[200px] min-w-[160px] cursor-pointer flex-col rounded-xl border border-theme border-opacity-40 bg-slate-50 px-4 py-2 duration-300 hover:border-2 hover:border-opacity-80'
+      className='group flex h-[200px] min-w-[160px] max-w-[180px] cursor-pointer flex-col rounded-xl border-opacity-40 bg-slate-50 px-4 py-2 duration-300'
     >
       {/* <Image
         alt={data.name}
@@ -24,13 +24,26 @@ export default function PokemonCard({ data }: Props) {
         height={100}
         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.id}.png`}
       /> */}
-      <div className='flex w-full items-center justify-center'>
+      <div className='flex h-24 w-full items-center justify-center'>
         <img
+          className='block group-hover:hidden'
           style={{
             width: 96,
             height: 96
           }}
           src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.id}.png`}
+        />
+        <img
+          className='hidden group-hover:block'
+          style={{
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            objectFit: 'contain',
+            imageRendering: 'pixelated',
+            maxWidth: '350px',
+            maxHeight: '22vh'
+          }}
+          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-v/black-white/animated/${data.id}.gif`}
         />
       </div>
 
