@@ -9,16 +9,18 @@ import { typeList } from '@/lib/constants'
 import { TbSearch } from 'react-icons/tb'
 import { Input } from '@nextui-org/react'
 import { PokemonData } from '@/types'
-import TypeSelect from '@/components/TypeSelect'
+import TypeSelect from '@/components/type-select'
 
 const sorts = [
   { value: '1', label: '按编号排列' },
   { value: '2', label: '按名字排列' }
 ]
 
+const allTypes = typeList.map((type) => type.name)
+
 export default function Home() {
   const [search, setSearch] = useState('')
-  const [sort, setSort] = useState('1')
+  const [types, setTypes] = useState(allTypes)
   const { data, loading, fetchMore, refetch, error } = useQuery<{
     pokemons: PokemonData[]
   }>(GET_POKEMONS, {
@@ -28,7 +30,7 @@ export default function Home() {
       limit: 21,
       offset: 0,
       search: '',
-      types: typeList.map((type) => type.name)
+      types: types
     }
   })
 
@@ -45,7 +47,7 @@ export default function Home() {
   return (
     <div className='mx-6 h-full font-zpix sm:mx-24 md:mx-36 lg:mx-48'>
       <header className='h-20 p-6 text-center text-4xl font-bold'>
-        宝可梦图鉴 Next
+        宝可梦图鉴.Next
       </header>
       <main className='sticky top-0 py-2'>
         <div className='flex w-full flex-col'>
@@ -57,8 +59,7 @@ export default function Home() {
             placeholder='输入宝可梦名称'
             labelPlacement='outside'
             classNames={{
-              mainWrapper:
-                'border-2 pixel-corners rounded-md border-theme hover:border-2',
+              mainWrapper: 'border-2 rounded-md border-theme hover:border-2',
               inputWrapper: 'border-none'
             }}
             startContent={
@@ -66,7 +67,7 @@ export default function Home() {
             }
             endContent={
               <button
-                className='pixel-corners h-9 w-24 bg-sub-theme px-6 text-sm'
+                className='pixel-corners h-9 w-24 border-theme bg-sub-theme px-6 text-sm'
                 onClick={handleSearch}
               >
                 搜索
@@ -76,54 +77,27 @@ export default function Home() {
 
           <div className='flex w-full justify-center gap-8 pt-4'>
             <div className=''>
-              <TypeSelect onChange={() => {}} />
+              <TypeSelect
+                onChange={(v) => {
+                  if (!v) {
+                    setTypes(allTypes)
+                    return
+                  }
+                  setTypes([v])
+                }}
+              />
             </div>
 
-            <button className='pixel-corners h-8 w-32 bg-sub-theme px-6'>
+            <button
+              type='button'
+              className='h-8 w-[100px] bg-sub-theme px-2 py-0 text-sm'
+            >
               随机一个
             </button>
-
-            {/* <button className='pixel-corners h-8 w-32 bg-sub-theme px-6'>
-              筛选排序
-            </button>
-            <button className='pixel-corners h-8 w-32 bg-sub-theme px-6'>
-              随机一个
-            </button> */}
           </div>
         </div>
 
         <div className='flex w-full flex-col pt-4'>
-          {/* <div className='mr-4 w-1/4'>
-            <div className='flex h-12 w-full items-center'>
-              <Select
-                items={typeList}
-                onChange={(e) => {
-                  console.log(9998888, e.target.value)
-                }}
-                aria-label='type'
-                variant='bordered'
-                placeholder='选择属性'
-                selectionMode='multiple'
-                classNames={{
-                  mainWrapper:
-                    'border-2 rounded-md border-theme hover:border-2',
-                  trigger: 'border-none'
-                }}
-              >
-                {(type) => (
-                  <SelectItem
-                    key={type.name}
-                    textValue={type.name}
-                    value={type.name}
-                  >
-                    <div className='flex items-center gap-2'>
-                      <span>{type.name}</span>
-                    </div>
-                  </SelectItem>
-                )}
-              </Select>
-            </div>
-          </div> */}
           <div className='w-full'>
             {/* <div className='flex h-12 items-center justify-between'>
               <div className='w-36'>

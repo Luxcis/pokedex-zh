@@ -10,13 +10,13 @@ interface Props {
 // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork
 // raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/394.png
 export default function PokemonCard({ data }: Props) {
-  console.log('Pokemon', data.types)
+  // console.log('Pokemon', data.types)
 
   return (
     <Link
       href={`/${data.id}`}
       as='div'
-      className='group flex h-[200px] min-w-[160px] max-w-[180px] cursor-pointer flex-col rounded-xl border-opacity-40 bg-slate-50 px-4 py-2 duration-300'
+      className='group flex h-[200px] min-w-[160px] max-w-[180px] cursor-pointer flex-col border-opacity-40 bg-slate-50 px-4 py-2 duration-300'
     >
       {/* <Image
         alt={data.name}

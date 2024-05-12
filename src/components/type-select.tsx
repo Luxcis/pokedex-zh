@@ -20,11 +20,11 @@ export default function TypeSelect({ onChange }: Props) {
         isEnabled: false
       }}
       classNames={{
-        mainWrapper: 'pixel-corners h-8 w-32 bg-sub-theme rounded-md',
+        mainWrapper: 'h-8 w-32 bg-sub-theme',
         innerWrapper: 'h-8',
         trigger: 'border-none min-h-6',
         popoverContent: 'font-zpix px-1 rounded-none',
-        listbox: 'p-0',
+        listbox: 'p-0 rounded-none',
         listboxWrapper: 'p-0'
       }}
       // renderValue={}
@@ -32,7 +32,7 @@ export default function TypeSelect({ onChange }: Props) {
       {(type) => (
         <SelectItem
           key={type.name}
-          className='px-2 py-1'
+          className='rounded-none px-2 py-1'
           textValue={type.name}
           value={type.name}
           style={{

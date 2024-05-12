@@ -4,92 +4,92 @@ export const typeList: Type[] = [
   {
     id: 1,
     name: 'normal',
-    color: '#AAA67F'
+    color: '#919AA2'
   },
   {
     id: 2,
     name: 'fighting',
-    color: '#C12239'
+    color: '#CE416B'
   },
   {
     id: 3,
     name: 'flying',
-    color: '#A891EC'
+    color: '#89AAE3'
   },
   {
     id: 4,
     name: 'poison',
-    color: '#A43E9E'
+    color: '#B567CE'
   },
   {
     id: 5,
     name: 'ground',
-    color: '#DEC16B'
+    color: '#D97845'
   },
   {
     id: 6,
     name: 'rock',
-    color: '#B69E31'
+    color: '#C5B78C'
   },
   {
     id: 7,
     name: 'bug',
-    color: '#A7B723'
+    color: '#91C12F'
   },
   {
     id: 8,
     name: 'ghost',
-    color: '#70559B'
+    color: '#5269AD'
   },
   {
     id: 9,
     name: 'steel',
-    color: '#B7B9D0'
+    color: '#5A8EA2'
   },
   {
     id: 10,
     name: 'fire',
-    color: '#F57D31'
+    color: '#FF9D55'
   },
   {
     id: 11,
     name: 'water',
-    color: '#6493EB'
+    color: '#5090D6'
   },
   {
     id: 12,
     name: 'grass',
-    color: '#74CB48'
+    color: '#63BC5A'
   },
   {
     id: 13,
     name: 'electric',
-    color: '#F9CF30'
+    color: '#F4D23C'
   },
   {
     id: 14,
     name: 'psychic',
-    color: '#FB5584'
+    color: '#FA7179'
   },
   {
     id: 15,
     name: 'ice',
-    color: '#9AD6DF'
+    color: '#73CEC0'
   },
   {
     id: 16,
     name: 'dragon',
-    color: '#7037FF'
+    color: '#0B6DC3'
   },
   {
     id: 17,
     name: 'dark',
-    color: '#75574C'
+    color: '#5A5465'
   },
   {
     id: 18,
     name: 'fairy',
-    color: '#E69EAC'
+    color: '#EC8FE6'
   },
   {
     id: 10001,
