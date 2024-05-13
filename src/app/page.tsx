@@ -10,11 +10,14 @@ import { TbSearch } from 'react-icons/tb'
 import { Input } from '@nextui-org/react'
 import { PokemonData } from '@/types'
 import TypeSelect from '@/components/type-select'
+import Loading from '@/components/loading'
 
 const sorts = [
   { value: '1', label: '按编号排列' },
   { value: '2', label: '按名字排列' }
 ]
+
+const LIMIT = 12
 
 const allTypes = typeList.map((type) => type.name)
 
@@ -27,7 +30,7 @@ export default function Home() {
     notifyOnNetworkStatusChange: true,
     variables: {
       langId: 12,
-      limit: 21,
+      limit: LIMIT,
       offset: 0,
       search: '',
       types: types
@@ -39,6 +42,8 @@ export default function Home() {
       search: search
     })
   }
+
+  console.log('loading', loading)
 
   if (error) {
     return <div>{error.message}</div>
@@ -99,34 +104,12 @@ export default function Home() {
 
         <div className='flex w-full flex-col pt-4'>
           <div className='w-full'>
-            {/* <div className='flex h-12 items-center justify-between'>
-              <div className='w-36'>
-                <Select
-                  variant='bordered'
-                  className='max-w-xs'
-                  aria-label='sorts'
-                  classNames={{
-                    mainWrapper: 'border-none shadow-none',
-                    innerWrapper: 'shadow-none',
-                    trigger: 'border-none shadow-none'
-                  }}
-                  selectedKeys={[sort]}
-                  // value={sort}
-                  onChange={(e) => setSort(e.target.value)}
-                >
-                  {sorts.map((item) => (
-                    <SelectItem key={item.value} value={item.value}>
-                      {item.label}
-                    </SelectItem>
-                  ))}
-                </Select>
-              </div>
-              <div className='flex items-center'></div>
-            </div> */}
-
             <div className='grid grid-cols-1 justify-between gap-6 pt-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-              {data?.pokemons.map((item) => <PokemonCard data={item} />)}
+              {data?.pokemons.map((item) => (
+                <PokemonCard key={item.id} data={item} />
+              ))}
             </div>
+            {loading && <Loading />}
 
             {data?.pokemons.length > 0 && (
               <InView
