@@ -1,21 +1,29 @@
 import { typeList } from '@/lib/constants'
-import { TypeResult } from '@/typings'
+import { Type } from '@/typings'
 
 interface Props {
-  data: TypeResult
+  value: Type
 }
 
-export default function TypeBadge({ data }: Props) {
-  const color = typeList.find((i) => i.id === data.type_id)?.color
+export default function TypeBadge({ value }: Props) {
+  const color = typeList.find((i) => i.id === value.type_id)?.color
 
   return (
-    <div
-      className='flex h-6 min-w-12 items-center justify-center text-xs text-[#e3e3e6]'
+    <span
+      className='mr-2 min-w-12 rounded-full px-3 py-1 text-sm text-white'
       style={{
         background: color
       }}
     >
-      {data.type.localNames[0].name}
-    </div>
+      {value.type.local_names[0].name}
+    </span>
+    // <div
+    //   className='flex h-6 min-w-12 items-center justify-center text-xs text-[#e3e3e6]'
+    //   style={{
+    //     background: color
+    //   }}
+    // >
+    //   {data.type.localNames[0].name}
+    // </div>
   )
 }

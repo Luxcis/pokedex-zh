@@ -1,6 +1,6 @@
-import { Type } from '@/typings'
+import { TypeName } from '@/typings'
 
-export const typeList: Type[] = [
+export const typeList: { id: number; name: TypeName; color: string }[] = [
   {
     id: 1,
     name: 'normal',

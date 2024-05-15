@@ -36,7 +36,7 @@ export const GET_POKEMONS = gql`
         type_id
         type: pokemon_v2_type {
           name
-          localNames: pokemon_v2_typenames(
+          local_names: pokemon_v2_typenames(
             where: { pokemon_v2_language: { name: { _eq: $lang } } }
           ) {
             name
@@ -55,7 +55,23 @@ export const GET_POKEMON_INFO = gql`
       base_experience
       id
       name
+      types: pokemon_v2_pokemontypes {
+        type: pokemon_v2_type {
+          name
+          local_names: pokemon_v2_typenames(
+            where: { pokemon_v2_language: { name: { _eq: $lang } } }
+          ) {
+            name
+          }
+        }
+        type_id
+      }
       specy: pokemon_v2_pokemonspecy {
+        capture_rate
+        is_mythical
+        is_legendary
+        is_baby
+        order
         names: pokemon_v2_pokemonspeciesnames(
           where: { pokemon_v2_language: { name: { _eq: $lang } } }
         ) {
@@ -117,6 +133,9 @@ export const GET_POKEMON_INFO = gql`
           is_battle_only
           name
         }
+      }
+      sprites: pokemon_v2_pokemonsprites {
+        collection: sprites
       }
     }
   }

@@ -20,12 +20,6 @@ export type TypeName =
   | 'unknown'
   | 'shadow'
 
-export type Type = {
-  id: number
-  name: TypeName
-  color: string
-}
-
 export type StatName =
   | 'hp'
   | 'attack'
@@ -41,11 +35,11 @@ export type Specy = {
   }[]
 }
 
-export type TypeResult = {
+export type Type = {
   type_id: number
   type: {
     name: TypeName
-    localNames: { name: string }[]
+    local_names: { name: string }[]
   }
 }
 
@@ -53,7 +47,74 @@ export type PokemonData = {
   name: string
   id: number
   specy: Specy
-  types: TypesResult[]
+  types: Type[]
+}
+
+export type FlavorText = {
+  text: string
+  version: {
+    name: string
+    local_names: { name: string }[]
+  }
+}
+
+export type Sprites = {
+  collection: {
+    other: {
+      home: {
+        front_shiny: string | null
+        front_female: string | null
+        front_default: string | null
+        front_shiny_female: string | null
+      }
+      showdown: {
+        back_shiny: string | null
+        back_female: string | null
+        front_shiny: string | null
+        back_default: string | null
+        front_female: string | null
+        front_default: string | null
+        back_shiny_female: string | null
+        front_shiny_female: string | null
+      }
+      dream_world: {
+        front_female: string | null
+        front_default: string | null
+      }
+      'official-artwork': {
+        front_shiny: string | null
+        front_default: string | null
+      }
+    }
+    versions: {
+      'generation-i': {
+        yellow: {
+          back_gray: string
+          front_gray: string
+          back_default: string
+          front_default: string
+          back_transparent: string
+          front_transparent: string
+        }
+      }
+      'red-blue': {
+        back_gray: string
+        front_gray: string
+        back_default: string
+        front_default: string
+        back_transparent: string
+        front_transparent: string
+      }
+    }
+    back_shiny: string | null
+    back_female: string | null
+    front_shiny: string | null
+    back_default: string | null
+    front_female: string | null
+    front_default: string | null
+    back_shiny_female: string | null
+    front_shiny_female: string | null
+  }
 }
 
 export type PokemonDetailData = {
@@ -63,6 +124,7 @@ export type PokemonDetailData = {
   weight: number
   base_experience: number
   is_battle_only: boolean
+  types: Type[]
   stats: {
     base: number
     effort: number
@@ -73,5 +135,7 @@ export type PokemonDetailData = {
   }[]
   specy: {
     names: { name: string; genus: string }[]
+    texts: FlavorText[]
+    capture_rate: number
   }
 }
