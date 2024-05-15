@@ -48,71 +48,74 @@ export const GET_POKEMONS = gql`
 `
 
 export const GET_POKEMON_INFO = gql`
-  query MyQuery($id: Int!, $langId: Int = 12) {
-    pokemon_v2_pokemon_by_pk(id: $id) {
-      name
-      pokemon_species_id
-      weight
+  query PokemonInfoQuery($id: Int = 3, $lang: String = "zh-Hans") {
+    detail: pokemon_v2_pokemon_by_pk(id: $id) {
       height
+      weight
       base_experience
-      is_default
-      pokemon_v2_pokemontypes {
-        type_id
-        pokemon_v2_type {
-          name
-          pokemon_v2_typenames(where: { language_id: { _eq: $langId } }) {
-            name
-          }
-        }
-      }
-      pokemon_v2_pokemonsprites {
-        sprites
-      }
-      pokemon_v2_pokemonspecy {
-        pokemon_v2_pokemonspeciesnames(
-          where: { language_id: { _eq: $langId } }
+      id
+      name
+      specy: pokemon_v2_pokemonspecy {
+        names: pokemon_v2_pokemonspeciesnames(
+          where: { pokemon_v2_language: { name: { _eq: $lang } } }
         ) {
           name
           genus
         }
-        pokemon_v2_pokemonspeciesflavortexts(
-          where: { language_id: { _eq: $langId } }
+        texts: pokemon_v2_pokemonspeciesflavortexts(
+          where: { pokemon_v2_language: { name: { _eq: $lang } } }
         ) {
-          flavor_text
-          version_id
-          pokemon_species_id
-        }
-        pokemon_v2_pokemonspeciesdescriptions(
-          where: { language_id: { _eq: $langId } }
-        ) {
-          description
-        }
-      }
-      pokemon_v2_pokemonstats {
-        effort
-        base_stat
-        stat_id
-        pokemon_v2_stat {
-          name
-          pokemon_v2_statnames(where: { language_id: { _eq: $langId } }) {
+          text: flavor_text
+          version: pokemon_v2_version {
             name
+            local_names: pokemon_v2_versionnames(
+              where: { pokemon_v2_language: { name: { _eq: $lang } } }
+            ) {
+              name
+            }
+          }
+        }
+        evolution: pokemon_v2_pokemonevolutions {
+          evolution_trigger_id
+          gender_id
+          evolved_species_id
+          trigger: pokemon_v2_evolutiontrigger {
+            name
+          }
+          gender: pokemon_v2_gender {
+            name
+          }
+          item: pokemon_v2_item {
+            name
+          }
+          turn_upside_down
+          time_of_day
+          min_level
+          min_beauty
+          min_affection
+          min_happiness
+          held_item_id
+          needs_overworld_rain
+          location: pokemon_v2_location {
+            names: pokemon_v2_locationnames(where: { name: { _eq: $lang } }) {
+              name
+            }
           }
         }
       }
-    }
-    pokemon_v2_pokemonability_by_pk(id: $id) {
-      slot
-      pokemon_v2_ability {
-        name
-        pokemon_v2_abilityflavortexts(
-          where: { language_id: { _eq: $langId } }
-        ) {
-          flavor_text
-        }
-        is_main_series
-        pokemon_v2_abilitynames(where: { language_id: { _eq: $langId } }) {
+      stats: pokemon_v2_pokemonstats {
+        id
+        base: base_stat
+        effort
+        stat: pokemon_v2_stat {
+          names: pokemon_v2_statnames(
+            where: { pokemon_v2_language: { name: { _eq: $lang } } }
+          ) {
+            name
+            stat_id
+          }
+          is_battle_only
           name
-          ability_id
         }
       }
     }

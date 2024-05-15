@@ -34,13 +34,6 @@ export type StatName =
   | 'special-defense'
   | 'speed'
 
-export type Stat = {
-  id: number
-  name: StatName
-  base: number
-  effort: number
-}
-
 export type Specy = {
   names: {
     id: number
@@ -61,4 +54,24 @@ export type PokemonData = {
   id: number
   specy: Specy
   types: TypesResult[]
+}
+
+export type PokemonDetailData = {
+  id: number
+  name: string
+  height: number
+  weight: number
+  base_experience: number
+  is_battle_only: boolean
+  stats: {
+    base: number
+    effort: number
+    name: string
+    stat: {
+      names: { name: string; id: number }[]
+    }
+  }[]
+  specy: {
+    names: { name: string; genus: string }[]
+  }
 }

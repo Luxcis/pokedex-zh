@@ -1,5 +1,5 @@
 import { typeList } from '@/lib/constants'
-import { TypeResult } from '@/types'
+import { TypeResult } from '@/typings'
 
 interface Props {
   data: TypeResult

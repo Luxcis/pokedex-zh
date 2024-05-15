@@ -1,4 +1,4 @@
-import { Type } from '@/types'
+import { Type } from '@/typings'
 
 export const typeList: Type[] = [
   {

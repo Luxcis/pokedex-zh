@@ -8,7 +8,7 @@ import PokemonCard from './PokemonCard'
 import { typeList } from '@/lib/constants'
 import { TbSearch } from 'react-icons/tb'
 import { Input } from '@nextui-org/react'
-import { PokemonData } from '@/types'
+import { PokemonData } from '@/typings'
 import TypeSelect from '@/components/type-select'
 import Loading from '@/components/loading'
 
@@ -43,7 +43,7 @@ export default function Home() {
     })
   }
 
-  console.log('loading', loading)
+  console.log('loading', loading, data)
 
   if (error) {
     return <div>{error.message}</div>
@@ -109,9 +109,9 @@ export default function Home() {
                 <PokemonCard key={item.id} data={item} />
               ))}
             </div>
-            {loading && <Loading />}
-
-            {data?.pokemons.length > 0 && (
+            {loading ? (
+              <Loading />
+            ) : (
               <InView
                 as='div'
                 className='h-6'
@@ -119,6 +119,8 @@ export default function Home() {
                 rootMargin='25px 0px'
                 onChange={(inView) => {
                   if (inView) {
+                    console.log('in viewxxxx', data?.pokemons.length)
+
                     fetchMore({
                       variables: {
                         offset: data.pokemons.length

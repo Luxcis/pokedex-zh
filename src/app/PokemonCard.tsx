@@ -1,7 +1,7 @@
 import { Link } from 'next-view-transitions'
 import Image from 'next/image'
 import { typeList } from '@/lib/constants'
-import { PokemonData } from '@/types'
+import { PokemonData } from '@/typings'
 import TypeBadge from '@/components/type-badge'
 
 interface Props {
