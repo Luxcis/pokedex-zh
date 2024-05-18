@@ -10,7 +10,6 @@ export default function FlavorTexts({ texts }: Props) {
     name: t.version.name,
     local_name: t.version.local_names[0].name
   }))
-  const contents = texts.map((t) => t.text)
 
   return (
     <div>
@@ -20,11 +19,13 @@ export default function FlavorTexts({ texts }: Props) {
       <Tabs className='w-full' defaultValue={versions[0]?.name}>
         <TabsList className='flex w-full border-b border-gray-200 dark:border-gray-800'>
           {versions?.map((i) => (
-            <TabsTrigger value={i.name}>{i.local_name}</TabsTrigger>
+            <TabsTrigger key={i.name} value={i.name}>
+              {i.local_name}
+            </TabsTrigger>
           ))}
         </TabsList>
-        {texts.map((t) => (
-          <TabsContent value={t.version.name}>
+        {texts.map((t, idx) => (
+          <TabsContent key={idx} value={t.version.name}>
             <div className='p-4'>
               <p className='leading-relaxed text-gray-600 dark:text-gray-400'>
                 {t.text}

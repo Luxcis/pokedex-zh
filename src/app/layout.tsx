@@ -3,8 +3,7 @@ import localFont from 'next/font/local'
 import { ViewTransitions } from 'next-view-transitions'
 import { Analytics } from '@vercel/analytics/react'
 import { cn } from '@/lib/utils'
-import ApolloWrapper from './ApolloWrapper'
-import { NextUIProvider } from '@nextui-org/react'
+import ApolloWrapper from './apollo-wrapper'
 import './globals.css'
 
 const fontZpix = localFont({
@@ -30,9 +29,7 @@ export default function RootLayout({
         <body
           className={cn(fontZpix.variable, 'mx-aut min-h-screen bg-gray-100')}
         >
-          <NextUIProvider>
-            <ApolloWrapper>{children}</ApolloWrapper>
-          </NextUIProvider>
+          <ApolloWrapper>{children}</ApolloWrapper>
           <Analytics />
         </body>
       </html>

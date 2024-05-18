@@ -18,7 +18,7 @@ export default function PokemonCard({ data }: Props) {
           href={`/${data.id}`}
           className='flex w-full cursor-pointer justify-center'
         >
-          <img
+          <Image
             alt={data.name}
             className='aspect-square object-cover transition-opacity group-hover:opacity-50'
             height={250}
