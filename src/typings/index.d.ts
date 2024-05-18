@@ -58,6 +58,14 @@ export type FlavorText = {
   }
 }
 
+export type Stat =
+  | 'hp'
+  | 'attack'
+  | 'defense'
+  | 'special-attack'
+  | 'special-defense'
+  | 'speed'
+
 export type Sprites = {
   collection: {
     other: {
@@ -117,6 +125,10 @@ export type Sprites = {
   }
 }
 
+export type EvolutionChain = {
+  species: { names: { name: string; id: number }[]; from_id: number | null }[]
+}
+
 export type PokemonDetailData = {
   id: number
   name: string
@@ -137,5 +149,6 @@ export type PokemonDetailData = {
     names: { name: string; genus: string }[]
     texts: FlavorText[]
     capture_rate: number
+    evolution_chain: EvolutionChain
   }
 }

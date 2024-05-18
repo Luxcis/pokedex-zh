@@ -1,5 +1,8 @@
 import { TypeName } from '@/typings'
 
+export const artworkUrl =
+  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/'
+
 export const typeList: { id: number; name: TypeName; color: string }[] = [
   {
     id: 1,

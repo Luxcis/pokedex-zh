@@ -7,10 +7,13 @@ import { useState } from 'react'
 import { FiArrowLeft } from 'react-icons/fi'
 import Image from 'next/image'
 import { Link } from 'next-view-transitions'
-import { parseStats, parseTypes } from '@/lib/parsers'
 import { PokemonDetailData } from '@/typings'
 import FlavorTexts from './FlavorTexts'
 import TypeBadge from '@/components/type-badge'
+import StatBar from './StatBar'
+import EvolutionChain from './EvolutionChain'
+import { TbCircleArrowLeftFilled } from 'react-icons/tb'
+import { TbCircleArrowRightFilled } from 'react-icons/tb'
 
 export default function PokemonPage() {
   const pathname = usePathname()
@@ -25,8 +28,6 @@ export default function PokemonPage() {
     }
   )
 
-  console.log(99999, data)
-
   if (loading) {
     return <div>loading</div>
   }
@@ -40,6 +41,20 @@ export default function PokemonPage() {
   const specy = data.detail.specy
   const name = specy.names[0].name
   const texts = specy.texts
+  const evolutionChain = specy.evolution_chain.species
+
+  const sortedChain = evolutionChain
+    .map((i) => ({ ...i.names[0], from_id: i.from_id }))
+    .sort((a, b) => a.id - b.id)
+    .sort((a, b) => {
+      if (a.from_id === null && b.from_id !== null) {
+        return -1
+      }
+      if (a.from_id !== null && b.from_id === null) {
+        return 1
+      }
+      return 0
+    })
 
   return (
     <div className='w-full'>
@@ -57,20 +72,28 @@ export default function PokemonPage() {
               }}
               width='400'
             />
-            <div className='mt-4 text-center'>
-              <h1 className='text-4xl font-bold text-gray-900 dark:text-gray-100'>
-                {name}
-              </h1>
-              <div className='flex flex-col gap-4'>
-                <div className='mt-2 flex items-center justify-center'>
-                  {types.map((t) => (
-                    <TypeBadge value={t} key={t.type_id} />
-                  ))}
+            <div className='relative mt-4 flex w-full items-center justify-between text-center'>
+              <Link href={`/${id - 1}`}>
+                <TbCircleArrowLeftFilled className='text-4xl text-gray-400' />
+              </Link>
+              <div className='w-1/2'>
+                <h1 className='my-4 text-4xl font-bold text-gray-900 dark:text-gray-100'>
+                  {name}
+                </h1>
+                <div className='flex flex-col gap-4'>
+                  <div className='mt-2 flex items-center justify-center'>
+                    {types.map((t) => (
+                      <TypeBadge value={t} key={t.type_id} />
+                    ))}
+                  </div>
+                  <span className='rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700'>
+                    {specy.names[0].genus}
+                  </span>
                 </div>
-                <span className='rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700'>
-                  {specy.names[0].genus}
-                </span>
               </div>
+              <Link href={`/${id + 1}`}>
+                <TbCircleArrowRightFilled className='text-4xl text-gray-400' />
+              </Link>
             </div>
           </div>
           <div className='space-y-8'>
@@ -122,75 +145,48 @@ export default function PokemonPage() {
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
                     HP
                   </p>
-                  <div className='flex items-center'>
-                    <div className='h-2 w-[80%] rounded-full bg-red-500' />
-                    <span className='ml-2 font-bold text-gray-900 dark:text-gray-100'>
-                      80
-                    </span>
-                  </div>
+                  <StatBar stat='hp' value={stats[0].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    Attack
+                    攻击
                   </p>
-                  <div className='flex items-center'>
-                    <div className='h-2 w-[55%] rounded-full bg-orange-500' />
-                    <span className='ml-2 font-bold text-gray-900 dark:text-gray-100'>
-                      55
-                    </span>
-                  </div>
+                  <StatBar stat='attack' value={stats[1].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    Defense
+                    防御
                   </p>
-                  <div className='flex items-center'>
-                    <div className='h-2 w-[50%] rounded-full bg-yellow-500' />
-                    <span className='ml-2 font-bold text-gray-900 dark:text-gray-100'>
-                      50
-                    </span>
-                  </div>
+                  <StatBar stat='defense' value={stats[2].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    Special Attack
+                    特攻
                   </p>
-                  <div className='flex items-center'>
-                    <div className='h-2 w-[75%] rounded-full bg-green-500' />
-                    <span className='ml-2 font-bold text-gray-900 dark:text-gray-100'>
-                      75
-                    </span>
-                  </div>
+                  <StatBar stat='special-attack' value={stats[3].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    Special Defense
+                    特防
                   </p>
-                  <div className='flex items-center'>
-                    <div className='h-2 w-[60%] rounded-full bg-blue-500' />
-                    <span className='ml-2 font-bold text-gray-900 dark:text-gray-100'>
-                      60
-                    </span>
-                  </div>
+                  <StatBar stat='special-defense' value={stats[4].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    Speed
+                    速度
                   </p>
-                  <div className='flex items-center'>
-                    <div className='h-2 w-[90%] rounded-full bg-purple-500' />
-                    <span className='ml-2 font-bold text-gray-900 dark:text-gray-100'>
-                      90
-                    </span>
-                  </div>
+                  <StatBar stat='speed' value={stats[5].base} />
                 </div>
               </div>
             </div>
             <div>
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                Evolution Chain
+                进化
               </h2>
-              <div className='grid grid-cols-3 gap-4'>
+
+              <EvolutionChain data={sortedChain} />
+
+              {/* <div className='grid grid-cols-3 gap-4'>
                 <div className='rounded-lg bg-gray-100 p-4 text-center dark:bg-gray-800'>
                   <img
                     alt='Pichu'
@@ -239,7 +235,7 @@ export default function PokemonPage() {
                     Raichu
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
             <FlavorTexts texts={texts} />
           </div>

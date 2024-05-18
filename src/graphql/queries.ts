@@ -91,6 +91,17 @@ export const GET_POKEMON_INFO = gql`
             }
           }
         }
+        evolution_chain: pokemon_v2_evolutionchain {
+          species: pokemon_v2_pokemonspecies {
+            from_id: evolves_from_species_id
+            names: pokemon_v2_pokemonspeciesnames(
+              where: { pokemon_v2_language: { name: { _eq: $lang } } }
+            ) {
+              name
+              id: pokemon_species_id
+            }
+          }
+        }
         evolution: pokemon_v2_pokemonevolutions {
           evolution_trigger_id
           gender_id

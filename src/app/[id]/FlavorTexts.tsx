@@ -32,31 +32,6 @@ export default function FlavorTexts({ texts }: Props) {
             </div>
           </TabsContent>
         ))}
-
-        {/* <TabsContent value='red'>
-          <div className='p-4'>
-            <p className='leading-relaxed text-gray-600 dark:text-gray-400'>
-              When several of these Pokémon gather, their electricity could
-              build and cause lightning storms.
-            </p>
-          </div>
-        </TabsContent>
-        <TabsContent value='blue'>
-          <div className='p-4'>
-            <p className='leading-relaxed text-gray-600 dark:text-gray-400'>
-              It stores electricity in the pouches on its cheeks. When it
-              releases pent-up energy in a burst, the electric power is amazing.
-            </p>
-          </div>
-        </TabsContent>
-        <TabsContent value='yellow'>
-          <div className='p-4'>
-            <p className='leading-relaxed text-gray-600 dark:text-gray-400'>
-              Pikachu's tail is sometimes struck by lightning as it roams. This
-              Pokémon has the ability to store electricity.
-            </p>
-          </div>
-        </TabsContent> */}
       </Tabs>
     </div>
   )
