@@ -33,6 +33,7 @@ export type Specy = {
     id: number
     name: string
   }[]
+  texts: FlavorText[]
 }
 
 export type Type = {

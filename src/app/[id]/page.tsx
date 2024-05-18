@@ -3,8 +3,6 @@
 import { usePathname } from 'next/navigation'
 import { useQuery } from '@apollo/client'
 import { GET_POKEMON_INFO } from '@/graphql/queries'
-import { useState } from 'react'
-import { FiArrowLeft } from 'react-icons/fi'
 import Image from 'next/image'
 import { Link } from 'next-view-transitions'
 import { PokemonDetailData } from '@/typings'
@@ -12,8 +10,12 @@ import FlavorTexts from './flavor-texts'
 import TypeBadge from '@/components/type-badge'
 import StatBar from './stat-bar'
 import EvolutionChain from './evolution-chain'
-import { TbCircleArrowLeftFilled } from 'react-icons/tb'
-import { TbCircleArrowRightFilled } from 'react-icons/tb'
+import {
+  TbCircleArrowLeftFilled,
+  TbCircleArrowRightFilled,
+  TbArrowNarrowLeft
+} from 'react-icons/tb'
+import DetailSkeleton from './detail-skeleton'
 
 export default function PokemonPage() {
   const pathname = usePathname()
@@ -29,7 +31,7 @@ export default function PokemonPage() {
   )
 
   if (loading) {
-    return <div>loading</div>
+    return <DetailSkeleton />
   }
 
   if (!data) {
@@ -59,9 +61,14 @@ export default function PokemonPage() {
   return (
     <div className='w-full'>
       <div className='container mx-auto px-4 py-12 md:px-6 lg:px-8'>
+        <div className='h-12 hover:opacity-80 md:px-4'>
+          <Link href='/'>
+            <TbArrowNarrowLeft className='cursor-pointer text-4xl ' />
+          </Link>
+        </div>
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
           <div className='flex flex-col items-center '>
-            <img
+            <Image
               alt='Pikachu'
               className='rounded-xl shadow-lg'
               height='400'
@@ -244,56 +251,3 @@ export default function PokemonPage() {
     </div>
   )
 }
-
-// export default function PokemonPage() {
-//   const pathname = usePathname()
-//   const id = Number(pathname.replace('/', ''))
-//   const { data, loading } = useQuery<{ detail: PokemonDetailData }>(
-//     GET_POKEMON_INFO,
-//     {
-//       variables: {
-//         id: id,
-//         lang: 'zh-Hans'
-//       }
-//     }
-//   )
-
-//   console.log(99999999, data)
-
-//   return (
-//     <div className='mx-48 h-full font-zpix'>
-//       <div className='w-full py-4'>
-//         <Link href={'/'} as='div' className='flex items-center'>
-//           {/* <FiArrowLeft className='text-2xl font-bold' /> */}
-//           <span className='font-bold'>{'<'}</span>
-//           <span className='ml-4 text-xl font-bold'>Pokedex</span>
-//         </Link>
-//       </div>
-//       <div className='relative mx-6 flex w-full flex-row gap-4'>
-//         <div className='w-1/2'>
-//           <div className='flex flex-col items-center justify-center'>
-//             <img
-//               style={{
-//                 width: '360px',
-//                 height: '360px'
-//               }}
-//               src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
-//             />
-//             <div className='mb-6 flex items-start'>
-//               <div className='relative flex flex-col items-center'>
-//                 <span className='mb-2 text-2xl font-extrabold'>
-//                   {data?.detail.specy.names[0].name}
-//                 </span>
-//                 <span className='text-sm'>
-//                   {data?.detail.specy.names[0].genus}
-//                 </span>
-//               </div>
-//               <span className=' ml-8 mt-1 text-gray-500'>#{id}</span>
-//             </div>
-//           </div>
-//         </div>
-//         <div className='w-1/2'>right</div>
-//       </div>
-//     </div>
-//   )
-// }

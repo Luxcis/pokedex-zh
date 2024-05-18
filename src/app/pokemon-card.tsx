@@ -42,8 +42,7 @@ export default function PokemonCard({ data }: Props) {
             ))}
           </div>
           <p className='text-sm text-gray-500 dark:text-gray-400'>
-            The famous electric mouse Pokemon, known for its lightning bolt tail
-            and cheeks that can store electricity.
+            {data.specy.texts[0].text}
           </p>
         </div>
       </div>

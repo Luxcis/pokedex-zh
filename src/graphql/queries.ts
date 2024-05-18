@@ -31,6 +31,19 @@ export const GET_POKEMONS = gql`
           id
           name
         }
+        texts: pokemon_v2_pokemonspeciesflavortexts(
+          where: { pokemon_v2_language: { name: { _eq: $lang } } }
+        ) {
+          text: flavor_text
+          version: pokemon_v2_version {
+            name
+            local_names: pokemon_v2_versionnames(
+              where: { pokemon_v2_language: { name: { _eq: $lang } } }
+            ) {
+              name
+            }
+          }
+        }
       }
       types: pokemon_v2_pokemontypes {
         type_id
