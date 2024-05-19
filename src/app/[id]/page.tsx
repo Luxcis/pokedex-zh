@@ -17,7 +17,7 @@ import {
 } from 'react-icons/tb'
 import DetailSkeleton from './detail-skeleton'
 import { artworkUrl } from '@/lib/constants'
-import Sprites from './sprites'
+import SpriteGallery from './sprites'
 
 export default function PokemonPage() {
   const pathname = usePathname()
@@ -208,7 +208,7 @@ export default function PokemonPage() {
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
                 形象
               </h2>
-              <Sprites data={sprites} />
+              <SpriteGallery data={sprites} />
             </div>
           </div>
         </div>

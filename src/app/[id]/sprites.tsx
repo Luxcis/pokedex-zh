@@ -12,7 +12,7 @@ interface Props {
   data: Sprites
 }
 
-export default function Sprites({ data }: Props) {
+export default function SpriteGallery({ data }: Props) {
   const v = data.versions
   const o = data.other
 
