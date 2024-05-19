@@ -16,6 +16,8 @@ import {
   TbArrowNarrowLeft
 } from 'react-icons/tb'
 import DetailSkeleton from './detail-skeleton'
+import { artworkUrl } from '@/lib/constants'
+import Sprites from './sprites'
 
 export default function PokemonPage() {
   const pathname = usePathname()
@@ -43,6 +45,10 @@ export default function PokemonPage() {
   const specy = data.detail.specy
   const name = specy.names[0].name
   const texts = specy.texts
+  const sprites = data.detail.sprites[0].collection
+
+  console.log(data.detail, 998888)
+
   const evolutionChain = specy.evolution_chain.species
 
   const sortedChain = evolutionChain
@@ -72,7 +78,7 @@ export default function PokemonPage() {
               alt='Pikachu'
               className='rounded-xl shadow-lg'
               height='400'
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
+              src={`${artworkUrl}/${id}.png`}
               style={{
                 aspectRatio: '400/400',
                 objectFit: 'cover'
@@ -190,61 +196,20 @@ export default function PokemonPage() {
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
                 进化
               </h2>
-
               <EvolutionChain data={sortedChain} />
-
-              {/* <div className='grid grid-cols-3 gap-4'>
-                <div className='rounded-lg bg-gray-100 p-4 text-center dark:bg-gray-800'>
-                  <img
-                    alt='Pichu'
-                    className='mb-2 rounded-full'
-                    height='100'
-                    src='/placeholder.svg'
-                    style={{
-                      aspectRatio: '100/100',
-                      objectFit: 'cover'
-                    }}
-                    width='100'
-                  />
-                  <p className='font-bold text-gray-900 dark:text-gray-100'>
-                    Pichu
-                  </p>
-                </div>
-                <div className='rounded-lg bg-gray-100 p-4 text-center dark:bg-gray-800'>
-                  <img
-                    alt='Pikachu'
-                    className='mb-2 rounded-full'
-                    height='100'
-                    src='/placeholder.svg'
-                    style={{
-                      aspectRatio: '100/100',
-                      objectFit: 'cover'
-                    }}
-                    width='100'
-                  />
-                  <p className='font-bold text-gray-900 dark:text-gray-100'>
-                    Pikachu
-                  </p>
-                </div>
-                <div className='rounded-lg bg-gray-100 p-4 text-center dark:bg-gray-800'>
-                  <img
-                    alt='Raichu'
-                    className='mb-2 rounded-full'
-                    height='100'
-                    src='/placeholder.svg'
-                    style={{
-                      aspectRatio: '100/100',
-                      objectFit: 'cover'
-                    }}
-                    width='100'
-                  />
-                  <p className='font-bold text-gray-900 dark:text-gray-100'>
-                    Raichu
-                  </p>
-                </div>
-              </div> */}
             </div>
-            <FlavorTexts texts={texts} />
+            <div className='w-full overflow-x-auto'>
+              <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
+                描述
+              </h2>
+              <FlavorTexts texts={texts} />
+            </div>
+            <div className='w-full overflow-x-auto'>
+              <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
+                形象
+              </h2>
+              <Sprites data={sprites} />
+            </div>
           </div>
         </div>
       </div>

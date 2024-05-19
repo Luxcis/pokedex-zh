@@ -1,9 +1,9 @@
 import { Link } from 'next-view-transitions'
 import Image from 'next/image'
-import { typeList } from '@/lib/constants'
 import { PokemonData } from '@/typings'
 import TypeBadge from '@/components/type-badge'
 import { toIndexString } from '@/lib/utils'
+import { artworkUrl } from '@/lib/constants'
 
 interface Props {
   data: PokemonData
@@ -22,7 +22,7 @@ export default function PokemonCard({ data }: Props) {
             alt={data.name}
             className='aspect-square object-cover transition-opacity group-hover:opacity-50'
             height={250}
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${data.id}.png`}
+            src={`${artworkUrl}/${data.id}.png`}
             width={250}
           />
         </Link>
@@ -41,8 +41,8 @@ export default function PokemonCard({ data }: Props) {
               <TypeBadge key={type.type_id} value={type} />
             ))}
           </div>
-          <p className='text-sm text-gray-500 dark:text-gray-400'>
-            {data.specy.texts[0].text}
+          <p className='min-h-10 text-sm text-gray-500 dark:text-gray-400'>
+            {data.specy.texts[0]?.text}
           </p>
         </div>
       </div>

@@ -1,4 +1,9 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@/components/ui/accordion'
 import { FlavorText } from '@/typings'
 
 interface Props {
@@ -6,34 +11,21 @@ interface Props {
 }
 
 export default function FlavorTexts({ texts }: Props) {
-  const versions = texts.map((t) => ({
-    name: t.version.name,
-    local_name: t.version.local_names[0].name
-  }))
-
   return (
-    <div>
-      <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
-        Flavor Texts
-      </h2>
-      <Tabs className='w-full' defaultValue={versions[0]?.name}>
-        <TabsList className='flex w-full border-b border-gray-200 dark:border-gray-800'>
-          {versions?.map((i) => (
-            <TabsTrigger key={i.name} value={i.name}>
-              {i.local_name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        {texts.map((t, idx) => (
-          <TabsContent key={idx} value={t.version.name}>
-            <div className='p-4'>
-              <p className='leading-relaxed text-gray-600 dark:text-gray-400'>
-                {t.text}
-              </p>
-            </div>
-          </TabsContent>
-        ))}
-      </Tabs>
-    </div>
+    <Accordion
+      type='single'
+      defaultValue={texts?.[0]?.version?.local_names[0]?.name}
+      collapsible
+      className='w-full'
+    >
+      {texts.map((t, idx) => (
+        <AccordionItem key={idx} value={t.version.local_names[0]?.name}>
+          <AccordionTrigger className='text-gray-600'>
+            <span>{t.version.local_names[0]?.name}</span>
+          </AccordionTrigger>
+          <AccordionContent>{t.text}</AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
   )
 }

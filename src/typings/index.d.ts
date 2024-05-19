@@ -67,63 +67,257 @@ export type Stat =
   | 'special-defense'
   | 'speed'
 
-export type Sprites = {
-  collection: {
-    other: {
-      home: {
-        front_shiny: string | null
-        front_female: string | null
-        front_default: string | null
-        front_shiny_female: string | null
-      }
-      showdown: {
-        back_shiny: string | null
-        back_female: string | null
-        front_shiny: string | null
-        back_default: string | null
-        front_female: string | null
-        front_default: string | null
-        back_shiny_female: string | null
-        front_shiny_female: string | null
-      }
-      dream_world: {
-        front_female: string | null
-        front_default: string | null
-      }
-      'official-artwork': {
-        front_shiny: string | null
-        front_default: string | null
-      }
-    }
-    versions: {
-      'generation-i': {
-        yellow: {
-          back_gray: string
-          front_gray: string
-          back_default: string
-          front_default: string
-          back_transparent: string
-          front_transparent: string
-        }
-      }
-      'red-blue': {
-        back_gray: string
-        front_gray: string
-        back_default: string
-        front_default: string
-        back_transparent: string
-        front_transparent: string
-      }
-    }
-    back_shiny: string | null
-    back_female: string | null
-    front_shiny: string | null
-    back_default: string | null
-    front_female: string | null
-    front_default: string | null
-    back_shiny_female: string | null
-    front_shiny_female: string | null
-  }
+// sprites
+
+export interface Sprites {
+  other: Other
+  versions: Versions
+  back_shiny: string
+  back_female: any
+  front_shiny: string
+  back_default: string
+  front_female: any
+  front_default: string
+  back_shiny_female: any
+  front_shiny_female: any
+}
+
+export interface Other {
+  home: Home
+  showdown: Showdown
+  dream_world: DreamWorld
+  'official-artwork': OfficialArtwork
+}
+
+export interface Home {
+  front_shiny: string
+  front_female: any
+  front_default: string
+  front_shiny_female: any
+}
+
+export interface Showdown {
+  back_shiny: string
+  back_female: any
+  front_shiny: string
+  back_default: string
+  front_female: any
+  front_default: string
+  back_shiny_female: any
+  front_shiny_female: any
+}
+
+export interface DreamWorld {
+  front_female: any
+  front_default: string
+}
+
+export interface OfficialArtwork {
+  front_shiny: string
+  front_default: string
+}
+
+export interface Versions {
+  'generation-i': GenerationI
+  'generation-v': GenerationV
+  'generation-ii': GenerationIi
+  'generation-iv': GenerationIv
+  'generation-vi': GenerationVi
+  'generation-iii': GenerationIii
+  'generation-vii': GenerationVii
+  'generation-viii': GenerationViii
+}
+
+export interface GenerationI {
+  yellow: Yellow
+  'red-blue': RedBlue
+}
+
+export interface Yellow {
+  back_gray: any
+  front_gray: any
+  back_default: any
+  front_default: any
+  back_transparent: any
+  front_transparent: any
+}
+
+export interface RedBlue {
+  back_gray: any
+  front_gray: any
+  back_default: any
+  front_default: any
+  back_transparent: any
+  front_transparent: any
+}
+
+export interface GenerationV {
+  'black-white': BlackWhite
+}
+
+export interface BlackWhite {
+  animated: Animated
+  back_shiny: string
+  back_female: any
+  front_shiny: string
+  back_default: string
+  front_female: any
+  front_default: string
+  back_shiny_female: any
+  front_shiny_female: any
+}
+
+export interface Animated {
+  back_shiny: string
+  back_female: any
+  front_shiny: string
+  back_default: string
+  front_female: any
+  front_default: string
+  back_shiny_female: any
+  front_shiny_female: any
+}
+
+export interface GenerationIi {
+  gold: Gold
+  silver: Silver
+  crystal: Crystal
+}
+
+export interface Gold {
+  back_shiny: string
+  front_shiny: string
+  back_default: string
+  front_default: string
+  front_transparent: string
+}
+
+export interface Silver {
+  back_shiny: string
+  front_shiny: string
+  back_default: string
+  front_default: string
+  front_transparent: string
+}
+
+export interface Crystal {
+  back_shiny: string
+  front_shiny: string
+  back_default: string
+  front_default: string
+  back_transparent: string
+  front_transparent: string
+  back_shiny_transparent: string
+  front_shiny_transparent: string
+}
+
+export interface GenerationIv {
+  platinum: Platinum
+  'diamond-pearl': DiamondPearl
+  'heartgold-soulsilver': HeartgoldSoulsilver
+}
+
+export interface Platinum {
+  back_shiny: string
+  back_female: any
+  front_shiny: string
+  back_default: string
+  front_female: any
+  front_default: string
+  back_shiny_female: any
+  front_shiny_female: any
+}
+
+export interface DiamondPearl {
+  back_shiny: string
+  back_female: any
+  front_shiny: string
+  back_default: string
+  front_female: any
+  front_default: string
+  back_shiny_female: any
+  front_shiny_female: any
+}
+
+export interface HeartgoldSoulsilver {
+  back_shiny: string
+  back_female: any
+  front_shiny: string
+  back_default: string
+  front_female: any
+  front_default: string
+  back_shiny_female: any
+  front_shiny_female: any
+}
+
+export interface GenerationVi {
+  'x-y': XY
+  'omegaruby-alphasapphire': OmegarubyAlphasapphire
+}
+
+export interface XY {
+  front_shiny: string
+  front_female: any
+  front_default: string
+  front_shiny_female: any
+}
+
+export interface OmegarubyAlphasapphire {
+  front_shiny: string
+  front_female: any
+  front_default: string
+  front_shiny_female: any
+}
+
+export interface GenerationIii {
+  emerald: Emerald
+  'ruby-sapphire': RubySapphire
+  'firered-leafgreen': FireredLeafgreen
+}
+
+export interface Emerald {
+  front_shiny: string
+  front_default: string
+}
+
+export interface RubySapphire {
+  back_shiny: string
+  front_shiny: string
+  back_default: string
+  front_default: string
+}
+
+export interface FireredLeafgreen {
+  back_shiny: any
+  front_shiny: any
+  back_default: any
+  front_default: any
+}
+
+export interface GenerationVii {
+  icons: Icons
+  'ultra-sun-ultra-moon': UltraSunUltraMoon
+}
+
+export interface Icons {
+  front_female: any
+  front_default: string
+}
+
+export interface UltraSunUltraMoon {
+  front_shiny: string
+  front_female: any
+  front_default: string
+  front_shiny_female: any
+}
+
+export interface GenerationViii {
+  icons: Icons2
+}
+
+export interface Icons2 {
+  front_female: any
+  front_default: string
 }
 
 export type EvolutionChain = {
@@ -138,6 +332,9 @@ export type PokemonDetailData = {
   base_experience: number
   is_battle_only: boolean
   types: Type[]
+  sprites: {
+    collection: Sprites
+  }[]
   stats: {
     base: number
     effort: number
