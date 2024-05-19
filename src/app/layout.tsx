@@ -13,9 +13,9 @@ const fontZpix = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Nextjs Starter',
+  title: 'Pokedex',
   description: '',
-  keywords: []
+  keywords: ['pokemon', 'pokedex']
 }
 
 export default function RootLayout({

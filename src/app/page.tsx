@@ -23,6 +23,33 @@ import Loading from '@/components/loading'
 const LIMIT = 12
 const allTypes = typeList.map((type) => type.name)
 
+const orders = [
+  {
+    label: '图鉴顺序',
+    value: { id: 'asc' }
+  },
+  {
+    label: '图鉴逆序',
+    value: { id: 'desc' }
+  },
+  {
+    label: '重量从低到高',
+    value: { weight: 'asc' }
+  },
+  {
+    label: '重量从高到低',
+    value: { weight: 'desc' }
+  },
+  {
+    label: '高度从低到高',
+    value: { height: 'asc' }
+  },
+  {
+    label: '高度从高到低',
+    value: { height: 'desc' }
+  }
+]
+
 export default function HomePage() {
   const searchRef = useRef<HTMLInputElement>(null!)
   const [types, setTypes] = useState(allTypes)
@@ -36,13 +63,23 @@ export default function HomePage() {
       limit: LIMIT,
       offset: 0,
       search: '',
-      types: types
+      types: types,
+      id: 'asc'
     }
   })
 
   const handleSearch = () => {
     refetch({
       search: searchRef.current.value
+    })
+  }
+
+  const handleOrder = (item: object) => {
+    refetch({
+      id: undefined,
+      weight: undefined,
+      height: undefined,
+      ...item
     })
   }
 
@@ -114,18 +151,15 @@ export default function HomePage() {
             <DropdownMenuContent align='start' className='w-48'>
               <DropdownMenuLabel>Sort by</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <TbArrowsSort className='mr-2 h-4 w-4' />
-                Type
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <TbArrowsSort className='mr-2 h-4 w-4' />
-                Generation
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <TbArrowsSort className='mr-2 h-4 w-4' />
-                Alphabetical
-              </DropdownMenuItem>
+              {orders.map((item, idx) => (
+                <DropdownMenuItem
+                  key={idx}
+                  onSelect={() => handleOrder(item.value)}
+                >
+                  <TbArrowsSort className='mr-2 h-4 w-4' />
+                  {item.label}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

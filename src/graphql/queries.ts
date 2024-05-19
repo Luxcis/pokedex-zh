@@ -6,7 +6,10 @@ export const GET_POKEMONS = gql`
     $limit: Int = 10
     $offset: Int = 0
     $search: String = ""
-    $types: [String!] = ["grass", "poison"]
+    $types: [String!] = []
+    $id: order_by
+    $height: order_by
+    $weight: order_by
   ) {
     pokemons: pokemon_v2_pokemon(
       limit: $limit
@@ -20,7 +23,7 @@ export const GET_POKEMONS = gql`
         }
         pokemon_v2_pokemontypes: { pokemon_v2_type: { name: { _in: $types } } }
       }
-      order_by: { id: asc, name: asc }
+      order_by: { height: $height, weight: $weight, id: $id }
     ) {
       name
       id

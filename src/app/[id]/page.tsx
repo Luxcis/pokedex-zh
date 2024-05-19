@@ -46,9 +46,6 @@ export default function PokemonPage() {
   const name = specy.names[0].name
   const texts = specy.texts
   const sprites = data.detail.sprites[0].collection
-
-  console.log(data.detail, 998888)
-
   const evolutionChain = specy.evolution_chain.species
 
   const sortedChain = evolutionChain
@@ -75,7 +72,7 @@ export default function PokemonPage() {
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
           <div className='flex flex-col items-center '>
             <Image
-              alt='Pikachu'
+              alt={name}
               className='rounded-xl shadow-lg'
               height='400'
               src={`${artworkUrl}/${id}.png`}
