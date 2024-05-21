@@ -19,6 +19,7 @@ import { typeList } from '@/lib/constants'
 import PokemonCard from './pokemon-card'
 import { InView } from 'react-intersection-observer'
 import Loading from '@/components/loading'
+import { useTranslations } from 'next-intl'
 
 const LIMIT = 12
 const allTypes = typeList.map((type) => type.name)
@@ -50,7 +51,8 @@ const orders = [
   }
 ]
 
-export default function HomePage() {
+export default function IndexPage({ params }: { params: { locale: any } }) {
+  const t = useTranslations('Index')
   const searchRef = useRef<HTMLInputElement>(null!)
   const [types, setTypes] = useState(allTypes)
 
@@ -88,9 +90,9 @@ export default function HomePage() {
       <div className='container grid gap-8 px-4 md:px-6'>
         <div className='flex flex-col items-start gap-4 md:flex-row md:items-center md:gap-16'>
           <div className='grid gap-4'>
-            <h1 className='text-5xl font-bold tracking-tight'>宝可梦图鉴</h1>
+            <h1 className='text-5xl font-bold tracking-tight'>{t('title')}</h1>
             <p className='px-1 text-xl text-gray-500 dark:text-gray-400'>
-              探索和发现你喜欢的宝可梦！
+              {t('welcome')}
             </p>
           </div>
           <div className='w-full flex-1 md:w-auto'>
@@ -165,7 +167,7 @@ export default function HomePage() {
         </div>
         <div className='grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {data?.pokemons.map((item) => (
-            <PokemonCard key={item.id} data={item} />
+            <PokemonCard key={item.id} data={item} locale={params.locale} />
           ))}
         </div>
         {loading ? (

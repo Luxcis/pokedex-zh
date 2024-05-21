@@ -1,10 +1,5 @@
-'use client'
-
-import { usePathname } from 'next/navigation'
-import { useQuery } from '@apollo/client'
-import { GET_POKEMON_INFO } from '@/graphql/queries'
+import { print } from 'graphql'
 import Image from 'next/image'
-import { Link } from 'next-view-transitions'
 import { PokemonDetailData } from '@/typings'
 import FlavorTexts from './flavor-texts'
 import TypeBadge from '@/components/type-badge'
@@ -15,37 +10,47 @@ import {
   TbCircleArrowRightFilled,
   TbArrowNarrowLeft
 } from 'react-icons/tb'
-import DetailSkeleton from './detail-skeleton'
+import { GET_POKEMON_INFO } from '@/graphql/queries'
 import { artworkUrl } from '@/lib/constants'
 import SpriteGallery from './sprites'
+import { Link, locales } from '@/navigation'
 
-export default function PokemonPage() {
-  const pathname = usePathname()
-  const id = Number(pathname.replace('/', ''))
-  const { data, loading } = useQuery<{ detail: PokemonDetailData }>(
-    GET_POKEMON_INFO,
-    {
+export default async function PokemonPage({
+  params
+}: {
+  params: { id: string; locale: any }
+}) {
+  const id = Number(params['id'])
+  const locale = params.locale
+  const res = await fetch('https://beta.pokeapi.co/graphql/v1beta', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      query: print(GET_POKEMON_INFO),
       variables: {
         id: id,
-        lang: 'zh-Hans'
+        lang: locale
       }
-    }
-  )
+    })
+  }).then((res) => res.json())
 
-  if (loading) {
-    return <DetailSkeleton />
-  }
+  const data = res.data.detail as PokemonDetailData
+
+  console.log(887777774, data)
 
   if (!data) {
     return <></>
   }
 
-  const stats = data.detail.stats
-  const types = data.detail.types
-  const specy = data.detail.specy
+  const stats = data.stats
+  const types = data.types
+  const specy = data.specy
   const name = specy.names[0].name
   const texts = specy.texts
-  const sprites = data.detail.sprites[0].collection
+  const sprites = data.sprites[0].collection
   const evolutionChain = specy.evolution_chain.species
 
   const sortedChain = evolutionChain
@@ -83,7 +88,7 @@ export default function PokemonPage() {
               width='400'
             />
             <div className='relative mt-4 flex w-full items-center justify-between text-center'>
-              <Link href={`/${id - 1}`}>
+              <Link href={`/${id - 1}`} locale={locale}>
                 <TbCircleArrowLeftFilled className='text-4xl text-gray-400' />
               </Link>
               <div className='w-1/2'>
@@ -101,7 +106,7 @@ export default function PokemonPage() {
                   </span>
                 </div>
               </div>
-              <Link href={`/${id + 1}`}>
+              <Link href={`/${id + 1}`} locale={locale}>
                 <TbCircleArrowRightFilled className='text-4xl text-gray-400' />
               </Link>
             </div>
@@ -109,7 +114,7 @@ export default function PokemonPage() {
           <div className='space-y-8'>
             <div>
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                {name} {data.detail.name}
+                {name} {data.name}
               </h2>
               <div className='grid grid-cols-2'>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
@@ -117,7 +122,7 @@ export default function PokemonPage() {
                     身高
                   </p>
                   <p className='text-lg font-bold text-gray-900 dark:text-gray-100'>
-                    {data.detail.height / 10} m
+                    {data.height / 10} m
                   </p>
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
@@ -125,7 +130,7 @@ export default function PokemonPage() {
                     体重
                   </p>
                   <p className='text-lg font-bold text-gray-900 dark:text-gray-100'>
-                    {data.detail.weight / 10} kg
+                    {data.weight / 10} kg
                   </p>
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
@@ -133,7 +138,7 @@ export default function PokemonPage() {
                     基础经验
                   </p>
                   <p className='text-lg font-bold text-gray-900 dark:text-gray-100'>
-                    {data.detail.weight}
+                    {data.weight}
                   </p>
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>

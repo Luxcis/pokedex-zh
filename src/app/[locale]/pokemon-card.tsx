@@ -1,21 +1,23 @@
-import { Link } from 'next-view-transitions'
 import Image from 'next/image'
 import { PokemonData } from '@/typings'
 import TypeBadge from '@/components/type-badge'
 import { toIndexString } from '@/lib/utils'
 import { artworkUrl } from '@/lib/constants'
+import { Link } from '@/navigation'
 
 interface Props {
+  locale: any
   data: PokemonData
 }
 // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork
 // raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/394.png
-export default function PokemonCard({ data }: Props) {
+export default function PokemonCard({ locale, data }: Props) {
   return (
     <div className='group relative'>
       <div className='overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-950'>
         <Link
           href={`/${data.id}`}
+          locale={locale}
           className='flex w-full cursor-pointer justify-center'
         >
           <Image
