@@ -4,7 +4,7 @@ import { ViewTransitions } from 'next-view-transitions'
 import { Analytics } from '@vercel/analytics/react'
 import { cn } from '@/lib/utils'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages } from 'next-intl/server'
+import { getMessages, unstable_setRequestLocale } from 'next-intl/server'
 import ApolloWrapper from './apollo-wrapper'
 import './globals.css'
 
@@ -27,6 +27,7 @@ export default async function RootLayout({
   children: React.ReactNode
   params: { locale: string }
 }) {
+  unstable_setRequestLocale(locale)
   const messages = await getMessages()
 
   return (

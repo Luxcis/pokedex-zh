@@ -20,8 +20,9 @@ import PokemonCard from './pokemon-card'
 import { InView } from 'react-intersection-observer'
 import Loading from '@/components/loading'
 import { useTranslations } from 'next-intl'
+import LangSwitch from './lang-switch'
 
-const LIMIT = 12
+const LIMIT = 24
 const allTypes = typeList.map((type) => type.name)
 
 const orders = [
@@ -61,7 +62,7 @@ export default function IndexPage({ params }: { params: { locale: any } }) {
   }>(GET_POKEMONS, {
     notifyOnNetworkStatusChange: true,
     variables: {
-      langId: 12,
+      lang: params.locale,
       limit: LIMIT,
       offset: 0,
       search: '',
@@ -101,14 +102,14 @@ export default function IndexPage({ params }: { params: { locale: any } }) {
               <Input
                 ref={searchRef}
                 className='h-12 w-full appearance-none bg-white pl-8 pr-20 shadow-none dark:bg-gray-950'
-                placeholder='搜索名称...'
+                placeholder={t('search-placeholder')}
                 type='search'
               />
               <Button
                 className='absolute right-2.5 top-1.5'
                 onClick={() => handleSearch()}
               >
-                搜索
+                {t('search')}
               </Button>
             </div>
           </div>
@@ -118,11 +119,11 @@ export default function IndexPage({ params }: { params: { locale: any } }) {
             <DropdownMenuTrigger asChild>
               <Button className='flex-1 md:flex-none' variant='outline'>
                 <TbFilter className='mr-2 h-4 w-4' />
-                筛选
+                {t('filter')}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='start' className='w-48'>
-              <DropdownMenuLabel>属性</DropdownMenuLabel>
+              {/* <DropdownMenuLabel>属性</DropdownMenuLabel> */}
               <DropdownMenuSeparator />
               {typeList.map((type, index) => (
                 <DropdownMenuItem
@@ -137,7 +138,7 @@ export default function IndexPage({ params }: { params: { locale: any } }) {
                       backgroundColor: type.color
                     }}
                   >
-                    {type.name}
+                    {t(`type.${type.name}`)}
                   </span>
                 </DropdownMenuItem>
               ))}
@@ -147,7 +148,7 @@ export default function IndexPage({ params }: { params: { locale: any } }) {
             <DropdownMenuTrigger asChild>
               <Button className='flex-1 md:flex-none' variant='outline'>
                 <TbArrowsSort className='mr-2 h-4 w-4' />
-                排序
+                {t('sort')}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='start' className='w-48'>
@@ -164,6 +165,7 @@ export default function IndexPage({ params }: { params: { locale: any } }) {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+          <LangSwitch locale={params.locale} />
         </div>
         <div className='grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {data?.pokemons.map((item) => (
@@ -173,27 +175,36 @@ export default function IndexPage({ params }: { params: { locale: any } }) {
         {loading ? (
           <Loading />
         ) : (
-          <InView
-            as='div'
-            className='h-6'
-            threshold={0}
-            rootMargin='25px 0px'
-            onChange={(inView) => {
-              if (inView) {
-                fetchMore({
-                  variables: {
-                    offset: data?.pokemons.length || 0
-                  },
-                  updateQuery: (prev, { fetchMoreResult }) => {
-                    if (!fetchMoreResult) return prev
-                    return {
-                      pokemons: [...prev.pokemons, ...fetchMoreResult.pokemons]
-                    }
+          <>
+            {data?.pokemons.length === 0 ? (
+              <div className='text-center'> {t('not-found')}</div>
+            ) : (
+              <InView
+                as='div'
+                className='h-6'
+                threshold={0}
+                rootMargin='25px 0px'
+                onChange={(inView) => {
+                  if (inView) {
+                    fetchMore({
+                      variables: {
+                        offset: data?.pokemons.length || 0
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => {
+                        if (!fetchMoreResult) return prev
+                        return {
+                          pokemons: [
+                            ...prev.pokemons,
+                            ...fetchMoreResult.pokemons
+                          ]
+                        }
+                      }
+                    })
                   }
-                })
-              }
-            }}
-          ></InView>
+                }}
+              ></InView>
+            )}
+          </>
         )}
       </div>
     </section>

@@ -13,13 +13,16 @@ import {
 import { GET_POKEMON_INFO } from '@/graphql/queries'
 import { artworkUrl } from '@/lib/constants'
 import SpriteGallery from './sprites'
-import { Link, locales } from '@/navigation'
+import { Link } from '@/navigation'
+import { getTranslations } from 'next-intl/server'
 
 export default async function PokemonPage({
   params
 }: {
   params: { id: string; locale: any }
 }) {
+  const t = await getTranslations('Detail')
+
   const id = Number(params['id'])
   const locale = params.locale
   const res = await fetch('https://beta.pokeapi.co/graphql/v1beta', {
@@ -38,8 +41,6 @@ export default async function PokemonPage({
   }).then((res) => res.json())
 
   const data = res.data.detail as PokemonDetailData
-
-  console.log(887777774, data)
 
   if (!data) {
     return <></>
@@ -70,8 +71,9 @@ export default async function PokemonPage({
     <div className='w-full'>
       <div className='container mx-auto px-4 py-12 md:px-6 lg:px-8'>
         <div className='h-12 hover:opacity-80 md:px-4'>
-          <Link href='/'>
-            <TbArrowNarrowLeft className='cursor-pointer text-4xl ' />
+          <Link href='/' className='flex items-center'>
+            <TbArrowNarrowLeft className='mr-4 cursor-pointer text-4xl ' />
+            <h1 className='text-2xl font-bold'>{name}</h1>
           </Link>
         </div>
         <div className='grid grid-cols-1 gap-8 md:grid-cols-2'>
@@ -114,12 +116,13 @@ export default async function PokemonPage({
           <div className='space-y-8'>
             <div>
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                {name} {data.name}
+                {/* {name} {data.name} */}
+                {t('info')}
               </h2>
               <div className='grid grid-cols-2'>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    身高
+                    {t('height')}
                   </p>
                   <p className='text-lg font-bold text-gray-900 dark:text-gray-100'>
                     {data.height / 10} m
@@ -127,7 +130,7 @@ export default async function PokemonPage({
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    体重
+                    {t('weight')}
                   </p>
                   <p className='text-lg font-bold text-gray-900 dark:text-gray-100'>
                     {data.weight / 10} kg
@@ -135,7 +138,7 @@ export default async function PokemonPage({
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    基础经验
+                    {t('base_experience')}
                   </p>
                   <p className='text-lg font-bold text-gray-900 dark:text-gray-100'>
                     {data.weight}
@@ -143,7 +146,7 @@ export default async function PokemonPage({
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    捕获率
+                    {t('catch_rate')}
                   </p>
                   <p className='text-lg font-bold text-gray-900 dark:text-gray-100'>
                     {specy.capture_rate}
@@ -153,42 +156,42 @@ export default async function PokemonPage({
             </div>
             <div>
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                基础数值
+                {t('base_stat')}
               </h2>
               <div className='grid grid-cols-2'>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    HP
+                    {t('stat.hp')}
                   </p>
                   <StatBar stat='hp' value={stats[0].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    攻击
+                    {t('stat.attack')}
                   </p>
                   <StatBar stat='attack' value={stats[1].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    防御
+                    {t('stat.defense')}
                   </p>
                   <StatBar stat='defense' value={stats[2].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    特攻
+                    {t('stat.sp-attack')}
                   </p>
                   <StatBar stat='special-attack' value={stats[3].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    特防
+                    {t('stat.sp-defense')}
                   </p>
                   <StatBar stat='special-defense' value={stats[4].base} />
                 </div>
                 <div className='rounded-lg bg-gray-100 p-4 dark:bg-gray-800'>
                   <p className='mb-2 text-sm text-gray-600 dark:text-gray-400'>
-                    速度
+                    {t('stat.speed')}
                   </p>
                   <StatBar stat='speed' value={stats[5].base} />
                 </div>
@@ -196,19 +199,19 @@ export default async function PokemonPage({
             </div>
             <div>
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                进化
+                {t('evolution')}
               </h2>
               <EvolutionChain data={sortedChain} />
             </div>
             <div className='w-full overflow-x-auto'>
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                描述
+                {t('flavor_text')}
               </h2>
               <FlavorTexts texts={texts} />
             </div>
             <div className='w-full overflow-x-auto'>
               <h2 className='mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100'>
-                形象
+                {t('sprite')}
               </h2>
               <SpriteGallery data={sprites} />
             </div>

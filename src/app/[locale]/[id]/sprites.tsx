@@ -7,12 +7,14 @@ import {
   AccordionTrigger
 } from '@/components/ui/accordion'
 import { Sprites } from '@/typings'
+import { useTranslations } from 'next-intl'
 
 interface Props {
   data: Sprites
 }
 
 export default function SpriteGallery({ data }: Props) {
+  const t = useTranslations('Detail')
   const v = data.versions
   const o = data.other
 
@@ -20,7 +22,7 @@ export default function SpriteGallery({ data }: Props) {
     <Accordion type='single' collapsible className='w-full'>
       <AccordionItem value='main'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'主'}</span>
+          <span>{t('main')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard url={data.front_default} title='主' />
@@ -32,7 +34,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='generation-i'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'第一世代'}</span>
+          <span>{t('gen_i')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard
@@ -55,7 +57,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='generation-ii'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'第二世代'}</span>
+          <span>{t('gen_ii')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard
@@ -86,7 +88,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='generation-iii'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'第三世代'}</span>
+          <span>{t('gen_iii')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard
@@ -117,7 +119,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='generation-iv'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'第四世代'}</span>
+          <span>{t('gen_iv')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard
@@ -148,7 +150,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='generation-v'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'第五世代'}</span>
+          <span>{t('gen_v')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard
@@ -183,7 +185,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='generation-vi'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'第六世代'}</span>
+          <span>{t('gen_vi')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard
@@ -206,7 +208,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='generation-vii'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'第七世代'}</span>
+          <span>{t('gen_vii')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard
@@ -225,7 +227,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='generation-viii'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'第八世代'}</span>
+          <span>{t('gen_viii')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard
@@ -236,7 +238,7 @@ export default function SpriteGallery({ data }: Props) {
       </AccordionItem>
       <AccordionItem value='other'>
         <AccordionTrigger className='text-gray-600'>
-          <span>{'其他'}</span>
+          <span>{t('other')}</span>
         </AccordionTrigger>
         <AccordionContent className='flex flex-row flex-wrap gap-4'>
           <SpriteCard url={o.home.front_default} title='HOME' />
@@ -247,11 +249,11 @@ export default function SpriteGallery({ data }: Props) {
           <SpriteCard url={o.showdown.back_default} title='Showdown-背面' />
           <SpriteCard
             url={o['official-artwork'].front_default}
-            title='官方艺术图'
+            title={`${t('official-artwork')}`}
           />
           <SpriteCard
             url={o['official-artwork'].front_shiny}
-            title='官方艺术图-闪'
+            title={`${t('official-artwork')}-闪`}
           />
         </AccordionContent>
       </AccordionItem>

@@ -1,6 +1,68 @@
 {
   "Index": {
     "title": "Pokedex",
-    "welcome": "Explore and discover your favorite Pokemon!"
+    "welcome": "Explore and discover your favorite Pokemon!",
+    "search": "Search",
+    "search-placeholder": "Search By Name...",
+    "filter": "Filter",
+    "sort": "Sort",
+    "not-found": "No Pokemon Found...",
+    "loading": "Loading",
+    "lang": {
+      "en": "English",
+      "zh-Hans": "Simplified Chinese"
+    },
+    "type": {
+      "normal": "Normal",
+      "fighting": "Fighting",
+      "flying": "Flying",
+      "poison": "Poison",
+      "ground": "Ground",
+      "rock": "Rock",
+      "bug": "Bug",
+      "ghost": "Ghost",
+      "steel": "Steel",
+      "fire": "Fire",
+      "water": "Water",
+      "grass": "Grass",
+      "electric": "Electric",
+      "psychic": "Psychic",
+      "ice": "Ice",
+      "dragon": "Dragon",
+      "dark": "Dark",
+      "fairy": "Fairy",
+      "unknown": "Unknown",
+      "Shadow": "Shadow"
+    }
+  },
+  "Detail": {
+    "height": "Height",
+    "weight": "Weight",
+    "base_experience": "Base Experience",
+    "catch_rate": "Catch Rate",
+    "info": "Infomation",
+    "base_stat": "Base Stat",
+    "evolution": "Evolution",
+    "flavor_text": "Flavor Texts",
+    "sprite": "Sprites",
+    "main": "Main",
+    "gen_i": "Generation I",
+    "gen_ii": "Generation II",
+    "gen_iii": "Generation III",
+    "gen_iv": "Generation IV",
+    "gen_v": "Generation V",
+    "gen_vi": "Generation VI",
+    "gen_vii": "Generation VII",
+    "gen_viii": "Generation VIII",
+    "other": "Other",
+    "official-artwork": "Official Artwork",
+    "stat": {
+      "hp": "HP",
+      "attack": "Attack",
+      "defense": "Defense",
+      "sp-attack": "Special Attack",
+      "sp-defense": "Special Defense",
+      "speed": "Speed"
+    }
   }
 }

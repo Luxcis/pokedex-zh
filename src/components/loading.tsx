@@ -1,7 +1,10 @@
 import { TypeAnimation } from 'react-type-animation'
 import './loading.module.css'
+import { useTranslations } from 'next-intl'
 
 export default function Loading() {
+  const t = useTranslations('Index')
+
   return (
     <div className='mx-auto h-10 w-full p-8 text-center'>
       <TypeAnimation
@@ -12,13 +15,13 @@ export default function Loading() {
         speed={40}
         preRenderFirstString
         sequence={[
-          '加载中',
+          t('loading'),
           800,
-          '加载中.',
+          `${t('loading')}.`,
           800,
-          '加载中..',
+          `${t('loading')}..`,
           800,
-          '加载中...',
+          `${t('loading')}...`,
           800
         ]}
       />

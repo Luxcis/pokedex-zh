@@ -9,8 +9,7 @@ interface Props {
   locale: any
   data: PokemonData
 }
-// https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork
-// raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/394.png
+
 export default function PokemonCard({ locale, data }: Props) {
   return (
     <div className='group relative'>
