@@ -23,7 +23,7 @@ def get_species_data(url):
         sprite_home = default_variety['sprites']['other']['home']['front_default'] if default_variety else None
         egg_groups = find_egg_groups(data['egg_groups'])
         flavor_texts_local = find_flavor_text(data['flavor_text_entries'])
-        evolution_chain = extract_last_number(data['evolution_chain']['url'])
+        evolution_chain_id = extract_last_number(data['evolution_chain']['url'])
         pal_park_encounters = find_encounters(data['pal_park_encounters'])
         pokedex_numbers = find_pokedex_numbers(data['pokedex_numbers'])
         varieties = find_varieties(data['varieties'])
@@ -56,7 +56,7 @@ def get_species_data(url):
             "pal_park_encounters": json.dumps(pal_park_encounters, ensure_ascii=False),
             "pokedex_numbers": json.dumps(pokedex_numbers, ensure_ascii=False),
             "varieties": json.dumps(varieties, ensure_ascii=False),
-            "evolution_chain_id": evolution_chain
+            "evolution_chain_id": evolution_chain_id
         }
     else:
         return None
