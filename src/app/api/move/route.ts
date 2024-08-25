@@ -1,4 +1,4 @@
-import { PaginatedResponse, SpeciesSimple } from '@/types'
+import { AbilitySimple, MoveSimple, PaginatedResponse } from '@/types'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
@@ -9,13 +9,11 @@ export async function GET(request: Request) {
   const page = parseInt(searchParams.get('page') || '1')
   const pageSize = parseInt(searchParams.get('pageSize') || '20')
   const name = searchParams.get('name') || ''
-  const generation = searchParams.get('generation') || ''
-  const type = searchParams.get('type') || ''
 
   const skip = (page - 1) * pageSize
   const take = pageSize
 
-  const species = await prisma.species.findMany({
+  const items = await prisma.move.findMany({
     skip,
     take,
     where: {
@@ -30,19 +28,17 @@ export async function GET(request: Request) {
             contains: name
           }
         }
-      ],
-      generation: generation !== '' ? generation : undefined
+      ]
     },
     select: {
       id: true,
       name: true,
       name_local: true,
-      name_en: true,
-      sprite_home: true
+      name_en: true
     }
   })
 
-  const total = await prisma.species.count({
+  const total = await prisma.move.count({
     where: {
       OR: [
         {
@@ -55,16 +51,15 @@ export async function GET(request: Request) {
             contains: name
           }
         }
-      ],
-      generation: generation !== '' ? generation : undefined
+      ]
     }
   })
 
-  const result: PaginatedResponse<SpeciesSimple> = {
+  const result: PaginatedResponse<MoveSimple> = {
     page,
     pageSize,
     total,
-    result: species
+    result: items
   }
 
   return NextResponse.json(result)
