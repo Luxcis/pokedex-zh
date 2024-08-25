@@ -39,7 +39,7 @@ def get_all_chains(conn, cursor, is_append = False):
                     conn.commit()
 
 def insert_chain(cursor, data, existing_data = None):
-    print('Inserting evolution_chain:', data['name'])
+    print('Inserting evolution_chain:', data['evolution_chain_id'])
     try:
         if existing_data:
             update_fields = []
@@ -88,7 +88,7 @@ def parse_evolves_to(evolves_to):
             "species": evolve['species']['name'],
             "pokemon": evolve['species']['name'],
             "pokemon_form": evolve['species']['name'],
-            "evolves_to": parse_evolves_to(evolve['evolves_to'])
+            "evolves_to": parse_evolves_to(evolve['evolves_to']) if evolve['evolves_to'] else None
         })
     return results
 
@@ -102,7 +102,7 @@ def parse_details(details):
         detail['location'] = get_name('location', detail)
         detail['party_species'] = get_name('party_species', detail)
         detail['party_type'] = get_name('party_type', detail)
-        detail['trade_species'] = get_name('trade_species')
+        detail['trade_species'] = get_name('trade_species', detail)
 
         # detail['trigger'] = detail['trigger']['name'] if detail['trigger'] else None
         # details['held_item'] = detail['held_item']['name'] if detail['held_item'] else None

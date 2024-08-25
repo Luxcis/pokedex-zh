@@ -5,7 +5,7 @@ import json
 
 from utils import DB_FILE, find_local_name, find_types
 
-FIELDS = ['name', 'form_name', 'form_order', 'is_default', 'is_battle_only', 'is_mega', 'pokemon', 'types', 'version_group', 'spirites']
+FIELDS = ['name', 'form_name', 'form_order', 'is_default', 'is_battle_only', 'is_mega', 'pokemon', 'types', 'version_group', 'sprites']
 
 def get_form_data(url):
     response = requests.get(url)
@@ -27,7 +27,7 @@ def get_form_data(url):
             'pokemon': data['pokemon']['name'],
             'types': find_types(data['types']),
             'version_group': data['version_group']['name'],
-            'spirites': find_sprites(data['sprites']),
+            'sprites': find_sprites(data['sprites']),
         }
     else:
         return None
@@ -75,7 +75,7 @@ def insert_pokemon(cursor, data, existing_data = None):
                 
         else:  
             cursor.execute('''
-                INSERT INTO pokemon_form (name, name_local, name_en, form_name, form_name_local, form_name_en, form_order, is_default, is_battle_only, is_mega, pokemon, types, version_group, spirites)
+                INSERT INTO pokemon_form (name, name_local, name_en, form_name, form_name_local, form_name_en, form_order, is_default, is_battle_only, is_mega, pokemon, types, version_group, sprites)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
               data['name'],
@@ -91,7 +91,7 @@ def insert_pokemon(cursor, data, existing_data = None):
               data['pokemon'],
               data['types'],
               data['version_group'],
-              data['spirites']
+              data['sprites']
             ))
     except Exception as e:
         print('Error inserting pokemon_form:', e)
@@ -124,7 +124,7 @@ def run():
             pokemon TEXT,
             types TEXT,
             version_group TEXT,
-            spirites TEXT
+            sprites TEXT
         )
     ''')
     get_all_forms(conn, cursor)

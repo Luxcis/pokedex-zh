@@ -4,10 +4,12 @@ import requests
 import sqlite3
 import json
 
+from utils import DB_FILE
+
 LOCAL_LANG = 'zh-Hans'
-FIELDS = ['name', 'name_local', 'name_en', 'name_jp', 'genus', 'color', 'shape', 'forms_switchable', 'generation', 'growth_rate', 'habitat', 
+FIELDS = ['name', 'name_local', 'name_en', 'name_jp', 'genus_local', 'genus_en', 'color', 'shape', 'forms_switchable', 'generation', 'growth_rate', 'habitat', 
         'has_gender_differences', 'hatch_counter', 'is_baby', 'is_legendary', 'is_mythical', 'base_happiness', 'capture_rate', 'gender_rate', 
-        'sprite_default', 'sprite_home', 'egg_groups', 'flavor_texts_local', 'pal_park_encounters', 'pokedex_numbers', 'varieties', 'evolution_chain_id']
+        'sprite_default', 'sprite_home', 'egg_groups', 'flavor_texts_local', 'flavor_texts_en', 'pal_park_encounters', 'pokedex_numbers', 'varieties', 'evolution_chain_id']
 
 def get_species_data(url):
     response = requests.get(url)
@@ -16,16 +18,20 @@ def get_species_data(url):
         name_local = find_local_name(data['names'])
         name_en = find_local_name(data['names'], 'en')
         name_jp = find_local_name(data['names'], 'ja-Hrkt')
-        genus = find_local_genus(data['genera'])
-        varieties = [get_variety_data(variety['pokemon']['url']) for variety in data['varieties']]
-        default_variety = next((v for v in varieties if v['is_default']), None)
-        sprite_default = default_variety['sprites']['front_default'] if default_variety else None
-        sprite_home = default_variety['sprites']['other']['home']['front_default'] if default_variety else None
+        genus_local = find_genus(data['genera'])
+        genus_en = find_genus(data['genera'], 'en')
+        varieties = get_varities_data(data['varieties'])
+        default_variety = next((v for v in data['varieties'] if v['is_default']), None)
+        default_variety_id = extract_last_number(default_variety['pokemon']['url']) if default_variety else None
+        sprite_default = f'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/home/{default_variety_id}.png'
+        sprite_home = f'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/{default_variety_id}.png'
+        # sprite_default = default_variety['sprites']['front_default'] if default_variety else None
+        # sprite_home = default_variety['sprites']['other']['home']['front_default'] if default_variety else None
         egg_groups = find_egg_groups(data['egg_groups'])
-        flavor_texts_local = find_flavor_text(data['flavor_text_entries'])
         evolution_chain_id = extract_last_number(data['evolution_chain']['url'])
         pal_park_encounters = find_encounters(data['pal_park_encounters'])
         pokedex_numbers = find_pokedex_numbers(data['pokedex_numbers'])
+
         varieties = find_varieties(data['varieties'])
 
         return {
@@ -34,9 +40,10 @@ def get_species_data(url):
             "name_local"  : name_local,
             "name_en"     : name_en,
             "name_jp"     : name_jp,
-            "genus": genus,
+            "genus_local": genus_local,
+            "genus_en": genus_en,
             "color": data['color']['name'],
-            "shape": data['shape']['name'],
+            "shape": data['shape']['name'] if data['shape'] else None,
             "forms_switchable": data['forms_switchable'],
             "generation": data['generation']['name'],
             "growth_rate": data['growth_rate']['name'],
@@ -51,28 +58,25 @@ def get_species_data(url):
             "gender_rate": data['gender_rate'],
             "sprite_default": sprite_default,
             "sprite_home": sprite_home,
-            "egg_groups": json.dumps(egg_groups, ensure_ascii=False),
-            "flavor_texts_local": json.dumps(flavor_texts_local, ensure_ascii=False),
-            "pal_park_encounters": json.dumps(pal_park_encounters, ensure_ascii=False),
-            "pokedex_numbers": json.dumps(pokedex_numbers, ensure_ascii=False),
-            "varieties": json.dumps(varieties, ensure_ascii=False),
+            "egg_groups": egg_groups,
+            "flavor_texts_local": find_flavor_text(data['flavor_text_entries']),
+            "flavor_texts_en": find_flavor_text(data['flavor_text_entries'],'en'),
+            "pal_park_encounters": pal_park_encounters,
+            "pokedex_numbers": pokedex_numbers,
+            "varieties": varieties,
             "evolution_chain_id": evolution_chain_id
         }
     else:
         return None
 
-def get_variety_data(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        return {
-            "is_default": data['is_default'],
-            "height": data['height'],
-            "weight": data['weight'],
-            "sprites": data['sprites']
-        }
-    else:
-        return None
+def get_varities_data(varities):
+    result = []
+    for variety in varities:
+        result.append({
+            "is_default": variety['is_default'],
+            "pokemon": variety['pokemon']['name']
+        })
+    return json.dumps(result, ensure_ascii=False)
 
 def get_all_species(conn, cursor, is_append = False):
     response = requests.get('https://pokeapi.co/api/v2/pokemon-species?offset=0&limit=2000')
@@ -83,7 +87,7 @@ def get_all_species(conn, cursor, is_append = False):
             cursor.execute('SELECT * FROM species WHERE name = ?', (specie['name'],))
             existing_species = cursor.fetchone()
             if existing_species is None:
-                time.sleep(3)
+                time.sleep(1)
                 species_data = get_species_data(specie['url'])
                 # print(species_data)
                 if species_data:
@@ -115,10 +119,10 @@ def insert_species(cursor, data, existing_species = None):
                 
         else:  
             cursor.execute('''
-                INSERT INTO species (name, name_local, name_en, name_jp, genus, color, shape, forms_switchable, generation, growth_rate, habitat, has_gender_differences, hatch_counter, is_baby, is_legendary, is_mythical, base_happiness, capture_rate, gender_rate, sprite_default, sprite_home, egg_groups, flavor_texts_local, pal_park_encounters, pokedex_numbers, varieties, evolution_chain_id)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO species (name, name_local, name_en, name_jp, genus_local, genus_en, color, shape, forms_switchable, generation, growth_rate, habitat, has_gender_differences, hatch_counter, is_baby, is_legendary, is_mythical, base_happiness, capture_rate, gender_rate, sprite_default, sprite_home, egg_groups, flavor_texts_local, flavor_texts_en, pal_park_encounters, pokedex_numbers, varieties, evolution_chain_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                data['name'], data['name_local'], data['name_en'], data['name_jp'], data['genus'], data['color'], data['shape'], data['forms_switchable'], data['generation'], data['growth_rate'], data['habitat'], data['has_gender_differences'], data['hatch_counter'], data['is_baby'], data['is_legendary'], data['is_mythical'], data['base_happiness'], data['capture_rate'], data['gender_rate'], data['sprite_default'], data['sprite_home'], json.dumps(data['egg_groups']), json.dumps(data['flavor_texts_local']), json.dumps(data['pal_park_encounters']), json.dumps(data['pokedex_numbers']), json.dumps(data['varieties']), data['evolution_chain_id']
+                data['name'], data['name_local'], data['name_en'], data['name_jp'], data['genus_local'], data['genus_en'], data['color'], data['shape'], data['forms_switchable'], data['generation'], data['growth_rate'], data['habitat'], data['has_gender_differences'], data['hatch_counter'], data['is_baby'], data['is_legendary'], data['is_mythical'], data['base_happiness'], data['capture_rate'], data['gender_rate'], data['sprite_default'], data['sprite_home'], data['egg_groups'], data['flavor_texts_local'], data['flavor_texts_en'], data['pal_park_encounters'], data['pokedex_numbers'], data['varieties'], data['evolution_chain_id']
             ))
     
     except Exception as e:
@@ -131,7 +135,7 @@ def find_pokedex_numbers(pokedex_numbers):
             "pokedex": pokedex_number['pokedex']['name'],
             "entry_number": pokedex_number['entry_number']
         })
-    return result
+    return json.dumps(result, ensure_ascii=False)
 
 def find_varieties(varieties):
     result = []
@@ -140,17 +144,17 @@ def find_varieties(varieties):
             "is_default": variety['is_default'],
             "pokemon": variety['pokemon']['name'],
         })
-    return result
+    return json.dumps(result, ensure_ascii=False)
 
 def find_egg_groups(egg_groups):
     egg_groups = [egg_group['name'] for egg_group in egg_groups]
-    return egg_groups
+    return json.dumps(egg_groups, ensure_ascii=False)
 
 def find_local_name(names, lang = LOCAL_LANG):
     name = next((n for n in names if n['language']['name'] == lang), None)
     return name['name'] if name else None
 
-def find_local_genus(genera, lang = LOCAL_LANG):
+def find_genus(genera, lang = LOCAL_LANG):
     genus = next((g for g in genera if g['language']['name'] == lang), None)
     return genus['genus'] if genus else None
 
@@ -163,7 +167,7 @@ def find_flavor_text(flavor_texts, lang = LOCAL_LANG):
                 "version": text['version']['name']
             }
             texts.append(text)
-    return texts
+    return json.dumps(texts, ensure_ascii=False)
 
 def find_encounters(encounters):
     result = []
@@ -173,7 +177,7 @@ def find_encounters(encounters):
             "base_score": encounter['base_score'],
             "rate": encounter['rate']
         })
-    return result
+    return json.dumps(result, ensure_ascii=False)
 
 def extract_last_number(url):
     match = re.search(r'/(\d+)/?$', url)
@@ -182,7 +186,7 @@ def extract_last_number(url):
     return None
 
 def run():
-    conn = sqlite3.connect('poke.db')
+    conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
 
     # create tables
@@ -193,7 +197,8 @@ def run():
             name_local TEXT,
             name_en TEXT,
             name_jp TEXT,
-            genus TEXT,
+            genus_local TEXT,
+            genus_en TEXT,
             color TEXT,
             shape TEXT,
             forms_switchable BOOLEAN,
@@ -212,6 +217,7 @@ def run():
             sprite_home TEXT,
             egg_groups TEXT,
             flavor_texts_local TEXT,
+            flavor_texts_en TEXT,
             pal_park_encounters TEXT,
             pokedex_numbers TEXT,
             varieties TEXT,
