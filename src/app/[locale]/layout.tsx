@@ -8,6 +8,9 @@ import { getMessages, unstable_setRequestLocale } from 'next-intl/server'
 import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
 import './globals.css'
+import { CollpasableNav, Nav } from '@/components/nav'
+import { useState } from 'react'
+import { ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
 export const fontInter = localFont({
   src: [
@@ -62,13 +65,17 @@ export default async function RootLayout({
           )}
         >
           <NextIntlClientProvider messages={messages}>
-            <div className='sticky top-0 z-10 border-b border-b-muted'>
-              <Header />
-            </div>
-            <div className=''>
-              <Sidebar className='hidden max-h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] overflow-y-auto overflow-x-clip border-r border-r-muted md:fixed md:flex md:w-72 md:flex-col ' />
-              <div className='md:pl-72'>{children}</div>
-            </div>
+            <ResizablePanelGroup
+              direction='horizontal'
+              // onLayout={(sizes: number[]) => {
+              //   document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
+              //     sizes
+              //   )}`
+              // }}
+              className='h-full max-h-[800px] items-stretch'
+            >
+              <CollpasableNav />
+            </ResizablePanelGroup>
           </NextIntlClientProvider>
           <Analytics />
         </body>
