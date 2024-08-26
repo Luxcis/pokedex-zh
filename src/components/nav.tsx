@@ -16,7 +16,6 @@ import {
   Lightbulb,
   PawPrint
 } from '@phosphor-icons/react'
-import { useState } from 'react'
 import { ResizablePanel } from './ui/resizable'
 import { useLayoutStore } from '@/store'
 
@@ -68,15 +67,17 @@ const links: {
   }
 ]
 
-export function Nav({ isCollapsed }: NavProps) {
+export function Nav() {
+  const { collapsed, setCollapsed } = useLayoutStore((state) => state)
+
   return (
     <div
-      data-collapsed={isCollapsed}
+      data-collapsed={collapsed}
       className='group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2'
     >
       <nav className='grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2'>
         {links.map((link, index) =>
-          isCollapsed ? (
+          collapsed ? (
             <Tooltip key={index} delayDuration={0}>
               <TooltipTrigger asChild>
                 <Link
@@ -133,36 +134,36 @@ export function Nav({ isCollapsed }: NavProps) {
   )
 }
 
-const defaultLayout = [20, 32, 48]
-const navCollapsedSize = 4
+// const defaultLayout = [20, 32, 48]
+// const navCollapsedSize = 4
 
-export function CollpasableNav() {
-  const { collapsed, setCollapsed } = useLayoutStore((state) => state)
+// export function CollpasableNav() {
+//   const { collapsed, setCollapsed } = useLayoutStore((state) => state)
 
-  return (
-    <ResizablePanel
-      defaultSize={defaultLayout[0]}
-      collapsedSize={navCollapsedSize}
-      collapsible={true}
-      minSize={15}
-      maxSize={20}
-      onCollapse={() => {
-        setCollapsed(true)
-        document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-          true
-        )}`
-      }}
-      onResize={() => {
-        setCollapsed(false)
-        document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-          false
-        )}`
-      }}
-      className={cn(
-        collapsed && 'min-w-[50px] transition-all duration-300 ease-in-out'
-      )}
-    >
-      <Nav isCollapsed={collapsed} />
-    </ResizablePanel>
-  )
-}
+//   return (
+//     <ResizablePanel
+//       defaultSize={defaultLayout[0]}
+//       collapsedSize={navCollapsedSize}
+//       collapsible={true}
+//       minSize={15}
+//       maxSize={20}
+//       onCollapse={() => {
+//         setCollapsed(true)
+//         document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+//           true
+//         )}`
+//       }}
+//       onResize={() => {
+//         setCollapsed(false)
+//         document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
+//           false
+//         )}`
+//       }}
+//       className={cn(
+//         collapsed && 'min-w-[50px] transition-all duration-300 ease-in-out'
+//       )}
+//     >
+//       <Nav isCollapsed={collapsed} />
+//     </ResizablePanel>
+//   )
+// }

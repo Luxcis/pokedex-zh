@@ -9,16 +9,19 @@ import {
   HandPalm,
   Lightbulb,
   Backpack,
-  GithubLogo
+  GearSix
 } from '@phosphor-icons/react'
-import { Link, usePathname } from '@/navigation'
+import { SettingsSheet } from './settings-sheet'
+import { usePathname } from 'next/navigation'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export const mainNavigation = [
-  { name: 'Home', href: '/', icon: House },
-  { name: 'Pokemon', href: '/pokemon', icon: PawPrint },
-  { name: 'Ability', href: '/ability', icon: HandPalm },
-  { name: 'Move', href: '/move', icon: Lightbulb },
-  { name: 'Item', href: '/item', icon: Backpack }
+  { name: 'home', href: '/', icon: House },
+  { name: 'pokemon', href: '/pokemon', icon: PawPrint },
+  { name: 'ability', href: '/ability', icon: HandPalm },
+  { name: 'move', href: '/move', icon: Lightbulb },
+  { name: 'item', href: '/item', icon: Backpack }
 ]
 
 export const SidebarCategory = ({ children }: { children: string }) => (
@@ -30,25 +33,25 @@ export const SidebarCategory = ({ children }: { children: string }) => (
 interface SidebarProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function Sidebar({ className }: SidebarProps) {
+  const t = useTranslations('index')
   const pathname = usePathname()
 
   return (
-    <div className={cn('pb-12', className)}>
-      <div className='grid w-72 grid-cols-3 gap-2 px-3 pt-4'>
+    <div
+      className={cn('flex flex-col justify-between pb-8 md:w-64 ', className)}
+    >
+      {/* <div className='grid w-72 grid-cols-3 gap-2 px-3 pt-4'>
         <Button variant='outline'>
           <GithubLogo size={18} />
         </Button>
-        <Button variant='outline'>
-          <GithubLogo size={18} />
-        </Button>
-      </div>
+      </div> */}
       <nav className='px-3 pb-2'>
         <SidebarCategory>Home</SidebarCategory>
         <div className='space-y-1'>
           {mainNavigation.map((item) => (
             <Button
               key={item.href}
-              variant={pathname === item.href ? 'secondary' : 'ghost'}
+              variant={pathname === item.href ? 'default' : 'ghost'}
               className={cn(
                 'w-full justify-start',
                 item.href === pathname
@@ -59,11 +62,25 @@ export function Sidebar({ className }: SidebarProps) {
             >
               <Link href={item.href}>
                 <item.icon className='mr-4 h-4 w-4' aria-hidden='true' />
-                {item.name}
+                {t(item.name)}
               </Link>
             </Button>
           ))}
         </div>
+      </nav>
+      <nav className='px-3 pt-2'>
+        <SettingsSheet>
+          <Button
+            variant='ghost'
+            className='w-full justify-start text-neutral-600 dark:text-neutral-400'
+            asChild
+          >
+            <div className='cursor-pointer'>
+              <GearSix size={18} className='mr-4 h-4 w-4' aria-hidden='true' />
+              {t('settings')}
+            </div>
+          </Button>
+        </SettingsSheet>
       </nav>
     </div>
   )

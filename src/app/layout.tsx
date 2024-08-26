@@ -4,33 +4,30 @@ import { ViewTransitions } from 'next-view-transitions'
 import { Analytics } from '@vercel/analytics/react'
 import { cn } from '@/lib/utils'
 import { NextIntlClientProvider } from 'next-intl'
-import { getMessages, unstable_setRequestLocale } from 'next-intl/server'
+import { getLocale, getMessages } from 'next-intl/server'
 import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
 import './globals.css'
-import { CollpasableNav, Nav } from '@/components/nav'
-import { useState } from 'react'
-import { ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable'
 
 export const fontInter = localFont({
   src: [
     {
-      path: '../../../public/fonts/inter-regular.woff2',
+      path: '../../public/fonts/inter-regular.woff2',
       weight: '400',
       style: 'normal'
     },
     {
-      path: '../../../public/fonts/inter-medium.woff2',
+      path: '../../public/fonts/inter-medium.woff2',
       weight: '500',
       style: 'medium'
     },
     {
-      path: '../../../public/fonts/inter-semibold.woff2',
+      path: '../../public/fonts/inter-semibold.woff2',
       weight: '600',
       style: 'semibold'
     },
     {
-      path: '../../../public/fonts/inter-bold.woff2',
+      path: '../../public/fonts/inter-bold.woff2',
       weight: '700',
       style: 'bold'
     }
@@ -46,13 +43,12 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({
-  children,
-  params: { locale }
+  children
 }: {
   children: React.ReactNode
   params: { locale: string }
 }) {
-  unstable_setRequestLocale(locale)
+  const locale = await getLocale()
   const messages = await getMessages()
 
   return (
@@ -61,21 +57,17 @@ export default async function RootLayout({
         <body
           className={cn(
             fontInter.variable,
-            'mx-auto min-h-screen bg-white dark:bg-neutral-900'
+            'mx-auto bg-white font-sans text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400'
           )}
         >
           <NextIntlClientProvider messages={messages}>
-            <ResizablePanelGroup
-              direction='horizontal'
-              // onLayout={(sizes: number[]) => {
-              //   document.cookie = `react-resizable-panels:layout:mail=${JSON.stringify(
-              //     sizes
-              //   )}`
-              // }}
-              className='h-full max-h-[800px] items-stretch'
-            >
-              <CollpasableNav />
-            </ResizablePanelGroup>
+            <div className='sticky top-0 z-10 border-b border-b-muted'>
+              <Header />
+            </div>
+            <div className='h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] '>
+              <Sidebar className='hidden h-full overflow-y-auto overflow-x-clip border-r border-r-muted md:fixed md:block' />
+              <div className='h-full pl-0 md:pl-64'>{children}</div>
+            </div>
           </NextIntlClientProvider>
           <Analytics />
         </body>

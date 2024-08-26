@@ -1,5 +1,5 @@
-import { PaginatedResponse, PokemonSimple, SpeciesSimple } from '@/types'
-import { parseTextToArray } from '@/utils/parse'
+import { parseTextToArray } from '@/lib/parse'
+import { PaginatedResponse, PokemonSimple } from '@/types'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 

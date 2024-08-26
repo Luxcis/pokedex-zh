@@ -1,4 +1,4 @@
-import { parseTextToArray, parseTextToObject } from '@/utils/parse'
+import { parseTextToArray, parseTextToObject } from '@/lib/parse'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
 

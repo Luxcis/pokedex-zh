@@ -1,5 +1,4 @@
-'use client'
-
+import { useLocale, useTranslations } from 'next-intl'
 import {
   Select,
   SelectContent,
@@ -7,22 +6,28 @@ import {
   SelectTrigger,
   SelectValue
 } from './ui/select'
+import { Locale } from '@/config'
+import { setUserLocale } from '@/services/locale'
 
-interface Props {
-  locale: string
-}
+export default function LangSelect() {
+  const locale = useLocale()
+  const t = useTranslations('Settings')
 
-export default function LangSelect({ locale }: Props) {
   return (
-    <Select value={locale} onValueChange={(value: string) => {}}>
-      <SelectTrigger className='h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4'>
-        <span className='text-muted-foreground'>Language: </span>
+    <Select
+      value={locale}
+      onValueChange={(value) => {
+        const locale = value as Locale
+        setUserLocale(locale)
+      }}
+    >
+      <SelectTrigger id='language' className='w-[180px]'>
         <SelectValue placeholder='Select language' />
       </SelectTrigger>
       <SelectContent>
         {['en', 'zh-Hans'].map((lang) => (
-          <SelectItem key={lang} value={lang} className='text-xs'>
-            {lang}
+          <SelectItem key={lang} value={lang}>
+            {t(`locales.${lang}`)}
           </SelectItem>
         ))}
       </SelectContent>

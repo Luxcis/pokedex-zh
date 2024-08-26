@@ -1,11 +1,17 @@
 {
-  "Index": {
+  "index": {
     "title": "宝可梦图鉴",
     "welcome": "探索和发现你喜欢的宝可梦！",
     "search": "搜索",
     "search-placeholder": "搜索名称...",
     "filter": "筛选",
     "sort": "排序",
+    "home": "首页",
+    "pokemon": "宝可梦",
+    "ability": "特性",
+    "move": "招式",
+    "item": "道具",
+    "settings": "设置",
     "not-found": "没有更多了...",
     "loading": "加载中",
     "lang": {
@@ -63,6 +69,14 @@
       "sp-attack": "特攻k",
       "sp-defense": "特防",
       "speed": "速度"
+    }
+  },
+  "Settings": {
+    "index": "设置",
+    "language": "语言",
+    "locales": {
+      "en": "英文",
+      "zh-Hans": "简体中文"
     }
   }
 }

@@ -6,6 +6,12 @@
     "search-placeholder": "Search By Name...",
     "filter": "Filter",
     "sort": "Sort",
+    "home": "Home",
+    "pokemon": "Pokemon",
+    "ability": "Ability",
+    "move": "Move",
+    "item": "Item",
+    "settings": "Settings",
     "not-found": "No Pokemon Found...",
     "loading": "Loading",
     "lang": {
@@ -63,6 +69,14 @@
       "sp-attack": "Special Attack",
       "sp-defense": "Special Defense",
       "speed": "Speed"
+    }
+  },
+  "Settings": {
+    "index": "Settings",
+    "language": "Language",
+    "locales": {
+      "en": "English",
+      "zh-Hans": "Simplified Chinese"
     }
   }
 }
