@@ -6,13 +6,13 @@ const prisma = new PrismaClient()
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const page = parseInt(searchParams.get('page') || '1')
+  const page = parseInt(searchParams.get('page') || '0')
   const pageSize = parseInt(searchParams.get('pageSize') || '20')
   const name = searchParams.get('name') || ''
   const generation = searchParams.get('generation') || ''
   const type = searchParams.get('type') || ''
 
-  const skip = (page - 1) * pageSize
+  const skip = page * pageSize
   const take = pageSize
 
   const species = await prisma.species.findMany({

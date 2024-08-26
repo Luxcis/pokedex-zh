@@ -5,17 +5,30 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import { PaginatedResponse, SpeciesList, SpeciesSimple } from '@/types'
 import { MagnifyingGlass } from '@phosphor-icons/react'
-import useSWR from 'swr'
+import useSWRInfinite from 'swr/infinite'
 
+const PAGE_SIZE = 20
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 function PokemonList() {
-  const { data, isLoading } = useSWR<PaginatedResponse<SpeciesList>>(
-    '/api/species',
-    fetcher
-  )
+  const getKey = (
+    page: number,
+    previousPageData: PaginatedResponse<SpeciesList> | null
+  ) => {
+    if (previousPageData && !previousPageData.result.length) return null
+    return `/api/species?page=${page}`
+  }
+  const { data, error, isValidating, size, setSize } = useSWRInfinite<
+    PaginatedResponse<SpeciesList>
+  >(getKey, fetcher)
 
-  console.log('data', data)
+  const isLoadingInitialData = !data && !error
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === 'undefined')
+  const isEmpty = data?.[0].result?.length === 0
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.result.length < PAGE_SIZE)
 
   return (
     <div className='w-1/3 min-w-72 max-w-96 border-r border-r-muted'>
@@ -31,10 +44,22 @@ function PokemonList() {
         </form>
         <ScrollArea className='h-[calc(100%-3rem-1px)] py-2 pr-4'>
           <div className='flex flex-col gap-2'>
-            {data?.result.map((pokemon) => (
-              <PokemonItem key={pokemon.id} {...pokemon} />
-            ))}
+            {data?.map((page) =>
+              page.result.map((pokemon: SpeciesSimple) => (
+                <PokemonItem key={pokemon.id} {...pokemon} />
+              ))
+            )}
           </div>
+          <button
+            disabled={isLoadingMore || isReachingEnd}
+            onClick={() => setSize(size + 1)}
+          >
+            {isLoadingMore
+              ? 'loading...'
+              : isReachingEnd
+                ? 'no more issues'
+                : 'load more'}
+          </button>
         </ScrollArea>
       </div>
     </div>
