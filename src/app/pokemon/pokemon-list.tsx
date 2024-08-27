@@ -8,6 +8,8 @@ import useOnView from '@/hooks/useOnView'
 import { cn } from '@/lib/utils'
 import { PaginatedResponse, SpeciesList, SpeciesSimple } from '@/types'
 import { MagnifyingGlass } from '@phosphor-icons/react'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 const PAGE_SIZE = 20
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -20,7 +22,8 @@ function PokemonList({ className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
   const [name, setName] = useState('')
-  // const deferredName = useDeferredValue(name)
+
+  const params = useParams()
 
   const getKey = (
     page: number,
@@ -70,7 +73,11 @@ function PokemonList({ className }: Props) {
           <div className='flex flex-col gap-2'>
             {data?.map((page) =>
               page.result.map((pokemon: SpeciesSimple) => (
-                <PokemonItem key={pokemon.id} {...pokemon} />
+                <PokemonItem
+                  key={pokemon.id}
+                  data={pokemon}
+                  isSelected={params.name === pokemon.name}
+                />
               ))
             )}
           </div>
@@ -85,14 +92,28 @@ function PokemonList({ className }: Props) {
 
 export default PokemonList
 
-function PokemonItem({ id, name_local, sprite_home }: SpeciesSimple) {
+interface PokemonItemProps {
+  data: SpeciesSimple
+  isSelected: boolean
+}
+
+function PokemonItem({ data, isSelected }: PokemonItemProps) {
+  const { id, name, name_local, sprite_home } = data
+
   return (
-    <button
+    <Link
+      href={`/pokemon/${name}`}
       className={cn(
-        'flex flex-row items-center gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent'
-        // mail.selected === item.id && 'bg-muted'
+        'flex flex-row items-center gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent',
+        isSelected ? 'bg-muted' : ''
       )}
     >
+      {/* <button
+        className={cn(
+          'flex flex-row items-center gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent'
+          // mail.selected === item.id && 'bg-muted'
+        )}
+      > */}
       <div className='flex items-center'>
         <img src={sprite_home!} alt={name_local!} className='h-16 w-16' />
       </div>
@@ -103,6 +124,7 @@ function PokemonItem({ id, name_local, sprite_home }: SpeciesSimple) {
         </div>
         <div></div>
       </div>
-    </button>
+      {/* </button> */}
+    </Link>
   )
 }

@@ -66,7 +66,9 @@ export default async function RootLayout({
             </div>
             <div className='flex h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] '>
               <Sidebar className='hidden border-r border-r-muted md:flex' />
-              <div className='h-full flex-grow px-4 lg:pl-0'>{children}</div>
+              <div className='h-full px-4 md:w-[calc(100vw-12rem)] lg:pl-0'>
+                {children}
+              </div>
             </div>
           </NextIntlClientProvider>
           <Analytics />
