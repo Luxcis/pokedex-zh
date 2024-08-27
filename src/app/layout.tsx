@@ -64,9 +64,9 @@ export default async function RootLayout({
             <div className='sticky top-0 z-10 border-b border-b-muted'>
               <Header />
             </div>
-            <div className='h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] '>
-              <Sidebar className='hidden h-full overflow-y-auto overflow-x-clip border-r border-r-muted md:fixed md:block' />
-              <div className='h-full pl-0 md:pl-64'>{children}</div>
+            <div className='flex h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] '>
+              <Sidebar className='hidden border-r border-r-muted md:flex' />
+              <div className='h-full flex-grow px-4 lg:pl-0'>{children}</div>
             </div>
           </NextIntlClientProvider>
           <Analytics />

@@ -1,3 +1,5 @@
+import { LOCALE_COOKIE_NAME } from '@/config'
+import { getCookieFromRequest } from '@/lib/cookie'
 import { PaginatedResponse, SpeciesSimple } from '@/types'
 import { PrismaClient } from '@prisma/client'
 import { NextResponse } from 'next/server'
@@ -14,6 +16,8 @@ export async function GET(request: Request) {
 
   const skip = page * pageSize
   const take = pageSize
+
+  const locale = getCookieFromRequest(request, LOCALE_COOKIE_NAME)
 
   const species = await prisma.species.findMany({
     skip,
@@ -64,7 +68,10 @@ export async function GET(request: Request) {
     page,
     pageSize,
     total,
-    result: species
+    result: species.map((s) => ({
+      ...s,
+      name_local: locale === 'en' ? s.name_en : s.name_local
+    }))
   }
 
   return NextResponse.json(result)

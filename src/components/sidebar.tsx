@@ -38,7 +38,10 @@ export function Sidebar({ className }: SidebarProps) {
 
   return (
     <div
-      className={cn('flex flex-col justify-between pb-8 md:w-64 ', className)}
+      className={cn(
+        'relative flex h-full flex-col justify-between pb-4 md:w-64 ',
+        className
+      )}
     >
       {/* <div className='grid w-72 grid-cols-3 gap-2 px-3 pt-4'>
         <Button variant='outline'>

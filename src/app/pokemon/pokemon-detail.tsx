@@ -1,7 +1,11 @@
-import React from 'react'
+import { cn } from '@/lib/utils'
 
-function PokemonDetail() {
-  return <div className='flex-grow'>pokemon-detail</div>
+interface Props {
+  className?: string
+}
+
+function PokemonDetail({ className }: Props) {
+  return <div className={cn(className, 'flex-grow ')}>pokemon-detail</div>
 }
 
 export default PokemonDetail
