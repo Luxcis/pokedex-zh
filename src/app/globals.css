@@ -58,3 +58,93 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+/* pokemon type sprites */
+.type {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('/images/types.webp');
+  background-repeat: no-repeat;
+  background-size: 20px 420px;
+}
+
+.type-normal {
+  background-position: 0 0;
+}
+
+.type-fighting {
+  background-position: 0 -20px;
+}
+
+.type-flying {
+  background-position: 0 -40px;
+}
+
+.type-poison {
+  background-position: 0 -60px;
+}
+
+.type-ground {
+  background-position: 0 -80px;
+}
+
+.type-rock {
+  background-position: 0 -100px;
+}
+
+.type-bug {
+  background-position: 0 -120px;
+}
+
+.type-ghost {
+  background-position: 0 -140px;
+}
+
+.type-steel {
+  background-position: 0 -160px;
+}
+
+.type-fire {
+  background-position: 0 -180px;
+}
+
+.type-water {
+  background-position: 0 -200px;
+}
+
+.type-grass {
+  background-position: 0 -220px;
+}
+
+.type-electric {
+  background-position: 0 -240px;
+}
+
+.type-psychic {
+  background-position: 0 -260px;
+}
+
+.type-ice {
+  background-position: 0 -280px;
+}
+
+.type-dragon {
+  background-position: 0 -300px;
+}
+
+.type-dark {
+  background-position: 0 -320px;
+}
+
+.type-fairy {
+  background-position: 0 -340px;
+}
+
+.type-unknown {
+  background-position: 0 -660px;
+}
+
+.type-shadow {
+  background-position: 0 -380px;
+}

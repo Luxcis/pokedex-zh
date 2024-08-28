@@ -1,4 +1,29 @@
-import { number, z } from 'zod'
+import { z } from 'zod'
+
+export const typeSchema = z.enum([
+  'normal',
+  'fighting',
+  'flying',
+  'poison',
+  'ground',
+  'rock',
+  'bug',
+  'ghost',
+  'steel',
+  'fire',
+  'water',
+  'grass',
+  'electric',
+  'psychic',
+  'ice',
+  'dragon',
+  'dark',
+  'fairy',
+  'unknown',
+  'shadow'
+])
+
+export type Type = z.infer<typeof typeSchema>
 
 export const PaginatedResponseSchema = z.object({
   page: z.number(),
@@ -83,7 +108,7 @@ export type MoveDetail = z.infer<typeof moveDetailSchema>
 export const pokemonSimpleSchema = z.object({
   id: z.number(),
   name: z.string(),
-  types: z.array(z.string()).nullable()
+  types: z.array(typeSchema).nullable()
 })
 
 export const pokemonListSchema = z.array(pokemonSimpleSchema)
@@ -101,7 +126,7 @@ export const pokemonFormSchema = z.object({
   is_battle_only: z.number(),
   is_mega: z.number(),
   pokemon: z.string(),
-  types: z.array(z.string()),
+  types: z.array(typeSchema),
   version_group: z.string(),
   sprites: z.object({
     back_default: z.string().nullable(),
@@ -130,7 +155,7 @@ export const pokemonDetailSchema = z.object({
   abilities: z.array(
     z.object({ name: z.string(), is_hidden: z.boolean(), slot: z.number() })
   ),
-  types: z.array(z.string()),
+  types: z.array(typeSchema),
   forms: z.array(pokemonFormSchema),
   stats: z.array(
     z.object({

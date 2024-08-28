@@ -1,5 +1,6 @@
 'use client'
 
+import TypeBadge from '@/components/type-badge'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Carousel,
@@ -10,7 +11,8 @@ import {
   CarouselPrevious
 } from '@/components/ui/carousel'
 import { Toggle } from '@/components/ui/toggle'
-import { PokemonDetail } from '@/types'
+import { TYPE_COLORS } from '@/lib/constants'
+import { PokemonDetail, Type } from '@/types'
 import { GenderFemale, GenderMale, Sparkle } from '@phosphor-icons/react'
 import { useEffect, useState } from 'react'
 
@@ -105,9 +107,9 @@ function FormSprites({ data }: Props) {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <div className='flex flex-row gap-2'>
+      <div className='flex flex-row items-center justify-center gap-2'>
         {data.forms[current].types.map((type) => (
-          <span key={type}>{type}</span>
+          <TypeBadge key={type} type={type} />
         ))}
       </div>
     </div>

@@ -1,107 +1,107 @@
-// import { TypeName } from '@/typings'
+import { Type } from '@/types'
 
-// export const artworkUrl =
-//   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/'
+export const TYPES = [
+  {
+    type: 'normal',
+    color: '#919AA2'
+  },
+  {
+    type: 'fighting',
+    color: '#CE416B'
+  },
+  {
+    type: 'flying',
+    color: '#89AAE3'
+  },
+  {
+    type: 'poison',
+    color: '#B567CE'
+  },
+  {
+    type: 'ground',
+    color: '#D97845'
+  },
+  {
+    type: 'rock',
+    color: '#C5B78C'
+  },
+  {
+    type: 'bug',
+    color: '#91C12F'
+  },
+  {
+    type: 'ghost',
+    color: '#5269AD'
+  },
+  {
+    type: 'steel',
+    color: '#5A8EA2'
+  },
+  {
+    type: 'fire',
+    color: '#FF9D55'
+  },
+  {
+    type: 'water',
+    color: '#5090D6'
+  },
+  {
+    type: 'grass',
+    color: '#63BC5A'
+  },
+  {
+    type: 'electric',
+    color: '#F4D23C'
+  },
+  {
+    type: 'psychic',
+    color: '#FA7179'
+  },
+  {
+    type: 'ice',
+    color: '#73CEC0'
+  },
+  {
+    type: 'dragon',
+    color: '#0B6DC3'
+  },
+  {
+    type: 'dark',
+    color: '#5A5465'
+  },
+  {
+    type: 'fairy',
+    color: '#EC8FE6'
+  },
+  {
+    type: 'unknown',
+    color: ''
+  },
+  {
+    type: 'shadow',
+    color: ''
+  }
+]
 
-// export const typeList: { id: number; name: TypeName; color: string }[] = [
-//   {
-//     id: 1,
-//     name: 'normal',
-//     color: '#919AA2'
-//   },
-//   {
-//     id: 2,
-//     name: 'fighting',
-//     color: '#CE416B'
-//   },
-//   {
-//     id: 3,
-//     name: 'flying',
-//     color: '#89AAE3'
-//   },
-//   {
-//     id: 4,
-//     name: 'poison',
-//     color: '#B567CE'
-//   },
-//   {
-//     id: 5,
-//     name: 'ground',
-//     color: '#D97845'
-//   },
-//   {
-//     id: 6,
-//     name: 'rock',
-//     color: '#C5B78C'
-//   },
-//   {
-//     id: 7,
-//     name: 'bug',
-//     color: '#91C12F'
-//   },
-//   {
-//     id: 8,
-//     name: 'ghost',
-//     color: '#5269AD'
-//   },
-//   {
-//     id: 9,
-//     name: 'steel',
-//     color: '#5A8EA2'
-//   },
-//   {
-//     id: 10,
-//     name: 'fire',
-//     color: '#FF9D55'
-//   },
-//   {
-//     id: 11,
-//     name: 'water',
-//     color: '#5090D6'
-//   },
-//   {
-//     id: 12,
-//     name: 'grass',
-//     color: '#63BC5A'
-//   },
-//   {
-//     id: 13,
-//     name: 'electric',
-//     color: '#F4D23C'
-//   },
-//   {
-//     id: 14,
-//     name: 'psychic',
-//     color: '#FA7179'
-//   },
-//   {
-//     id: 15,
-//     name: 'ice',
-//     color: '#73CEC0'
-//   },
-//   {
-//     id: 16,
-//     name: 'dragon',
-//     color: '#0B6DC3'
-//   },
-//   {
-//     id: 17,
-//     name: 'dark',
-//     color: '#5A5465'
-//   },
-//   {
-//     id: 18,
-//     name: 'fairy',
-//     color: '#EC8FE6'
-//   },
-//   {
-//     id: 10001,
-//     name: 'unknown',
-//     color: ''
-//   },
-//   {
-//     id: 10002,
-//     name: 'shadow',
-//     color: ''
-//   }
-// ]
+export const TYPE_COLORS: Record<Type, string> = {
+  normal: '#9fa19f',
+  fighting: '#ff8000',
+  flying: '#81b9ef',
+  poison: '#9141cb',
+  ground: '#915121',
+  rock: '#afa981',
+  bug: '#91a119',
+  ghost: '#704170',
+  steel: '#60a1b8',
+  fire: '#e62829',
+  water: '#2980ef',
+  grass: '#3fa129',
+  electric: '#fac000',
+  psychic: '#ef4179',
+  ice: '#3fd8ff',
+  dragon: '#5060e1',
+  dark: '#50413f',
+  fairy: '#ef70ef',
+  unknown: '#44685e',
+  shadow: ''
+}
