@@ -11,6 +11,7 @@ def get_form_data(url):
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json()
+        print('data:', data['name'])
 
         return {
             # "order": data['order'],
@@ -98,6 +99,8 @@ def insert_pokemon(cursor, data, existing_data = None):
 
 
 def find_sprites(sprites):
+    if(sprites['front_default'] == None):
+        return None
     name = sprites['front_default'].split('/')[8]
     sprites['front_home'] = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/{name}"
     sprites['front_home_female'] = f"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/female/{name}" if sprites['front_female'] else None

@@ -73,12 +73,14 @@ async function getPokemonForms(names: string[]) {
     }
   })
 
-  const result = forms.map((form) => {
-    return {
-      ...form,
-      types: parseTextToArray(form['types']),
-      sprites: parseTextToObject(form['sprites'])
-    }
-  })
+  const result = forms
+    .filter((i) => !!i.sprites)
+    .map((form) => {
+      return {
+        ...form,
+        types: parseTextToArray(form['types']),
+        sprites: parseTextToObject(form['sprites'])
+      }
+    })
   return result
 }

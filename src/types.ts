@@ -104,18 +104,18 @@ export const pokemonFormSchema = z.object({
   types: z.array(z.string()),
   version_group: z.string(),
   sprites: z.object({
-    back_default: z.string(),
-    back_female: z.null(),
+    back_default: z.string().nullable(),
+    back_female: z.string().nullable(),
     back_shiny: z.string(),
-    back_shiny_female: z.null(),
-    front_default: z.string(),
+    back_shiny_female: z.string().nullable(),
+    front_default: z.string().nullable(),
     front_female: z.string().nullable(),
-    front_shiny: z.string(),
-    front_shiny_female: z.null(),
-    front_home: z.string(),
-    front_home_female: z.null(),
-    front_home_shiny: z.string(),
-    front_home_shiny_female: z.null()
+    front_shiny: z.string().nullable(),
+    front_shiny_female: z.string().nullable(),
+    front_home: z.string().nullable(),
+    front_home_female: z.string().nullable(),
+    front_home_shiny: z.string().nullable(),
+    front_home_shiny_female: z.string().nullable()
   })
 })
 
@@ -347,7 +347,7 @@ export const pokemonDetailSchema = z.object({
 export type PokemonSimple = z.infer<typeof pokemonSimpleSchema>
 export type PokemonList = z.infer<typeof pokemonListSchema>
 export type PokemonDetail = z.infer<typeof pokemonDetailSchema>
-
+export type PokemonForm = z.infer<typeof pokemonFormSchema>
 export const flavorTextSchema = z.object({
   flavor_text: z.string(),
   version: z.string()

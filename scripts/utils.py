@@ -2,7 +2,7 @@ import json
 import re
 
 LOCAL_LANG = 'zh-Hans'
-DB_FILE = '././pokemon.db'
+DB_FILE = '././prisma/pokemon.db'
 
 def find_local_name(names, lang = LOCAL_LANG):
     name = next((n for n in names if n['language']['name'] == lang), None)

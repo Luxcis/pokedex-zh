@@ -2,6 +2,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import { SpeciesDetail } from '@/types'
+import FormSprites from './form-sprites'
 
 interface Props {
   className?: string
@@ -29,17 +30,15 @@ function PokemonDetail({ className, data }: Props) {
           </TabsList>
           <ScrollBar orientation='horizontal' />
         </ScrollArea>
-        {varieties.map((variety, index) => (
-          <TabsContent key={index} value={variety.name}>
-            <div className='flex items-center justify-center'>
-              <img
-                src={variety.sprites.other.home.front_default}
-                alt={variety.name}
-                className='h-48 w-48 object-contain'
-              />
-            </div>
-          </TabsContent>
-        ))}
+        <ScrollArea>
+          {varieties.map((variety, index) => (
+            <TabsContent key={index} value={variety.name}>
+              <div className='flex items-center justify-center'>
+                <FormSprites data={variety} />
+              </div>
+            </TabsContent>
+          ))}
+        </ScrollArea>
       </Tabs>
     </div>
   )

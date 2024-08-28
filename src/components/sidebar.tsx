@@ -39,7 +39,7 @@ export function Sidebar({ className }: SidebarProps) {
   return (
     <div
       className={cn(
-        'relative flex h-full flex-col justify-between pb-4 md:w-64 ',
+        'relative flex h-full flex-col justify-between pb-4',
         className
       )}
     >
