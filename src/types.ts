@@ -1,5 +1,3 @@
-import { group } from 'console'
-import { machine } from 'os'
 import { z } from 'zod'
 
 export const typeSchema = z.enum([
@@ -71,6 +69,19 @@ export const homeImageSchema = z.object({
 })
 
 export type HomeImage = z.infer<typeof homeImageSchema>
+
+export const flavorTextSchema = z.object({
+  name: z.string(),
+  versions: z.array(
+    z.object({
+      name: z.string(),
+      group: z.string(),
+      text: z.string()
+    })
+  )
+})
+
+export type FlavorText = z.infer<typeof flavorTextSchema>
 
 export const pokemonDetailSchema = z.object({
   name: z.string(),
@@ -181,47 +192,6 @@ export const pokemonDetailSchema = z.object({
 export type PokemonSimple = z.infer<typeof pokemonSimpleSchema>
 export type PokemonList = z.infer<typeof pokemonListSchema>
 export type PokemonDetail = z.infer<typeof pokemonDetailSchema>
-export const flavorTextSchema = z.object({
-  flavor_text: z.string(),
-  version: z.string()
-})
-
-export const speciesDetailSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  name_local: z.string().nullable(),
-  name_en: z.string().nullable(),
-  name_jp: z.string().nullable(),
-  genus_local: z.string().nullable(),
-  genus_en: z.string().nullable(),
-  color: z.string().nullable(),
-  shape: z.string().nullable(),
-  forms_switchable: z.boolean().nullable(),
-  generation: z.string().nullable(),
-  growth_rate: z.string(),
-  habitat: z.string(),
-  has_gender_differences: z.boolean(),
-  hatch_counter: z.number(),
-  is_baby: z.boolean(),
-  is_legendary: z.boolean(),
-  is_mythical: z.boolean(),
-  base_happiness: z.number(),
-  capture_rate: z.number(),
-  gender_rate: z.number(),
-  sprite_default: z.string(),
-  sprite_home: z.string(),
-  egg_groups: z.array(z.string()),
-  flavor_texts_local: z.array(flavorTextSchema),
-  flavor_texts_en: z.array(flavorTextSchema),
-  pal_park_encounters: z.array(z.unknown()),
-  pokedex_numbers: z.array(
-    z.object({ pokedex: z.string(), entry_number: z.number() })
-  ),
-  varieties: z.array(pokemonDetailSchema),
-  evolution_chain_id: z.number()
-})
-
-export type SpeciesDetail = z.infer<typeof speciesDetailSchema>
 
 export type PaginatedResponse<T> = z.infer<typeof PaginatedResponseSchema> & {
   result: T[]

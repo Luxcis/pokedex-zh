@@ -6,6 +6,7 @@ import Image from 'next/image'
 import TypeBadge from '@/components/type-badge'
 import { StatRadarChart } from './stat-chart'
 import SpriteImage from './sprite-image'
+import FlavorTexts from './flavor-texts'
 
 interface Props {
   className?: string
@@ -105,6 +106,10 @@ function PokemonDetail({ className, data }: Props) {
           {data.home_images.map((item, idx) => (
             <SpriteImage key={idx} data={item} />
           ))}
+        </div>
+
+        <div>
+          <FlavorTexts data={data.flavor_texts} />
         </div>
       </ScrollArea>
     </div>
