@@ -6,10 +6,11 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useOnView from '@/hooks/useOnView'
 import { cn } from '@/lib/utils'
-import { PaginatedResponse, SpeciesList, SpeciesSimple } from '@/types'
+import { PaginatedResponse, PokemonList, PokemonSimple } from '@/types'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import TypeBadge from '@/components/type-badge'
 
 const PAGE_SIZE = 20
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -18,7 +19,7 @@ interface Props {
   className?: string
 }
 
-function PokemonList({ className }: Props) {
+function AllPokemonList({ className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
   const [name, setName] = useState('')
@@ -27,22 +28,22 @@ function PokemonList({ className }: Props) {
 
   const getKey = (
     page: number,
-    previousPageData: PaginatedResponse<SpeciesList> | null
+    previousPageData: PaginatedResponse<PokemonList> | null
   ): string | null => {
-    if (previousPageData && !previousPageData.result.length) return null
-    return `/api/species?page=${page}&pageSize=${PAGE_SIZE}&name=${name}`
+    if (previousPageData && !previousPageData.contents.length) return null
+    return `/api/pokemon?page=${page}&pageSize=${PAGE_SIZE}&name=${name}`
   }
   const { data, error, isValidating, size, setSize } = useSWRInfinite<
-    PaginatedResponse<SpeciesList>
+    PaginatedResponse<PokemonList>
   >(getKey, fetcher)
 
   const isLoadingInitialData = !data && !error
   const isLoadingMore =
     isLoadingInitialData ||
     (size > 0 && data && typeof data[size - 1] === 'undefined')
-  const isEmpty = data?.[0].result?.length === 0
+  const isEmpty = data?.[0].contents?.length === 0
   const isReachingEnd =
-    isEmpty || (data && data[data.length - 1]?.result.length < PAGE_SIZE)
+    isEmpty || (data && data[data.length - 1]?.contents.length < PAGE_SIZE)
 
   useEffect(() => {
     if (isVisible && !isReachingEnd && !isLoadingMore) {
@@ -72,9 +73,9 @@ function PokemonList({ className }: Props) {
         <ScrollArea className='h-[calc(100%-3rem-1px)] py-2 pr-4'>
           <div className='flex flex-col gap-2'>
             {data?.map((page) =>
-              page.result.map((pokemon: SpeciesSimple) => (
+              page.contents.map((pokemon: PokemonSimple, idx) => (
                 <PokemonItem
-                  key={pokemon.id}
+                  key={idx}
                   data={pokemon}
                   isSelected={params.name === pokemon.name}
                 />
@@ -90,37 +91,45 @@ function PokemonList({ className }: Props) {
   )
 }
 
-export default PokemonList
+export default AllPokemonList
 
 interface PokemonItemProps {
-  data: SpeciesSimple
+  data: PokemonSimple
   isSelected: boolean
 }
 
 function PokemonItem({ data, isSelected }: PokemonItemProps) {
-  const { id, name, name_local, sprite_home } = data
-
+  const { index, name, name_en, types, meta } = data
+  const linkName = name.split('-')[0]
   return (
     <Link
-      href={`/pokemon/${name}`}
+      href={`/pokemon/${linkName}`}
       className={cn(
-        'flex flex-row items-center gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent',
+        'flex flex-row items-center gap-4 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:bg-accent',
         isSelected ? 'bg-muted' : ''
       )}
     >
-      {/* <button
-        className={cn(
-          'flex flex-row items-center gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent'
-          // mail.selected === item.id && 'bg-muted'
-        )}
-      > */}
       <div className='flex items-center'>
-        <img src={sprite_home!} alt={name_local!} className='h-16 w-16' />
+        <span
+          className='pokemon-normal'
+          style={{
+            backgroundPosition: meta.icon_position
+          }}
+        ></span>
+        {/* <img src={sprite_home!} alt={name_local!} className='h-16 w-16' /> */}
       </div>
       <div className='ml-2 flex flex-grow flex-col items-center'>
-        <div className='flex w-full items-center justify-between'>
-          <span className=''>{name_local}</span>
-          <span className='text-xs'>#{id}</span>
+        <div className='flex h-[56px] w-full items-center justify-between'>
+          <div className='flex h-full flex-col justify-evenly'>
+            <span>{name}</span>
+
+            <div className='flex gap-2'>
+              {types.map((type) => (
+                <TypeBadge key={type} type={type} size='small' />
+              ))}
+            </div>
+          </div>
+          <span className='text-xs'>#{index}</span>
         </div>
         <div></div>
       </div>

@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client'
+import { readFile } from '@/lib/file'
+import { PokemonList } from '@/types'
 import { NextResponse } from 'next/server'
 
-const prisma = new PrismaClient()
-
 export async function GET() {
-  const total = await prisma.pokemon.count()
+  const allData = await readFile<PokemonList>('pokemon_list.json')
+  const total = allData.length
   return NextResponse.json(total)
 }

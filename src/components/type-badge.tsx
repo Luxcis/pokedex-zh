@@ -7,11 +7,11 @@ import { useTranslations } from 'next-intl'
 
 interface Props {
   type: Type
+  size: 'normal' | 'small'
 }
 
-function TypeBadge({ type }: Props) {
+function TypeBadge({ type, size }: Props) {
   const color = TYPE_COLORS[type]
-  const t = useTranslations('index.type')
 
   return (
     <div
@@ -20,10 +20,15 @@ function TypeBadge({ type }: Props) {
         backgroundColor: TYPE_COLORS[type]
       }}
     >
-      {['unknown', 'shadow'].includes(type) ? null : (
+      {size === 'normal' && (
         <span className={cn('type', `type-${type}`)}></span>
       )}
-      <span className='text-sm'>{t(type)}</span>
+
+      {size === 'normal' ? (
+        <span className='text-sm'>{type}</span>
+      ) : (
+        <span className='text-xs brightness-200'>{type}</span>
+      )}
     </div>
   )
 }
