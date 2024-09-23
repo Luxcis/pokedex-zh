@@ -7,6 +7,7 @@ import TypeBadge from '@/components/type-badge'
 import { StatRadarChart } from './stat-chart'
 import SpriteImage from './sprite-image'
 import FlavorTexts from './flavor-texts'
+import EvolutionChain from './evolution-chain'
 
 interface Props {
   className?: string
@@ -111,6 +112,8 @@ function PokemonDetail({ className, data }: Props) {
         <div>
           <FlavorTexts data={data.flavor_texts} />
         </div>
+
+        <EvolutionChain chains={data.evolution_chains} />
       </ScrollArea>
     </div>
   )

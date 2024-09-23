@@ -83,6 +83,20 @@ export const flavorTextSchema = z.object({
 
 export type FlavorText = z.infer<typeof flavorTextSchema>
 
+export const evolutionChainSchema = z.array(
+  z.object({
+    name: z.string(),
+    stage: z.string(),
+    text: z.string().nullable(),
+    image: z.string(),
+    back_text: z.string().nullable(),
+    from: z.string().nullable(),
+    form_name: z.string().nullable()
+  })
+)
+
+export type EvolutionChain = z.infer<typeof evolutionChainSchema>
+
 export const pokemonDetailSchema = z.object({
   name: z.string(),
   profile: z.string(),
@@ -186,6 +200,7 @@ export const pokemonDetailSchema = z.object({
       })
     )
   }),
+  evolution_chains: z.array(evolutionChainSchema),
   home_images: z.array(homeImageSchema)
 })
 

@@ -39,7 +39,7 @@ export default function FlavorTexts({ data }: Props) {
               <AccordionContent className=''>
                 {generation.versions.map((version) => {
                   return (
-                    <div className='mb-2 flex w-full gap-2'>
+                    <div key={version.name} className='mb-2 flex w-full gap-2'>
                       <div className='flex w-32 items-center'>
                         <span className='min-w-16 rounded-full bg-gray-200 px-3 py-1 text-center text-xs text-gray-700'>
                           {version.name}
