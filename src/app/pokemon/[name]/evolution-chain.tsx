@@ -82,8 +82,6 @@ export default function EvolutionChain({ chains }: Props) {
   const { nodes, edges } = convertToGraph(chains)
   const maxHeight = Math.max(...nodes.map((n) => n.position.y))
 
-  console.log(999, chains, nodes, edges)
-
   const nodeTypes = {
     pokemon: CustomNode
   }
@@ -149,7 +147,6 @@ function convertToGraph(data: EvolutionChainType[]) {
           y = 200 * (groupIndex + 1) + maxY
           break
       }
-      console.log(99999, currentMaxY, y)
       currentMaxY = Math.max(currentMaxY, y)
 
       nodes.push({
@@ -162,7 +159,7 @@ function convertToGraph(data: EvolutionChainType[]) {
           text: pokemon.text,
           image: pokemon.image
         },
-        position: { x: x, y: y } // 随机位置，你可以根据需求调整
+        position: { x: x, y: y }
       })
 
       // 创建连线

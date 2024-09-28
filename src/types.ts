@@ -1,5 +1,9 @@
 import { z } from 'zod'
 
+export const categorySchema = z.enum(['物理', '特殊', '变化'])
+
+export type Category = z.infer<typeof categorySchema>
+
 export const typeSchema = z.enum([
   '一般',
   '格斗',
@@ -97,6 +101,28 @@ export const evolutionChainSchema = z.array(
 
 export type EvolutionChain = z.infer<typeof evolutionChainSchema>
 
+export const moveSchema = z.object({
+  level_learned_at: z.string().nullable(),
+  machine_used: z.string().nullable(),
+  method: z.string(),
+  name: z.string(),
+  flavor_text: z.string(),
+  type: typeSchema,
+  category: categorySchema,
+  power: z.string(),
+  accuracy: z.string(),
+  pp: z.string()
+})
+
+export type Move = z.infer<typeof moveSchema>
+
+export const formMoveSchema = z.object({
+  form: z.string(),
+  data: z.array(moveSchema)
+})
+
+export type FormMove = z.infer<typeof formMoveSchema>
+
 export const pokemonDetailSchema = z.object({
   name: z.string(),
   profile: z.string(),
@@ -161,44 +187,8 @@ export const pokemonDetailSchema = z.object({
     ko: z.string()
   }),
   moves: z.object({
-    learnd: z.array(
-      z.object({
-        form: z.string(),
-        data: z.array(
-          z.object({
-            level_learned_at: z.string().nullable(),
-            machine_used: z.string().nullable(),
-            method: z.string(),
-            name: z.string(),
-            flavor_text: z.string(),
-            type: z.string(),
-            category: z.string(),
-            power: z.string(),
-            accuracy: z.string(),
-            pp: z.string()
-          })
-        )
-      })
-    ),
-    machine: z.array(
-      z.object({
-        form: z.string(),
-        data: z.array(
-          z.object({
-            level_learned_at: z.string().nullable(),
-            machine_used: z.string().nullable(),
-            method: z.string(),
-            name: z.string(),
-            flavor_text: z.string(),
-            type: z.string(),
-            category: z.string(),
-            power: z.string(),
-            accuracy: z.string(),
-            pp: z.string()
-          })
-        )
-      })
-    )
+    learned: z.array(formMoveSchema),
+    machine: z.array(formMoveSchema)
   }),
   evolution_chains: z.array(evolutionChainSchema),
   home_images: z.array(homeImageSchema)

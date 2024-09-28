@@ -1,4 +1,4 @@
-import { Type } from '@/types'
+import { Category, Type } from '@/types'
 
 export const TYPES = [
   {
@@ -103,4 +103,10 @@ export const TYPE_COLORS: Record<Type, string> = {
   恶: '#50413f',
   妖精: '#ef70ef',
   未知: '#44685e'
+}
+
+export const CATEGORY_TYPE: Record<Category, string> = {
+  物理: '#ff4400',
+  特殊: '#2266cc',
+  变化: '#999999'
 }

@@ -6,8 +6,9 @@ import Image from 'next/image'
 import TypeBadge from '@/components/type-badge'
 import { StatRadarChart } from './stat-chart'
 import SpriteImage from './sprite-image'
-import FlavorTexts from './flavor-texts'
+import FlavorText from './flavor-text'
 import EvolutionChain from './evolution-chain'
+import PokemonMove from './pokemon-move'
 
 interface Props {
   className?: string
@@ -15,20 +16,23 @@ interface Props {
 }
 
 function PokemonDetail({ className, data }: Props) {
-  // const varieties = data.varieties
-
   return (
     <div
       className={cn(
         className,
-        'relative h-[calc(100%-49px)] w-[calc(100%-0.5rem)] items-center justify-center overflow-x-hidden p-4'
+        'relative h-[calc(100%-49px)] w-[calc(100%-0.5rem)] items-center justify-center overflow-x-hidden p-2 lg:p-4'
       )}
     >
       <ScrollArea className='h-full'>
-        <Tabs defaultValue={data.forms[0].name} className='w-full'>
+        <Tabs defaultValue={data.forms[0]?.name} className='w-full'>
           <TabsList className='w-full'>
             {data.forms.map((form, index) => (
-              <TabsTrigger key={index} value={form.name}>
+              <TabsTrigger
+                key={index}
+                value={form.name}
+                className='block w-28 truncate lg:w-auto'
+                title={form.name}
+              >
                 {form.name}
               </TabsTrigger>
             ))}
@@ -90,7 +94,12 @@ function PokemonDetail({ className, data }: Props) {
           <Tabs defaultValue={data.stats[0].form} className='w-full'>
             <TabsList className='w-full'>
               {data.stats.map((stat, index) => (
-                <TabsTrigger key={index} value={stat.form}>
+                <TabsTrigger
+                  key={index}
+                  value={stat.form}
+                  className='block w-28 truncate lg:w-auto'
+                  title={stat.form}
+                >
                   {stat.form}
                 </TabsTrigger>
               ))}
@@ -110,10 +119,17 @@ function PokemonDetail({ className, data }: Props) {
         </div>
 
         <div>
-          <FlavorTexts data={data.flavor_texts} />
+          <FlavorText data={data.flavor_texts} />
         </div>
 
-        <EvolutionChain chains={data.evolution_chains} />
+        {/* <EvolutionChain chains={data.evolution_chains} /> */}
+
+        <div>
+          <PokemonMove data={data.moves.learned} type='learned' />
+        </div>
+        <div>
+          <PokemonMove data={data.moves.machine} type='machine' />
+        </div>
       </ScrollArea>
     </div>
   )

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { PokemonList } from '@/types'
+import { PokemonList, Type } from '@/types'
 import { readFile } from '@/lib/file'
 
 export async function GET(request: Request) {
@@ -7,15 +7,29 @@ export async function GET(request: Request) {
   const page = parseInt(searchParams.get('page') || '0')
   const pageSize = parseInt(searchParams.get('pageSize') || '20')
   const name = searchParams.get('name') || ''
+  const type1 = searchParams.get('type1') || ''
+  const type2 = searchParams.get('type2') || ''
 
   try {
     const allData = await readFile<PokemonList>('pokemon_full_list.json')
-    const filteredData = allData.filter(
-      (p) =>
-        p.name.startsWith(name) ||
-        p.name_en.toLowerCase().startsWith(name) ||
-        p.name_jp.startsWith(name)
-    )
+    const filteredData = allData
+      .filter(
+        (p) =>
+          p.name.startsWith(name) ||
+          p.name_en.toLowerCase().startsWith(name) ||
+          p.name_jp.startsWith(name)
+      )
+      .filter((p) => {
+        if (type1 && type2) {
+          return (
+            p.types.includes(type1 as Type) && p.types.includes(type2 as Type)
+          )
+        }
+        if (type1) {
+          return p.types.includes(type1 as Type)
+        }
+        return true
+      })
     const total = filteredData.length
 
     const data = filteredData.splice(page * pageSize, pageSize)
