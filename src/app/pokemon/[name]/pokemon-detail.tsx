@@ -1,4 +1,4 @@
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import type { PokemonDetail as PokemonDetailType } from '@/types'
@@ -9,6 +9,8 @@ import SpriteImage from './sprite-image'
 import FlavorText from './flavor-text'
 import EvolutionChain from './evolution-chain'
 import PokemonMove from './pokemon-move'
+import { PropsWithChildren } from 'react'
+import { Separator } from '@/components/ui/separator'
 
 interface Props {
   className?: string
@@ -16,6 +18,8 @@ interface Props {
 }
 
 function PokemonDetail({ className, data }: Props) {
+  console.log('detail', data)
+
   return (
     <div
       className={cn(
@@ -48,15 +52,15 @@ function PokemonDetail({ className, data }: Props) {
                   height={180}
                 />
 
-                <div className='flex gap-2'>
+                <section className='flex gap-2'>
                   {form.types.map((type) => (
                     <TypeBadge key={type} size='normal' type={type} />
                   ))}
-                </div>
+                </section>
                 <span className='rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700'>
                   {form.genus}
                 </span>
-                <div className='grid grid-cols-2 gap-x-4 gap-y-2'>
+                <section className='grid grid-cols-2 gap-x-4 gap-y-2'>
                   <InfoCell title='高度' value={form.height} />
                   <InfoCell title='重量' value={form.weight} />
                   <InfoCell title='体型' value={form.shape} />
@@ -78,19 +82,23 @@ function PokemonDetail({ className, data }: Props) {
                         : '无性别'
                     }
                   />
-                </div>
+                </section>
               </div>
             </TabsContent>
           ))}
         </Tabs>
-        <div className='p-4 text-sm'>
+
+        <SectionTitle>简介</SectionTitle>
+        <section className='text-sm'>
           {data.profile.split('\n').map((line, idx) => (
             <p key={idx} className='whitespace-pre-line indent-7'>
               {line}
             </p>
           ))}
-        </div>
-        <div>
+        </section>
+
+        <SectionTitle>种族值</SectionTitle>
+        <section>
           <Tabs defaultValue={data.stats[0].form} className='w-full'>
             <TabsList className='w-full'>
               {data.stats.map((stat, index) => (
@@ -110,26 +118,30 @@ function PokemonDetail({ className, data }: Props) {
               </TabsContent>
             ))}
           </Tabs>
-        </div>
+        </section>
 
-        <div className='flex w-full flex-row flex-wrap items-center justify-center gap-4'>
+        <SectionTitle>形象</SectionTitle>
+        <section className='flex w-full flex-row flex-wrap items-center justify-center gap-4'>
           {data.home_images.map((item, idx) => (
             <SpriteImage key={idx} data={item} />
           ))}
-        </div>
+        </section>
 
-        <div>
+        <SectionTitle>图鉴介绍</SectionTitle>
+        <section>
           <FlavorText data={data.flavor_texts} />
-        </div>
+        </section>
 
         {/* <EvolutionChain chains={data.evolution_chains} /> */}
 
-        <div>
+        <SectionTitle>招式列表（通过提升等级）</SectionTitle>
+        <section>
           <PokemonMove data={data.moves.learned} type='learned' />
-        </div>
-        <div>
+        </section>
+        <SectionTitle>招式列表（通过招式学习器）</SectionTitle>
+        <section>
           <PokemonMove data={data.moves.machine} type='machine' />
-        </div>
+        </section>
       </ScrollArea>
     </div>
   )
@@ -139,9 +151,18 @@ export default PokemonDetail
 
 function InfoCell({ title, value }: { title: string; value: string }) {
   return (
-    <div className='flex items-center rounded-lg bg-gray-100 px-4 py-2 dark:bg-gray-800'>
+    <div className='flex items-center rounded-lg bg-gray-100 px-2 py-2 dark:bg-gray-800 lg:px-4'>
       <div className='w-16 text-sm text-muted-foreground'>{title}</div>
       <span className='text-sm font-medium '>{value}</span>
     </div>
+  )
+}
+
+function SectionTitle({ children }: PropsWithChildren) {
+  return (
+    <>
+      <Separator className='my-4 mt-6' />
+      <h2 className='mb-4 mt-2 font-bold'>{children}</h2>
+    </>
   )
 }

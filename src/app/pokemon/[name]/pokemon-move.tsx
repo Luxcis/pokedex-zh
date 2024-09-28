@@ -44,7 +44,7 @@ export default function PokemonMove({ type, data }: Props) {
                 {type === 'learned' ? (
                   <TableHead className='text-center'>等级</TableHead>
                 ) : (
-                  <TableHead className='w-24 text-center'>招式学习器</TableHead>
+                  <TableHead className='w-20 text-center'>招式学习器</TableHead>
                 )}
                 <TableHead className='text-center'>招式</TableHead>
                 <TableHead className='text-center'>属性</TableHead>
@@ -60,11 +60,11 @@ export default function PokemonMove({ type, data }: Props) {
                   <TableCell className='text-center'>
                     {type === 'learned'
                       ? move.level_learned_at
-                      : move.machine_used}
+                      : move.machine_used?.replace('招式学习器', '')}
                   </TableCell>
                   <TableCell className='text-center'>
                     <HoverCard>
-                      <HoverCardTrigger className='underline'>
+                      <HoverCardTrigger className='cursor-pointer underline'>
                         {move.name}
                       </HoverCardTrigger>
                       <HoverCardContent>

@@ -20,7 +20,7 @@ export default async function Page({
   return (
     <>
       <div className='relative hidden w-full lg:block lg:w-2/3'>
-        <TopBar name={data.name} />
+        <TopBar name={data.name} index={data.forms[0].index} />
         <PokemonDetail data={data} />
       </div>
       <MobilePage data={data} />
