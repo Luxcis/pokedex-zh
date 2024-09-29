@@ -7,17 +7,23 @@ import { Type } from '@/types'
 interface Props {
   type: Type
   size: 'normal' | 'small'
+  active?: boolean
+  onClick?: (v: Type) => void
 }
 
-function TypeBadge({ type, size }: Props) {
+function TypeBadge({ type, size, active = true, onClick }: Props) {
   const color = TYPE_COLORS[type]
 
   return (
     <div
-      className='flex items-center justify-center gap-2 rounded px-2 py-0.5 text-white'
+      className={cn(
+        'flex cursor-pointer items-center justify-center gap-2 rounded px-2 py-0.5',
+        active ? 'text-white' : 'bg-muted text-muted-foreground'
+      )}
       style={{
-        backgroundColor: color
+        backgroundColor: active ? color : ''
       }}
+      onClick={() => onClick?.(type)}
     >
       {size === 'normal' && (
         <span className={cn('type', `type-${type}`)}></span>

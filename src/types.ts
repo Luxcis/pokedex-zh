@@ -1,5 +1,23 @@
 import { z } from 'zod'
 
+export const orderSchema = z.enum(['asc', 'desc'])
+
+export type Order = z.infer<typeof orderSchema>
+
+export const generationSchema = z.enum([
+  '第一世代',
+  '第二世代',
+  '第三世代',
+  '第四世代',
+  '第五世代',
+  '第六世代',
+  '第七世代',
+  '第八世代',
+  '第九世代'
+])
+
+export type Generation = z.infer<typeof generationSchema>
+
 export const categorySchema = z.enum(['物理', '特殊', '变化'])
 
 export type Category = z.infer<typeof categorySchema>

@@ -6,24 +6,54 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import useOnView from '@/hooks/useOnView'
 import { cn } from '@/lib/utils'
-import { PaginatedResponse, PokemonList, PokemonSimple } from '@/types'
+import {
+  Generation,
+  Order,
+  PaginatedResponse,
+  PokemonList,
+  PokemonSimple,
+  Type
+} from '@/types'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import TypeBadge from '@/components/type-badge'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@/components/ui/accordion'
+import { GENERATIONS, TYPES } from '@/lib/constants'
+import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
 
-const PAGE_SIZE = 20
+const PAGE_SIZE = 30
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 interface Props {
   className?: string
 }
 
+interface FilterOptions {
+  type1: Type | null
+  type2: Type | null
+  generation: Generation | null
+  order: Order
+}
+
 function AllPokemonList({ className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
   const [name, setName] = useState('')
-
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    type1: null,
+    type2: null,
+    generation: null,
+    order: 'asc'
+  })
   const params = useParams()
 
   const getKey = (
@@ -31,9 +61,20 @@ function AllPokemonList({ className }: Props) {
     previousPageData: PaginatedResponse<PokemonList> | null
   ): string | null => {
     if (previousPageData && !previousPageData.contents.length) return null
-    return `/api/pokemon?page=${page}&pageSize=${PAGE_SIZE}&name=${name}`
+    const params = new URLSearchParams({
+      page: page.toString(),
+      pageSize: PAGE_SIZE.toString(),
+      name: name,
+      order: filterOptions.order
+    })
+    if (filterOptions.type1) params.append('type1', filterOptions.type1)
+    if (filterOptions.type2) params.append('type2', filterOptions.type2)
+    if (filterOptions.generation)
+      params.append('generation', filterOptions.generation)
+
+    return `/api/pokemon?${params.toString()}`
   }
-  const { data, error, isValidating, size, setSize } = useSWRInfinite<
+  const { data, error, size, setSize } = useSWRInfinite<
     PaginatedResponse<PokemonList>
   >(getKey, fetcher)
 
@@ -54,38 +95,44 @@ function AllPokemonList({ className }: Props) {
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
       <div className='border-b border-b-muted px-4 pb-2 pt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300'>
-        <h1 className='font-bold'>Pokemon</h1>
+        <h1 className='font-bold'>全国图鉴</h1>
       </div>
       <div className='relative h-[calc(100%-3rem-1px)] pl-4 pt-4'>
-        <form>
-          <div className='relative pr-4'>
-            <MagnifyingGlass className='absolute left-2 top-2.5 h-4 w-4 text-muted-foreground' />
-            <Input
-              placeholder='Search'
-              className='pl-8'
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value)
-              }}
-            />
-          </div>
-        </form>
-        <ScrollArea className='h-[calc(100%-3rem-1px)] py-2 pr-4'>
-          <div className='flex flex-col gap-2'>
-            {data?.map((page) =>
-              page.contents.map((pokemon: PokemonSimple, idx) => (
-                <PokemonItem
-                  key={idx}
-                  data={pokemon}
-                  isSelected={params.name === pokemon.name}
-                />
-              ))
-            )}
-          </div>
-          <div ref={ref} className='mt-2 p-3 text-center'>
-            {isLoadingMore ? 'loading...' : isReachingEnd ? '' : 'load more'}
-          </div>
-        </ScrollArea>
+        <div className='relative pr-4'>
+          <MagnifyingGlass className='absolute left-2 top-2.5 h-4 w-4 text-muted-foreground' />
+          <Input
+            placeholder='Search'
+            className='pl-8'
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value)
+            }}
+          />
+        </div>
+        <div className='relative flex h-[calc(100%-3rem-1px)] flex-col pb-2 pr-4'>
+          <FilterOptions
+            options={filterOptions}
+            onOptionsChange={(v) => {
+              setFilterOptions(v)
+            }}
+          />
+          <ScrollArea className='flex-grow'>
+            <div className='flex flex-col gap-2'>
+              {data?.map((page) =>
+                page.contents.map((pokemon: PokemonSimple, idx) => (
+                  <PokemonItem
+                    key={idx}
+                    data={pokemon}
+                    isSelected={params.name === pokemon.name}
+                  />
+                ))
+              )}
+            </div>
+            <div ref={ref} className='mt-2 p-3 text-center'>
+              {isLoadingMore ? '加载中...' : isReachingEnd ? '' : '加载更多'}
+            </div>
+          </ScrollArea>
+        </div>
       </div>
     </div>
   )
@@ -93,13 +140,14 @@ function AllPokemonList({ className }: Props) {
 
 export default AllPokemonList
 
-interface PokemonItemProps {
+function PokemonItem({
+  data,
+  isSelected
+}: {
   data: PokemonSimple
   isSelected: boolean
-}
-
-function PokemonItem({ data, isSelected }: PokemonItemProps) {
-  const { index, name, name_en, types, meta } = data
+}) {
+  const { index, name, types, meta } = data
   const linkName = name.split('-')[0]
   return (
     <Link
@@ -116,7 +164,6 @@ function PokemonItem({ data, isSelected }: PokemonItemProps) {
             backgroundPosition: meta.icon_position
           }}
         ></span>
-        {/* <img src={sprite_home!} alt={name_local!} className='h-16 w-16' /> */}
       </div>
       <div className='ml-2 flex flex-grow flex-col items-center'>
         <div className='flex h-[56px] w-full items-center justify-between'>
@@ -133,7 +180,127 @@ function PokemonItem({ data, isSelected }: PokemonItemProps) {
         </div>
         <div></div>
       </div>
-      {/* </button> */}
     </Link>
+  )
+}
+
+function FilterOptions({
+  options,
+  onOptionsChange
+}: {
+  options: FilterOptions
+  onOptionsChange: (v: FilterOptions) => void
+}) {
+  const handleTypeClick = (type: Type) => {
+    const newOptions = { ...options }
+
+    if (!options.type1) {
+      newOptions.type1 = type
+      newOptions.type2 = null
+    } else {
+      if (options.type1 === type) {
+        if (options.type2) {
+          newOptions.type1 = options.type2
+          newOptions.type2 = null
+        } else {
+          newOptions.type1 = null
+        }
+      } else {
+        if (!options.type2) {
+          newOptions.type2 = type
+        } else {
+          if (options.type2 === type) {
+            newOptions.type2 = null
+          } else {
+            newOptions.type2 = type
+          }
+        }
+      }
+    }
+    onOptionsChange(newOptions)
+  }
+
+  const handleGenClick = (gen: Generation) => {
+    const newOptions = { ...options }
+
+    if (newOptions.generation === gen) {
+      newOptions.generation = null
+    } else {
+      newOptions.generation = gen
+    }
+    onOptionsChange(newOptions)
+  }
+
+  const handleOrderChange = (v: Order) => {
+    onOptionsChange({
+      ...options,
+      order: v
+    })
+  }
+
+  const handleClear = () => {
+    onOptionsChange({
+      ...options,
+      type1: null,
+      type2: null,
+      generation: null
+    })
+  }
+
+  return (
+    <Accordion type='single' collapsible className='pr-4'>
+      <AccordionItem value='filter'>
+        <AccordionTrigger className='justify-end gap-2 hover:no-underline'>
+          筛选
+        </AccordionTrigger>
+        <AccordionContent className=''>
+          <div className='flex flex-wrap gap-2'>
+            {TYPES.filter((t) => t !== '未知').map((type) => (
+              <TypeBadge
+                key={type}
+                type={type}
+                active={options.type1 === type || options.type2 === type}
+                size='normal'
+                onClick={handleTypeClick}
+              />
+            ))}
+            <Separator className='my-1 h-[0.5px]' />
+            {GENERATIONS.map((gen) => (
+              <div
+                key={gen}
+                className={cn(
+                  'cursor-pointer rounded px-2 py-0.5',
+                  options.generation === gen
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted text-muted-foreground'
+                )}
+                onClick={() => handleGenClick(gen)}
+              >
+                {gen}
+              </div>
+            ))}
+            <Separator className='my-1 h-[0.5px]' />
+            <RadioGroup
+              defaultValue={options.order}
+              onValueChange={handleOrderChange}
+            >
+              <div className='flex items-center space-x-2'>
+                <RadioGroupItem value='asc' id='r1' />
+                <Label htmlFor='r1'>顺序排列</Label>
+              </div>
+              <div className='flex items-center space-x-2'>
+                <RadioGroupItem value='desc' id='r2' />
+                <Label htmlFor='r2'>逆序排列</Label>
+              </div>
+            </RadioGroup>
+          </div>
+          <div className='text-right'>
+            <Button variant='ghost' onClick={handleClear}>
+              清除筛选
+            </Button>
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   )
 }

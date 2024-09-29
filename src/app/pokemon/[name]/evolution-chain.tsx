@@ -1,13 +1,10 @@
 'use client'
 
-import React from 'react'
 import {
   BaseEdge,
   Edge,
   EdgeLabelRenderer,
   EdgeProps,
-  getSimpleBezierPath,
-  getSmoothStepPath,
   getStraightPath,
   Handle,
   Node,
@@ -16,10 +13,25 @@ import {
   ReactFlow
 } from '@xyflow/react'
 import type { EvolutionChain as EvolutionChainType } from '@/types'
-import '@xyflow/react/dist/style.css'
 import Image from 'next/image'
+import '@xyflow/react/dist/style.css'
 
-function CustomNode({ data }: NodeProps) {
+type NodeData = {
+  label: string
+  stage: string
+  text: string
+  form: string
+  image: string
+}
+type NodeType = Node<NodeData>
+
+type EdgeData = {
+  label: string
+}
+
+type EdgeType = Edge<EdgeData>
+
+function CustomNode({ data }: NodeProps<NodeType>) {
   return (
     <>
       <Handle type='target' position={Position.Left} className='invisible' />
@@ -48,8 +60,8 @@ function CustomEdge({
   targetX,
   targetY,
   data
-}: EdgeProps) {
-  const [edgePath, labelX, labelY] = getSimpleBezierPath({
+}: EdgeProps<EdgeType>) {
+  const [edgePath, labelX, labelY] = getStraightPath({
     sourceX,
     sourceY,
     targetX,
@@ -78,108 +90,36 @@ interface Props {
   chains: EvolutionChainType[]
 }
 
-export default function EvolutionChain({ chains }: Props) {
-  const { nodes, edges } = convertToGraph(chains)
-  const maxHeight = Math.max(...nodes.map((n) => n.position.y))
+// export default function EvolutionChain({ chains }: Props) {
+//   const { nodes, edges } = convertToGraph(chains)
 
-  const nodeTypes = {
-    pokemon: CustomNode
-  }
+//   const nodeTypes = {
+//     pokemon: CustomNode
+//   }
 
-  const edgeTypes = {
-    pokemon: CustomEdge
-  }
+//   const edgeTypes = {
+//     pokemon: CustomEdge
+//   }
 
-  return (
-    <div
-      style={{
-        height: maxHeight
-      }}
-    >
-      <ReactFlow
-        className='pointer-events-auto'
-        fitView
-        maxZoom={1}
-        // panOnDrag={false}
-        zoomOnDoubleClick={false}
-        // zoomOnPinch={false}
-        // zoomOnScroll={false}
-        nodeTypes={nodeTypes}
-        edgeTypes={edgeTypes}
-        nodes={nodes}
-        edges={edges}
-      />
-    </div>
-  )
-}
-
-function convertToGraph(data: EvolutionChainType[]) {
-  const nodes: Node[] = []
-  const edges: Edge[] = []
-  let id = 1 // 唯一ID计数器
-
-  let maxY = 0
-  data.forEach((group, groupIndex) => {
-    let stageZeroCount = 0
-    let stageOneCount = 0
-    let stageTwoCount = 0
-
-    let currentMaxY = 0
-    group.forEach((pokemon, index) => {
-      // 创建节点
-      let x = 0
-      let y = 0
-      switch (pokemon.stage) {
-        case '1阶进化':
-          x = 300 * 1
-          stageOneCount += 1
-          y = 200 * (stageOneCount - 1) + 200 * (groupIndex + 1) + maxY
-          console.log('111111', stageOneCount - 1, groupIndex + 1, maxY, y)
-          break
-        case '2阶进化':
-          x = 300 * 2
-          stageTwoCount += 1
-          y = 200 * (stageTwoCount - 1) + 200 * (groupIndex + 1) + maxY
-          break
-
-        default:
-          stageZeroCount += 1
-          y = 200 * (groupIndex + 1) + maxY
-          break
-      }
-      currentMaxY = Math.max(currentMaxY, y)
-
-      nodes.push({
-        id: pokemon.name + (pokemon.form_name ? ` (${pokemon.form_name})` : ''),
-        type: 'pokemon',
-        data: {
-          label: pokemon.name,
-          stage: pokemon.stage,
-          form: pokemon.form_name,
-          text: pokemon.text,
-          image: pokemon.image
-        },
-        position: { x: x, y: y }
-      })
-
-      // 创建连线
-      if (pokemon.from) {
-        edges.push({
-          id: `e${id++}`,
-          type: 'pokemon',
-          source:
-            pokemon.from + (pokemon.form_name ? ` (${pokemon.form_name})` : ''),
-          target:
-            pokemon.name + (pokemon.form_name ? ` (${pokemon.form_name})` : ''),
-          data: {
-            label: pokemon.text || ''
-          }
-        })
-      }
-    })
-
-    maxY = Math.max(maxY, currentMaxY)
-  })
-
-  return { nodes, edges }
-}
+//   return (
+//     <div
+//       style={{
+//         height: 400
+//       }}
+//     >
+//       <ReactFlow
+//         className='pointer-events-auto'
+//         fitView
+//         maxZoom={1}
+//         // panOnDrag={false}
+//         zoomOnDoubleClick={false}
+//         zoomOnPinch={false}
+//         zoomOnScroll={false}
+//         nodeTypes={nodeTypes}
+//         edgeTypes={edgeTypes}
+//         nodes={nodes}
+//         edges={edges}
+//       />
+//     </div>
+//   )
+// }

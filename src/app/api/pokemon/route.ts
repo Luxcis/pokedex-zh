@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { PokemonList, Type } from '@/types'
+import { Order, PokemonList, Type } from '@/types'
 import { readFile } from '@/lib/file'
 
 export async function GET(request: Request) {
@@ -9,6 +9,8 @@ export async function GET(request: Request) {
   const name = searchParams.get('name') || ''
   const type1 = searchParams.get('type1') || ''
   const type2 = searchParams.get('type2') || ''
+  const generation = searchParams.get('generation') || ''
+  const order = (searchParams.get('order') || 'asc') as Order
 
   try {
     const allData = await readFile<PokemonList>('pokemon_full_list.json')
@@ -20,6 +22,12 @@ export async function GET(request: Request) {
           p.name_jp.startsWith(name)
       )
       .filter((p) => {
+        if (generation) {
+          return p.generation === generation
+        }
+        return true
+      })
+      .filter((p) => {
         if (type1 && type2) {
           return (
             p.types.includes(type1 as Type) && p.types.includes(type2 as Type)
@@ -30,9 +38,11 @@ export async function GET(request: Request) {
         }
         return true
       })
-    const total = filteredData.length
 
-    const data = filteredData.splice(page * pageSize, pageSize)
+    const orderedData = order === 'desc' ? filteredData.reverse() : filteredData
+    const total = orderedData.length
+
+    const data = orderedData.splice(page * pageSize, pageSize)
     return NextResponse.json({
       total: total,
       page: page,
