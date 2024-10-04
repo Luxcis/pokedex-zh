@@ -7,10 +7,10 @@ import TypeBadge from '@/components/type-badge'
 import { StatRadarChart } from './stat-chart'
 import SpriteImage from './sprite-image'
 import FlavorText from './flavor-text'
-// import EvolutionChain from './evolution-chain'
 import PokemonMove from './pokemon-move'
 import { PropsWithChildren } from 'react'
 import { Separator } from '@/components/ui/separator'
+import EvolutionChain from './evolution-chain'
 
 interface Props {
   className?: string
@@ -18,8 +18,6 @@ interface Props {
 }
 
 function PokemonDetail({ className, data }: Props) {
-  console.log('detail', data)
-
   return (
     <div
       className={cn(
@@ -28,18 +26,28 @@ function PokemonDetail({ className, data }: Props) {
       )}
     >
       <ScrollArea className='h-full'>
-        <Tabs defaultValue={data.forms[0]?.name} className='w-full'>
-          <TabsList className='w-full'>
-            {data.forms.map((form, index) => (
-              <TabsTrigger
-                key={index}
-                value={form.name}
-                className='block w-28 truncate lg:w-auto'
-                title={form.name}
-              >
-                {form.name}
-              </TabsTrigger>
-            ))}
+        <Tabs
+          defaultValue={data.forms[0]?.name}
+          className='w-full'
+          style={{
+            display: 'block'
+          }}
+        >
+          <TabsList className='w-auto'>
+            {data.forms.map((form, index) => {
+              const formNames = form.name.split('-')
+              const formName = formNames[formNames.length - 1]
+              return (
+                <TabsTrigger
+                  key={index}
+                  value={form.name}
+                  className='block w-24 truncate lg:w-auto'
+                  title={form.name}
+                >
+                  {formName}
+                </TabsTrigger>
+              )
+            })}
           </TabsList>
           {data.forms.map((form, index) => (
             <TabsContent key={index} value={form.name}>
@@ -118,6 +126,11 @@ function PokemonDetail({ className, data }: Props) {
               </TabsContent>
             ))}
           </Tabs>
+        </section>
+
+        <SectionTitle>进化</SectionTitle>
+        <section>
+          <EvolutionChain data={data.evolution_chains} />
         </section>
 
         <SectionTitle>形象</SectionTitle>
