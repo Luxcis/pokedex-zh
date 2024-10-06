@@ -29,11 +29,13 @@ function PokemonDetail({ className, data }: Props) {
         <Tabs
           defaultValue={data.forms[0]?.name}
           className='w-full'
-          style={{
-            display: 'block'
-          }}
+          style={
+            {
+              // display: 'block'
+            }
+          }
         >
-          <TabsList className='w-auto'>
+          <TabsList className='w-full'>
             {data.forms.map((form, index) => {
               const formNames = form.name.split('-')
               const formName = formNames[formNames.length - 1]

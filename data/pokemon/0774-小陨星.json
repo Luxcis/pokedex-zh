@@ -164,13 +164,16 @@
         }
     ],
     "evolution_chains": [
-        {
-            "name": "小陨星",
-            "stage": "不进化",
-            "text": null,
-            "back_text": null,
-            "from": null
-        }
+        [
+            {
+                "name": "小陨星",
+                "stage": "不进化",
+                "image": "774Minior_Dream.png",
+                "text": null,
+                "back_text": null,
+                "from": null
+            }
+        ]
     ],
     "names": {
         "zh_hans": "小陨星",
