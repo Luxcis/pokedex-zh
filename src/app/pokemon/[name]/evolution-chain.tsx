@@ -1,6 +1,7 @@
 import { Separator } from '@/components/ui/separator'
 import type { EvolutionChain } from '@/types'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface Props {
   data: EvolutionChain[]
@@ -29,13 +30,16 @@ function EvolutionChain({ data }: Props) {
                 ) : (
                   ''
                 )}
-                <Image
-                  src={`/images/dream/${poke.image}`}
-                  alt={poke.name}
-                  width={100}
-                  height={100}
-                />
-                <p className='mt-2 text-center text-sm'>{poke?.name}</p>
+                <Link href={poke.name}>
+                  <Image
+                    src={`/images/dream/${poke.image}`}
+                    alt={poke.name}
+                    width={100}
+                    height={100}
+                  />
+                  <p className='mt-2 text-center text-sm'>{poke?.name}</p>
+                </Link>
+
                 <p className='text-center text-sm'>{poke.form_name}</p>
                 <p className='mt-2 rounded-full bg-muted px-2 text-center text-xs text-muted-foreground'>
                   {poke?.stage}
