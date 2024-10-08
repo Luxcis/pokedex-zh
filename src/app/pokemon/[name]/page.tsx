@@ -17,6 +17,8 @@ export default async function Page({
   const res = await fetch(`${baseUrl}/api/pokemon/${name}`)
   const data = (await res.json()) as PokemonDetailType
 
+  console.log(222222, data.forms)
+
   return (
     <>
       <div className='relative hidden w-full lg:block lg:w-2/3'>

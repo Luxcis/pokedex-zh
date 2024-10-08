@@ -129,7 +129,11 @@ function AllPokemonList({ className }: Props) {
               )}
             </div>
             <div ref={ref} className='mt-2 p-3 text-center'>
-              {isLoadingMore ? '加载中...' : isReachingEnd ? '' : '加载更多'}
+              {isLoadingMore
+                ? '加载中...'
+                : isReachingEnd
+                  ? `共${data[0].total}个`
+                  : '加载更多'}
             </div>
           </ScrollArea>
         </div>

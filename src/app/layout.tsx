@@ -38,8 +38,8 @@ export const fontInter = localFont({
 
 export const metadata: Metadata = {
   title: 'Pokedex',
-  description: '',
-  keywords: ['pokemon', 'pokedex']
+  description: '宝可梦中文图鉴',
+  keywords: ['宝可梦', '宝可梦图鉴', '中文图鉴', '神奇宝贝图鉴', '宠物小精灵']
 }
 
 export default async function RootLayout({

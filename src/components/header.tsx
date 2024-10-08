@@ -3,6 +3,7 @@ import { DotsThreeOutline, GithubLogo } from '@phosphor-icons/react/dist/ssr'
 import { Button } from './ui/button'
 import { getTranslations } from 'next-intl/server'
 import MobileSidebar from './mobile-sidebar'
+import Link from 'next/link'
 
 export async function Header() {
   const t = await getTranslations('index')
@@ -14,14 +15,17 @@ export async function Header() {
           height={36}
           className='h-9 w-auto'
           src='/favicon.png'
-          alt='pokemon.app logo'
+          alt='宝可梦图鉴logo'
         />
         <h1 className='pl-3 font-medium'>{t('title')}</h1>
       </div>
       <div className='flex flex-shrink-0 items-center gap-2'>
-        <Button className='rounded-full' variant='outline' size='icon'>
-          <GithubLogo size={16} />
-        </Button>
+        <Link href='https://github.com/42arch/pokedex-zh' target='_blank'>
+          <Button className='rounded-full' variant='outline' size='icon'>
+            <GithubLogo size={16} />
+          </Button>
+        </Link>
+
         <MobileSidebar>
           <Button
             className='flex rounded-full md:hidden'
