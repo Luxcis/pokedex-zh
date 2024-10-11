@@ -216,6 +216,93 @@ export type PokemonSimple = z.infer<typeof pokemonSimpleSchema>
 export type PokemonList = z.infer<typeof pokemonListSchema>
 export type PokemonDetail = z.infer<typeof pokemonDetailSchema>
 
+export const abilityDetailSchema = z.object({
+  index: z.string(),
+  generation: generationSchema,
+  name: z.string(),
+  name_jp: z.string(),
+  name_en: z.string(),
+  text: z.string(),
+  common_count: z.number(),
+  hidden_count: z.number(),
+  effect: z.string(),
+  info: z.array(z.string()),
+  pokemon: z.array(
+    z.object({
+      index: z.string(),
+      name: z.string(),
+      types: z.array(typeSchema),
+      first: z.string(),
+      second: z.string(),
+      hidden: z.string()
+    })
+  )
+})
+
+export const abilitySimpleSchema = z.object({
+  index: z.string(),
+  generation: generationSchema,
+  name: z.string(),
+  name_jp: z.string(),
+  name_en: z.string(),
+  text: z.string(),
+  common_count: z.number(),
+  hidden_count: z.number()
+})
+
+export const abilityListSchema = z.array(abilitySimpleSchema)
+
+export type AbilitySimple = z.infer<typeof abilitySimpleSchema>
+export type AbilityList = z.infer<typeof abilityListSchema>
+export type AbilityDetail = z.infer<typeof abilityDetailSchema>
+
+export const moveSimpleSchema = z.object({
+  index: z.string(),
+  generation: generationSchema,
+  name: z.string(),
+  name_jp: z.string(),
+  name_en: z.string(),
+  type: typeSchema,
+  category: categorySchema,
+  power: z.string(),
+  accuracy: z.string(),
+  pp: z.string(),
+  text: z.string()
+})
+export const moveListSchema = z.array(moveSimpleSchema)
+
+const movePokemonSchema = z.object({
+  index: z.string(),
+  name: z.string()
+})
+
+export const moveDetailSchema = z.object({
+  index: z.string(),
+  generation: generationSchema,
+  name: z.string(),
+  name_jp: z.string(),
+  name_en: z.string(),
+  type: typeSchema,
+  category: categorySchema,
+  power: z.string(),
+  accuracy: z.string(),
+  pp: z.string(),
+  text: z.string(),
+  effect: z.string(),
+  info: z.array(z.string()),
+  range: z.string(),
+  pokemon: z.object({
+    level: z.array(movePokemonSchema),
+    machine: z.array(movePokemonSchema),
+    egg: z.array(movePokemonSchema),
+    tutor: z.array(movePokemonSchema)
+  })
+})
+
+export type MoveSimple = z.infer<typeof moveSimpleSchema>
+export type MoveList = z.infer<typeof moveListSchema>
+export type MoveDetail = z.infer<typeof moveDetailSchema>
+
 export type PaginatedResponse<T> = z.infer<typeof PaginatedResponseSchema> & {
   result: T[]
 }
