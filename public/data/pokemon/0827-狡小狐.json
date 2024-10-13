@@ -1,13 +1,13 @@
 {
-    "name": "狐大盗",
-    "profile": "就如同名字以及分类一样，猾大狐外表看起来就像是一只狐狸，身上的毛发依然是以火红色为主，但是因为加入了盗贼的元素，所以猾大狐身上也有黑色的毛发，特别是眼镜的部分黑色毛发特别旺盛，看起来就像戴着一个小偷的面具一样，其腿部也看起来像穿着黑色的靴子，它的尾巴依然蓬松而且大，在尾巴的顶部也依然是黑色的。\n猾大狐靠着轻盈的身体和锐利的爪子到处去偷食物和蛋。它会偷偷在看中的猎物身上留下标记，追踪目标的气味，在对方放松警戒时偷盗。它会和酷豹争抢地盘，而逐电犬则是它的天敌。\n",
+    "name": "狡小狐",
+    "profile": "狡小狐外表看起来就像是一只狐狸，它全身的毛发为火红色的，是典型的狐狸毛皮，但是和普通的狐狸不一样的是，狡小狐身上有着一些黑色以及白色的花纹，黑色的花纹分布在眼镜以及尾巴的周围，而白色的花纹则在狡小狐的脸颊处，其眉毛的颜色也是白色的，眼部看起来就像是戴着小偷面具。它的脚上长着软乎乎的肉球，走路时不会发出丝毫声响。\n狡小狐性格谨慎且狡猾，靠抢夺其他宝可梦找到的食物为生。在偷盗食物逃走的时候会用尾巴擦掉自己的足迹。它和扒手猫是竞争对手。\n",
     "forms": [
         {
-            "name": "狐大盗",
-            "index": "0828",
+            "name": "狡小狐",
+            "index": "0827",
             "is_mega": false,
             "is_gmax": false,
-            "image": "0828-狐大盗.png",
+            "image": "0827-狡小狐.png",
             "types": [
                 "恶"
             ],
@@ -30,8 +30,8 @@
                 "number": "800,000",
                 "speed": "快"
             },
-            "height": "1.2m",
-            "weight": "19.9kg",
+            "height": "0.6m",
+            "weight": "8.9kg",
             "gender_rate": {
                 "male": "50%",
                 "female": "50%"
@@ -39,8 +39,8 @@
             "shape": "四足兽形",
             "color": "褐色",
             "catch_rate": {
-                "number": "127",
-                "rate": "16.6%"
+                "number": "255",
+                "rate": "33.3%"
             },
             "egg_groups": [
                 "陆上"
@@ -51,11 +51,11 @@
         {
             "form": "一般",
             "data": {
-                "hp": "70",
-                "attack": "58",
-                "defense": "58",
-                "sp_attack": "87",
-                "sp_defense": "92"
+                "hp": "40",
+                "attack": "28",
+                "defense": "28",
+                "sp_attack": "47",
+                "sp_defense": "52"
             }
         }
     ],
@@ -94,12 +94,12 @@
                 {
                     "name": "剑",
                     "group": "宝可梦 剑／盾",
-                    "text": "会偷偷在看中的猎物身上留下标记，追踪目标的气味，在对方放松警戒时偷盗。"
+                    "text": "靠抢夺其他宝可梦找到的食物为生。脚上长着软乎乎的肉球，走路时不会发出丝毫声响。"
                 },
                 {
                     "name": "盾",
                     "group": "宝可梦 剑／盾",
-                    "text": "靠着轻盈的身体和锐利的爪子到处去偷食物和蛋。逐电犬是它的天敌。"
+                    "text": "性格谨慎且狡猾。在偷盗食物逃走的时候会用尾巴擦掉自己的足迹。"
                 }
             ]
         },
@@ -131,33 +131,21 @@
         ]
     ],
     "names": {
-        "zh_hans": "狐大盗",
-        "en": "Thievul",
-        "fr": "Thievul",
-        "zh_hant": "狐大盜",
-        "de": "Gaunux",
-        "it": "Thievul",
-        "es": "Thievul",
-        "ja": "フォクスライ",
-        "ko": "폭슬라이"
+        "zh_hans": "狡小狐",
+        "en": "Nickit",
+        "fr": "Nickit",
+        "zh_hant": "偷兒狐",
+        "de": "Kleptifux",
+        "it": "Nickit",
+        "es": "Nickit",
+        "ja": "クスネ",
+        "ko": "훔처우"
     },
     "moves": {
         "learned": [
             {
                 "form": "一般",
                 "data": [
-                    {
-                        "level_learned_at": "进化",
-                        "machine_used": null,
-                        "method": "提升等级",
-                        "name": "小偷",
-                        "flavor_text": "攻击的同时盗取道具。当自己携带道具时，不会去盗取。",
-                        "type": "恶",
-                        "category": "物理",
-                        "power": "60",
-                        "accuracy": "100",
-                        "pp": "25"
-                    },
                     {
                         "level_learned_at": "—",
                         "machine_used": null,
@@ -183,7 +171,7 @@
                         "pp": "30"
                     },
                     {
-                        "level_learned_at": "—",
+                        "level_learned_at": "4",
                         "machine_used": null,
                         "method": "提升等级",
                         "name": "围攻",
@@ -195,7 +183,7 @@
                         "pp": "10"
                     },
                     {
-                        "level_learned_at": "—",
+                        "level_learned_at": "8",
                         "machine_used": null,
                         "method": "提升等级",
                         "name": "磨爪",
@@ -205,18 +193,6 @@
                         "power": "—",
                         "accuracy": "—",
                         "pp": "15"
-                    },
-                    {
-                        "level_learned_at": "—",
-                        "machine_used": null,
-                        "method": "提升等级",
-                        "name": "小偷",
-                        "flavor_text": "攻击的同时盗取道具。当自己携带道具时，不会去盗取。",
-                        "type": "恶",
-                        "category": "物理",
-                        "power": "60",
-                        "accuracy": "100",
-                        "pp": "25"
                     },
                     {
                         "level_learned_at": "12",
@@ -243,7 +219,7 @@
                         "pp": "10"
                     },
                     {
-                        "level_learned_at": "22",
+                        "level_learned_at": "20",
                         "machine_used": null,
                         "method": "提升等级",
                         "name": "诡计",
@@ -255,7 +231,7 @@
                         "pp": "20"
                     },
                     {
-                        "level_learned_at": "28",
+                        "level_learned_at": "24",
                         "machine_used": null,
                         "method": "提升等级",
                         "name": "突袭",
@@ -267,7 +243,7 @@
                         "pp": "5"
                     },
                     {
-                        "level_learned_at": "34",
+                        "level_learned_at": "28",
                         "machine_used": null,
                         "method": "提升等级",
                         "name": "暗袭要害",
@@ -279,7 +255,7 @@
                         "pp": "15"
                     },
                     {
-                        "level_learned_at": "40",
+                        "level_learned_at": "32",
                         "machine_used": null,
                         "method": "提升等级",
                         "name": "扫尾拍打",
@@ -291,7 +267,7 @@
                         "pp": "10"
                     },
                     {
-                        "level_learned_at": "46",
+                        "level_learned_at": "36",
                         "machine_used": null,
                         "method": "提升等级",
                         "name": "欺诈",
@@ -301,18 +277,6 @@
                         "power": "95",
                         "accuracy": "100",
                         "pp": "15"
-                    },
-                    {
-                        "level_learned_at": "52",
-                        "machine_used": null,
-                        "method": "提升等级",
-                        "name": "抛下狠话",
-                        "flavor_text": "抛下狠话威吓对手，降低攻击和特攻后，和后备宝可梦进行替换。",
-                        "type": "恶",
-                        "category": "变化",
-                        "power": "—",
-                        "accuracy": "100",
-                        "pp": "20"
                     }
                 ]
             }
@@ -321,30 +285,6 @@
             {
                 "form": "一般",
                 "data": [
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式学习器０８",
-                        "method": "招式学习器",
-                        "name": "破坏光线",
-                        "flavor_text": "向对手发射强烈的光线进行攻击。下一回合自己将无法动弹。",
-                        "type": "一般",
-                        "category": "特殊",
-                        "power": "150",
-                        "accuracy": "90",
-                        "pp": "5"
-                    },
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式学习器０９",
-                        "method": "招式学习器",
-                        "name": "终极冲击",
-                        "flavor_text": "使出自己浑身力量突击对手。下一回合自己将无法动弹。",
-                        "type": "一般",
-                        "category": "物理",
-                        "power": "150",
-                        "accuracy": "90",
-                        "pp": "5"
-                    },
                     {
                         "level_learned_at": null,
                         "machine_used": "招式学习器１５",
@@ -515,54 +455,6 @@
                     },
                     {
                         "level_learned_at": null,
-                        "machine_used": "招式学习器６５",
-                        "method": "招式学习器",
-                        "name": "暗影爪",
-                        "flavor_text": "以影子做成的锐爪，劈开对手。容易击中要害。",
-                        "type": "幽灵",
-                        "category": "物理",
-                        "power": "70",
-                        "accuracy": "100",
-                        "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式学习器６６",
-                        "method": "招式学习器",
-                        "name": "雷电牙",
-                        "flavor_text": "用蓄满电流的牙齿咬住对手。有时会使对手畏缩或陷入麻痹状态。",
-                        "type": "电",
-                        "category": "物理",
-                        "power": "60",
-                        "accuracy": "100",
-                        "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式学习器６７",
-                        "method": "招式学习器",
-                        "name": "冰冻牙",
-                        "flavor_text": "用藏有冷气的牙齿咬住对手。有时会使对手畏缩或陷入冰冻状态。",
-                        "type": "冰",
-                        "category": "物理",
-                        "power": "60",
-                        "accuracy": "100",
-                        "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式学习器６８",
-                        "method": "招式学习器",
-                        "name": "火焰牙",
-                        "flavor_text": "用覆盖着火焰的牙齿咬住对手。有时会使对手畏缩或陷入灼伤状态。",
-                        "type": "火",
-                        "category": "物理",
-                        "power": "60",
-                        "accuracy": "100",
-                        "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
                         "machine_used": "招式学习器７６",
                         "method": "招式学习器",
                         "name": "轮唱",
@@ -570,18 +462,6 @@
                         "type": "一般",
                         "category": "特殊",
                         "power": "60",
-                        "accuracy": "100",
-                        "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式学习器７８",
-                        "method": "招式学习器",
-                        "name": "杂技",
-                        "flavor_text": "轻巧地攻击对手。自己没有携带道具时，会给予较大的伤害。",
-                        "type": "飞行",
-                        "category": "物理",
-                        "power": "55",
                         "accuracy": "100",
                         "pp": "15"
                     },
@@ -608,18 +488,6 @@
                         "power": "55",
                         "accuracy": "95",
                         "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式记录１１",
-                        "method": "招式学习器",
-                        "name": "精神强念",
-                        "flavor_text": "向对手发送强大的念力进行攻击。有时会降低对手的特防。",
-                        "type": "超能力",
-                        "category": "特殊",
-                        "power": "90",
-                        "accuracy": "100",
-                        "pp": "10"
                     },
                     {
                         "level_learned_at": null,
@@ -683,30 +551,6 @@
                     },
                     {
                         "level_learned_at": null,
-                        "machine_used": "招式记录３２",
-                        "method": "招式学习器",
-                        "name": "咬碎",
-                        "flavor_text": "用利牙咬碎对手进行攻击。有时会降低对手的防御。",
-                        "type": "恶",
-                        "category": "物理",
-                        "power": "80",
-                        "accuracy": "100",
-                        "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式记录３３",
-                        "method": "招式学习器",
-                        "name": "暗影球",
-                        "flavor_text": "投掷一团黑影进行攻击。有时会降低对手的特防。",
-                        "type": "幽灵",
-                        "category": "特殊",
-                        "power": "80",
-                        "accuracy": "100",
-                        "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
                         "machine_used": "招式记录３７",
                         "method": "招式学习器",
                         "name": "挑衅",
@@ -719,18 +563,6 @@
                     },
                     {
                         "level_learned_at": null,
-                        "machine_used": "招式记录５８",
-                        "method": "招式学习器",
-                        "name": "恶之波动",
-                        "flavor_text": "从体内发出充满恶意的恐怖气场。有时会使对手畏缩。",
-                        "type": "恶",
-                        "category": "特殊",
-                        "power": "80",
-                        "accuracy": "100",
-                        "pp": "15"
-                    },
-                    {
-                        "level_learned_at": null,
                         "machine_used": "招式记录６８",
                         "method": "招式学习器",
                         "name": "诡计",
@@ -739,18 +571,6 @@
                         "category": "变化",
                         "power": "—",
                         "accuracy": "—",
-                        "pp": "20"
-                    },
-                    {
-                        "level_learned_at": null,
-                        "machine_used": "招式记录７７",
-                        "method": "招式学习器",
-                        "name": "打草结",
-                        "flavor_text": "用草缠住并绊倒对手。对手越重，威力越大。",
-                        "type": "草",
-                        "category": "特殊",
-                        "power": "变化",
-                        "accuracy": "100",
                         "pp": "20"
                     },
                     {
@@ -783,9 +603,9 @@
     },
     "home_images": [
         {
-            "name": "狐大盗",
-            "image": "0828-狐大盗.png",
-            "shiny": "0828-狐大盗-shiny.png"
+            "name": "狡小狐",
+            "image": "0827-狡小狐.png",
+            "shiny": "0827-狡小狐-shiny.png"
         }
     ]
 }
