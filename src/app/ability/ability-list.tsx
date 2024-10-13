@@ -7,24 +7,23 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import useOnView from '@/hooks/useOnView'
 import { cn } from '@/lib/utils'
 import {
+  AbilityList,
+  AbilitySimple,
   Generation,
   Order,
   PaginatedResponse,
-  PokemonList,
-  PokemonSimple,
-  Type
+  PokemonList
 } from '@/types'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import TypeBadge from '@/components/type-badge'
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger
 } from '@/components/ui/accordion'
-import { GENERATIONS, TYPES } from '@/lib/constants'
+import { GENERATIONS } from '@/lib/constants'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
@@ -38,19 +37,15 @@ interface Props {
 }
 
 interface FilterOptions {
-  type1: Type | null
-  type2: Type | null
   generation: Generation | null
   order: Order
 }
 
-function AllPokemonList({ className }: Props) {
+function AllAbilityList({ className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
   const [name, setName] = useState('')
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
-    type1: null,
-    type2: null,
     generation: null,
     order: 'asc'
   })
@@ -58,7 +53,7 @@ function AllPokemonList({ className }: Props) {
 
   const getKey = (
     page: number,
-    previousPageData: PaginatedResponse<PokemonList> | null
+    previousPageData: PaginatedResponse<AbilityList> | null
   ): string | null => {
     if (previousPageData && !previousPageData.contents.length) return null
     const params = new URLSearchParams({
@@ -67,12 +62,11 @@ function AllPokemonList({ className }: Props) {
       name: name,
       order: filterOptions.order
     })
-    if (filterOptions.type1) params.append('type1', filterOptions.type1)
-    if (filterOptions.type2) params.append('type2', filterOptions.type2)
+
     if (filterOptions.generation)
       params.append('generation', filterOptions.generation)
 
-    return `/api/pokemon?${params.toString()}`
+    return `/api/ability?${params.toString()}`
   }
   const { data, error, size, setSize } = useSWRInfinite<
     PaginatedResponse<PokemonList>
@@ -95,13 +89,13 @@ function AllPokemonList({ className }: Props) {
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
       <div className='border-b border-b-muted px-4 pb-2 pt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300'>
-        <h1 className='font-bold'>全国图鉴</h1>
+        <h1 className='font-bold'>特性列表</h1>
       </div>
       <div className='relative h-[calc(100%-3rem-1px)] pl-4 pt-4'>
         <div className='relative pr-4'>
           <MagnifyingGlass className='absolute left-2 top-2.5 h-4 w-4 text-muted-foreground' />
           <Input
-            placeholder='搜索宝可梦'
+            placeholder='搜索特性'
             className='pl-8'
             value={name}
             onChange={(e) => {
@@ -119,16 +113,16 @@ function AllPokemonList({ className }: Props) {
           <ScrollArea className='flex-grow'>
             <div className='flex flex-col gap-2'>
               {data?.map((page) =>
-                page.contents.map((pokemon: PokemonSimple, idx) => (
-                  <PokemonItem
+                page.contents.map((ability: AbilitySimple, idx) => (
+                  <AbilityItem
                     key={idx}
-                    data={pokemon}
-                    isSelected={params.name === pokemon.name}
+                    data={ability}
+                    isSelected={params.name === ability.name}
                   />
                 ))
               )}
             </div>
-            <div ref={ref} className='mt-2 p-3 text-center'>
+            <div ref={ref} className='mt-2 p-3 text-center text-sm'>
               {isLoadingMore
                 ? '加载中...'
                 : isReachingEnd
@@ -142,47 +136,27 @@ function AllPokemonList({ className }: Props) {
   )
 }
 
-export default AllPokemonList
+export default AllAbilityList
 
-function PokemonItem({
+function AbilityItem({
   data,
   isSelected
 }: {
-  data: PokemonSimple
+  data: AbilitySimple
   isSelected: boolean
 }) {
-  const { index, name, types, meta } = data
-  const linkName = name.split('-')[0]
+  const { index, name, generation, common_count, hidden_count } = data
   return (
     <Link
-      href={`/pokemon/${linkName}`}
+      href={`/ability/${name}`}
       className={cn(
         'flex flex-row items-center gap-4 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:bg-accent',
         isSelected ? 'bg-muted' : ''
       )}
     >
-      <div className='flex items-center'>
-        <span
-          className='pokemon-normal'
-          style={{
-            backgroundPosition: meta.icon_position
-          }}
-        ></span>
-      </div>
-      <div className='ml-2 flex flex-grow flex-col items-center'>
-        <div className='flex h-[56px] w-full items-center justify-between'>
-          <div className='flex h-full flex-col justify-evenly'>
-            <span>{name}</span>
-
-            <div className='flex gap-2'>
-              {types.map((type) => (
-                <TypeBadge key={type} type={type} size='small' />
-              ))}
-            </div>
-          </div>
-          <span className='text-xs'>#{index}</span>
-        </div>
-        <div></div>
+      <div className='ml-2 flex flex-grow items-center justify-between'>
+        <span>{name}</span>
+        <span className='text-xs'>#{index}</span>
       </div>
     </Link>
   )
@@ -195,35 +169,6 @@ function FilterOptions({
   options: FilterOptions
   onOptionsChange: (v: FilterOptions) => void
 }) {
-  const handleTypeClick = (type: Type) => {
-    const newOptions = { ...options }
-
-    if (!options.type1) {
-      newOptions.type1 = type
-      newOptions.type2 = null
-    } else {
-      if (options.type1 === type) {
-        if (options.type2) {
-          newOptions.type1 = options.type2
-          newOptions.type2 = null
-        } else {
-          newOptions.type1 = null
-        }
-      } else {
-        if (!options.type2) {
-          newOptions.type2 = type
-        } else {
-          if (options.type2 === type) {
-            newOptions.type2 = null
-          } else {
-            newOptions.type2 = type
-          }
-        }
-      }
-    }
-    onOptionsChange(newOptions)
-  }
-
   const handleGenClick = (gen: Generation) => {
     const newOptions = { ...options }
 
@@ -245,8 +190,6 @@ function FilterOptions({
   const handleClear = () => {
     onOptionsChange({
       ...options,
-      type1: null,
-      type2: null,
       generation: null
     })
   }
@@ -259,16 +202,6 @@ function FilterOptions({
         </AccordionTrigger>
         <AccordionContent className=''>
           <div className='flex flex-wrap gap-2'>
-            {TYPES.filter((t) => t !== '未知').map((type) => (
-              <TypeBadge
-                key={type}
-                type={type}
-                active={options.type1 === type || options.type2 === type}
-                size='normal'
-                onClick={handleTypeClick}
-              />
-            ))}
-            <Separator className='my-1 h-[0.5px]' />
             {GENERATIONS.map((gen) => (
               <div
                 key={gen}

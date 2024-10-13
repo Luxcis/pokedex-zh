@@ -11,6 +11,7 @@ import PokemonMove from './pokemon-move'
 import { PropsWithChildren } from 'react'
 import { Separator } from '@/components/ui/separator'
 import EvolutionChain from './evolution-chain'
+import Ability from './ability'
 
 interface Props {
   className?: string
@@ -26,15 +27,7 @@ function PokemonDetail({ className, data }: Props) {
       )}
     >
       <ScrollArea className='h-full'>
-        <Tabs
-          defaultValue={data.forms[0]?.name}
-          className='w-full'
-          style={
-            {
-              // display: 'block'
-            }
-          }
-        >
+        <Tabs defaultValue={data.forms[0]?.name} className='w-full'>
           <TabsList className='w-full'>
             {data.forms.map((form, index) => {
               const formNames = form.name.split('-')
@@ -54,7 +47,6 @@ function PokemonDetail({ className, data }: Props) {
           {data.forms.map((form, index) => (
             <TabsContent key={index} value={form.name}>
               <div className='mt-2 flex flex-col items-center justify-center gap-4'>
-                {/* <FormSprites data={form} /> */}
                 <Image
                   src={`/images/official/${form.image}`}
                   alt={form.name}
@@ -70,6 +62,7 @@ function PokemonDetail({ className, data }: Props) {
                 <span className='rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700'>
                   {form.genus}
                 </span>
+
                 <section className='grid grid-cols-2 gap-x-4 gap-y-2'>
                   <InfoCell title='高度' value={form.height} />
                   <InfoCell title='重量' value={form.weight} />
@@ -92,6 +85,20 @@ function PokemonDetail({ className, data }: Props) {
                         : '无性别'
                     }
                   />
+                </section>
+
+                <section className=' w-full '>
+                  <SectionTitle>特性</SectionTitle>
+                  <div className='flex flex-col items-center justify-center gap-4'>
+                    {form.ability.map((a) => (
+                      <Ability
+                        key={a.name}
+                        name={a.name}
+                        is_hidden={a.is_hidden}
+                        text={a.text}
+                      />
+                    ))}
+                  </div>
                 </section>
               </div>
             </TabsContent>

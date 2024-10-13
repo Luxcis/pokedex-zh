@@ -47,8 +47,10 @@ export default function PokemonMove({ type, data }: Props) {
                   <TableHead className='w-20 text-center'>招式学习器</TableHead>
                 )}
                 <TableHead className='text-center'>招式</TableHead>
-                <TableHead className='text-center'>属性</TableHead>
-                <TableHead className='text-center'>分类</TableHead>
+                <TableHead className='hidden w-20 text-center md:table-cell'>
+                  属性
+                </TableHead>
+                <TableHead className='w-20 text-center'>分类</TableHead>
                 <TableHead className='text-center'>威力</TableHead>
                 <TableHead className='text-center'>命中</TableHead>
                 <TableHead className='text-center'>PP</TableHead>
@@ -72,7 +74,7 @@ export default function PokemonMove({ type, data }: Props) {
                       </HoverCardContent>
                     </HoverCard>
                   </TableCell>
-                  <TableCell className='text-center'>
+                  <TableCell className='hidden text-center md:table-cell'>
                     <TypeBadge type={move.type} size='small' />
                   </TableCell>
                   <TableCell className='text-center'>

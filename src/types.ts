@@ -141,6 +141,14 @@ export const formMoveSchema = z.object({
 
 export type FormMove = z.infer<typeof formMoveSchema>
 
+export const formAbilitySchema = z.object({
+  name: z.string(),
+  is_hidden: z.boolean(),
+  text: z.string().nullable()
+})
+
+export type FormAbility = z.infer<typeof formAbilitySchema>
+
 export const pokemonDetailSchema = z.object({
   name: z.string(),
   profile: z.string(),
@@ -153,12 +161,7 @@ export const pokemonDetailSchema = z.object({
       image: z.string(),
       types: z.array(typeSchema),
       genus: z.string(),
-      ability: z.array(
-        z.object({
-          name: z.string(),
-          is_hidden: z.boolean()
-        })
-      ),
+      ability: z.array(formAbilitySchema),
       experience: z.object({
         number: z.string(),
         speed: z.string()
@@ -234,7 +237,12 @@ export const abilityDetailSchema = z.object({
       types: z.array(typeSchema),
       first: z.string(),
       second: z.string(),
-      hidden: z.string()
+      hidden: z.string(),
+      meta: z
+        .object({
+          icon_position: z.string()
+        })
+        .nullable()
     })
   )
 })
