@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server'
-import { MoveList } from '@/types'
+import { Category, MoveList, Order, Type } from '@/types'
 import { readFile } from '@/lib/file'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const page = parseInt(searchParams.get('page') || '0')
   const pageSize = parseInt(searchParams.get('pageSize') || '20')
+  const type = searchParams.get('type') || ''
+  const category = searchParams.get('category') || ''
   const name = searchParams.get('name') || ''
   const generation = searchParams.get('generation') || ''
+  const order = (searchParams.get('order') || 'asc') as Order
 
   try {
     const allData = await readFile<MoveList>('move_list.json')
@@ -19,13 +22,26 @@ export async function GET(request: Request) {
           p.name_jp.startsWith(name)
       )
       .filter((p) => {
+        if (type) {
+          return p.type === (type as Type)
+        }
+        return true
+      })
+      .filter((p) => {
+        if (category) {
+          return p.category === (category as Category)
+        }
+        return true
+      })
+      .filter((p) => {
         if (generation) {
           return p.generation === generation
         }
         return true
       })
 
-    const total = filteredData.length
+    const orderedData = order === 'desc' ? filteredData.reverse() : filteredData
+    const total = orderedData.length
 
     const data = filteredData.splice(page * pageSize, pageSize)
     return NextResponse.json({

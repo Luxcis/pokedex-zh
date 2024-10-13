@@ -7,12 +7,14 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import useOnView from '@/hooks/useOnView'
 import { cn } from '@/lib/utils'
 import {
-  AbilityList,
-  AbilitySimple,
+  Category,
   Generation,
+  MoveList,
+  MoveSimple,
   Order,
   PaginatedResponse,
-  PokemonList
+  PokemonList,
+  Type
 } from '@/types'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
@@ -23,11 +25,13 @@ import {
   AccordionItem,
   AccordionTrigger
 } from '@/components/ui/accordion'
-import { GENERATIONS } from '@/lib/constants'
+import { GENERATIONS, TYPES } from '@/lib/constants'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
+import TypeBadge from '@/components/type-badge'
+import CategoryBadge from '@/components/category-badge'
 
 const PAGE_SIZE = 30
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -37,15 +41,19 @@ interface Props {
 }
 
 interface FilterOptions {
+  type: Type | null
+  category: Category | null
   generation: Generation | null
   order: Order
 }
 
-function AllAbilityList({ className }: Props) {
+function AllMoveList({ className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
   const [name, setName] = useState('')
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
+    type: null,
+    category: null,
     generation: null,
     order: 'asc'
   })
@@ -53,7 +61,7 @@ function AllAbilityList({ className }: Props) {
 
   const getKey = (
     page: number,
-    previousPageData: PaginatedResponse<AbilityList> | null
+    previousPageData: PaginatedResponse<MoveList> | null
   ): string | null => {
     if (previousPageData && !previousPageData.contents.length) return null
     const params = new URLSearchParams({
@@ -65,8 +73,11 @@ function AllAbilityList({ className }: Props) {
 
     if (filterOptions.generation)
       params.append('generation', filterOptions.generation)
+    if (filterOptions.type) params.append('type', filterOptions.type)
+    if (filterOptions.category)
+      params.append('category', filterOptions.category)
 
-    return `/api/ability?${params.toString()}`
+    return `/api/move?${params.toString()}`
   }
   const { data, error, size, setSize } = useSWRInfinite<
     PaginatedResponse<PokemonList>
@@ -89,13 +100,13 @@ function AllAbilityList({ className }: Props) {
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
       <div className='border-b border-b-muted px-4 pb-2 pt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300'>
-        <h1 className='font-bold'>特性列表</h1>
+        <h1 className='font-bold'>招式列表</h1>
       </div>
       <div className='relative h-[calc(100%-3rem-1px)] pl-4 pt-4'>
         <div className='relative pr-4'>
           <MagnifyingGlass className='absolute left-2 top-2.5 h-4 w-4 text-muted-foreground' />
           <Input
-            placeholder='搜索特性'
+            placeholder='搜索招式'
             className='pl-8'
             value={name}
             onChange={(e) => {
@@ -113,7 +124,7 @@ function AllAbilityList({ className }: Props) {
           <ScrollArea className='flex-grow'>
             <div className='flex flex-col gap-2'>
               {data?.map((page) =>
-                page.contents.map((ability: AbilitySimple, idx) => (
+                page.contents.map((ability: MoveSimple, idx) => (
                   <AbilityItem
                     key={idx}
                     data={ability}
@@ -136,27 +147,36 @@ function AllAbilityList({ className }: Props) {
   )
 }
 
-export default AllAbilityList
+export default AllMoveList
 
 function AbilityItem({
   data,
   isSelected
 }: {
-  data: AbilitySimple
+  data: MoveSimple
   isSelected: boolean
 }) {
   const { index, name } = data
   return (
     <Link
-      href={`/ability/${name}`}
+      href={`/move/${name}`}
       className={cn(
         'flex flex-row items-center gap-4 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:bg-accent',
         isSelected ? 'bg-muted' : ''
       )}
     >
-      <div className='ml-2 flex flex-grow items-center justify-between'>
-        <span>{name}</span>
-        <span className='text-xs'>#{index}</span>
+      <div className='ml-2 flex flex-grow flex-col items-center'>
+        <div className='flex h-[56px] w-full items-center justify-between'>
+          <div className='flex h-full flex-col justify-evenly'>
+            <span>{name}</span>
+          </div>
+
+          <div className='flex items-center gap-2'>
+            <TypeBadge type={data.type} size='small' />
+            <CategoryBadge type={data.category} size='small' />
+            <span className='ml-2 text-xs'>#{index}</span>
+          </div>
+        </div>
       </div>
     </Link>
   )
@@ -169,6 +189,17 @@ function FilterOptions({
   options: FilterOptions
   onOptionsChange: (v: FilterOptions) => void
 }) {
+  const handleTypeClick = (type: Type) => {
+    const newOptions = { ...options }
+
+    if (!options.type) {
+      newOptions.type = type
+    } else {
+      newOptions.type = null
+    }
+    onOptionsChange(newOptions)
+  }
+
   const handleGenClick = (gen: Generation) => {
     const newOptions = { ...options }
 
@@ -190,6 +221,8 @@ function FilterOptions({
   const handleClear = () => {
     onOptionsChange({
       ...options,
+      type: null,
+      category: null,
       generation: null
     })
   }
@@ -202,6 +235,16 @@ function FilterOptions({
         </AccordionTrigger>
         <AccordionContent className=''>
           <div className='flex flex-wrap gap-2'>
+            {TYPES.filter((t) => t !== '未知').map((type) => (
+              <TypeBadge
+                key={type}
+                type={type}
+                active={options.type === type}
+                size='normal'
+                onClick={handleTypeClick}
+              />
+            ))}
+            <Separator className='my-1 h-[0.5px]' />
             {GENERATIONS.map((gen) => (
               <div
                 key={gen}

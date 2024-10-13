@@ -1,7 +1,6 @@
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import type { AbilityDetail as AbilityDetailType } from '@/types'
-import Image from 'next/image'
 import TypeBadge from '@/components/type-badge'
 import { PropsWithChildren } from 'react'
 import { Separator } from '@/components/ui/separator'
@@ -21,10 +20,13 @@ function AbilityDetail({ className, data }: Props) {
       )}
     >
       <ScrollArea className='h-full'>
-        <div className='mt-2 indent-7 text-sm'>
-          {data.name}（日文︰{data.name_jp}，英文︰{data.name_en}）是
-          {data.generation}引入的宝可梦的特性。
-        </div>
+        <section className='mt-2 indent-7 text-sm'>
+          <p>
+            {data.name}（日文︰{data.name_jp}，英文︰{data.name_en}）是
+            {data.generation}引入的宝可梦的特性。
+          </p>
+          <p>{data.text}</p>
+        </section>
 
         <SectionTitle>效果</SectionTitle>
         <section className='text-sm'>
