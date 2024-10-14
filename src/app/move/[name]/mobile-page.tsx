@@ -4,11 +4,9 @@ import { Dialog, DialogContent } from '@/components/ui/dialog'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import type { MoveDetail as MoveDetailType } from '@/types'
 import TopBar from './top-bar'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { ArrowUDownLeft } from '@phosphor-icons/react/dist/ssr'
 import { useRouter } from 'next/navigation'
 import MoveDetail from './move-detail'
+import BackButton from '@/components/back-button'
 
 interface Props {
   data: MoveDetailType
@@ -31,14 +29,7 @@ export default function MobilePage({ data }: Props) {
       <DialogContent className='h-full p-2'>
         <TopBar name={data.name} />
         <MoveDetail data={data} />
-        <Link
-          href='/ability'
-          className='absolute bottom-4 left-1/2 -translate-x-1/2'
-        >
-          <Button variant='ghost' size='icon'>
-            <ArrowUDownLeft size={20} />
-          </Button>
-        </Link>
+        <BackButton />
       </DialogContent>
     </Dialog>
   )

@@ -5,10 +5,8 @@ import useMediaQuery from '@/hooks/useMediaQuery'
 import type { PokemonDetail as PokemonDetailType } from '@/types'
 import TopBar from './top-bar'
 import PokemonDetail from './pokemon-detail'
-import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { ArrowUDownLeft } from '@phosphor-icons/react/dist/ssr'
 import { useRouter } from 'next/navigation'
+import BackButton from '@/components/back-button'
 
 interface Props {
   data: PokemonDetailType
@@ -31,14 +29,7 @@ export default function MobilePage({ data }: Props) {
       <DialogContent className='h-full p-2'>
         <TopBar name={data.name} index={data.forms[0].index} />
         <PokemonDetail data={data} />
-        <Link
-          href='/pokemon'
-          className='absolute bottom-4 left-1/2 -translate-x-1/2'
-        >
-          <Button variant='ghost' size='icon'>
-            <ArrowUDownLeft size={20} />
-          </Button>
-        </Link>
+        <BackButton />
       </DialogContent>
     </Dialog>
   )
