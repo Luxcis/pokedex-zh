@@ -1,15 +1,44 @@
-_This is a practice project!_
+<div align="center">
+  <h3>宝可梦中文图鉴</h3>
+  <p>快速查询，随时了解你的宝可梦伙伴！</p>
+</div>
 
-# Pokedex
+## 说明
 
-Explore and Discover your favorite Pokemon!
+开源的宝可梦中文图鉴，提供最新（截至第九世代）的宝可梦图鉴数据。
 
-# Tech Stacks
+## 当前进度
 
-- Next.js 14 (Server Components)
-- GraphQL
+- 宝可梦
+
+  - [x] 列表和查询
+  - [x] 详情-基础信息
+  - [x] 详情-形象
+  - [x] 详情-进化链
+  - [x] 详情-招式
+  - [ ] 详情-特性
+
+- [x] 特性
+
+  - [x] 列表和查询
+  - [x] 详情
+
+- [x] 招式
+
+  - [x] 列表和查询
+  - [x] 详情
+
+- [ ] 道具
+
+  - [ ] 列表和查询
+  - [ ] 详情
+
+## 说明
+
+## 开发
+
+本应用使用Next.js 14 构建的全栈应用，采用基础技术栈如下:
+
+- Next.js 14 (App Router)
 - TailwindCSS
-
-The API is powered by [PokeAPI GraphQl endpoint](https://beta.pokeapi.co/graphql/console/).
-
-And the UI is designed with the help of [v0.dev](https://www.v0.dev).
+- ShadcnUI
