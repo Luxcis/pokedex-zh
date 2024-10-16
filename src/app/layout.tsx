@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import { ViewTransitions } from 'next-view-transitions'
 import { Analytics } from '@vercel/analytics/react'
 import { cn } from '@/lib/utils'
 import { Sidebar } from '@/components/sidebar'
@@ -47,26 +46,24 @@ export default async function RootLayout({
   params: { locale: string }
 }) {
   return (
-    <ViewTransitions>
-      <html lang='zh_CN'>
-        <body
-          className={cn(
-            fontInter.variable,
-            'mx-auto bg-white font-sans text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400'
-          )}
-        >
-          <div className='sticky top-0 z-10 border-b border-b-muted'>
-            <Header />
+    <html lang='zh_CN'>
+      <body
+        className={cn(
+          fontInter.variable,
+          'mx-auto bg-white font-sans text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400'
+        )}
+      >
+        <div className='sticky top-0 z-10 border-b border-b-muted'>
+          <Header />
+        </div>
+        <div className='flex h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] '>
+          <Sidebar className='hidden border-r border-r-muted md:flex md:w-64' />
+          <div className='h-full w-full px-4 md:w-[calc(100vw-16rem)] lg:pl-0'>
+            {children}
           </div>
-          <div className='flex h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] '>
-            <Sidebar className='hidden border-r border-r-muted md:flex md:w-64' />
-            <div className='h-full w-full px-4 md:w-[calc(100vw-16rem)] lg:pl-0'>
-              {children}
-            </div>
-          </div>
-          <Analytics />
-        </body>
-      </html>
-    </ViewTransitions>
+        </div>
+        <Analytics />
+      </body>
+    </html>
   )
 }
