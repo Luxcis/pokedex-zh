@@ -72,7 +72,8 @@ export const statLabelSchema = z.enum([
   'attack',
   'defense',
   'sp_attack',
-  'sp_defense'
+  'sp_defense',
+  'speed'
 ])
 
 export type StatLabel = z.infer<typeof statLabelSchema>

@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import type { PokemonDetail as PokemonDetailType } from '@/types'
 import Image from 'next/image'
 import TypeBadge from '@/components/type-badge'
-import { StatRadarChart } from './stat-chart'
+import StatChart from './stat-chart'
 import SpriteImage from './sprite-image'
 import FlavorText from './flavor-text'
 import PokemonMove from './pokemon-move'
@@ -116,25 +116,7 @@ function PokemonDetail({ className, data }: Props) {
 
         <SectionTitle>种族值</SectionTitle>
         <section>
-          <Tabs defaultValue={data.stats[0].form} className='w-full'>
-            <TabsList className='w-full'>
-              {data.stats.map((stat, index) => (
-                <TabsTrigger
-                  key={index}
-                  value={stat.form}
-                  className='block w-28 truncate lg:w-auto'
-                  title={stat.form}
-                >
-                  {stat.form}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {data.stats.map((stat, index) => (
-              <TabsContent key={index} value={stat.form}>
-                <StatRadarChart stat={stat} />
-              </TabsContent>
-            ))}
-          </Tabs>
+          <StatChart stats={data.stats} />
         </section>
 
         <SectionTitle>进化</SectionTitle>
