@@ -282,8 +282,16 @@ export const moveListSchema = z.array(moveSimpleSchema)
 
 const movePokemonSchema = z.object({
   index: z.string(),
-  name: z.string()
+  name: z.string(),
+  types: z.array(typeSchema),
+  meta: z
+    .object({
+      icon_position: z.string()
+    })
+    .nullable()
 })
+
+export type MovePokemon = z.infer<typeof movePokemonSchema>
 
 export const moveDetailSchema = z.object({
   index: z.string(),

@@ -15,6 +15,7 @@ import {
   HoverCardTrigger
 } from '@/components/ui/hover-card'
 import { FormMove } from '@/types'
+import Link from 'next/link'
 
 interface Props {
   type: 'learned' | 'machine'
@@ -65,14 +66,12 @@ export default function PokemonMove({ type, data }: Props) {
                       : move.machine_used?.replace('招式学习器', '')}
                   </TableCell>
                   <TableCell className='text-center'>
-                    <HoverCard>
-                      <HoverCardTrigger className='cursor-pointer underline'>
-                        {move.name}
-                      </HoverCardTrigger>
-                      <HoverCardContent>
-                        <p>{move.flavor_text}</p>
-                      </HoverCardContent>
-                    </HoverCard>
+                    <Link
+                      href={`/move/${move.name}`}
+                      className='hover:underline'
+                    >
+                      {move.name}
+                    </Link>
                   </TableCell>
                   <TableCell className='hidden text-center md:table-cell'>
                     <TypeBadge type={move.type} size='small' />

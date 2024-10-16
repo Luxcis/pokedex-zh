@@ -11,7 +11,8 @@ import {
   XAxis,
   YAxis,
   LabelList,
-  CartesianGrid
+  CartesianGrid,
+  ResponsiveContainer
 } from 'recharts'
 
 import {
@@ -48,71 +49,73 @@ interface ChartProps {
 
 export function StatRadarChart({ data }: ChartProps) {
   return (
-    <ChartContainer
-      config={chartConfig}
-      className='mx-auto aspect-square max-h-[250px]'
-    >
-      <RadarChart data={data}>
-        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-        <PolarAngleAxis dataKey='label' />
-        <PolarRadiusAxis domain={[0, 255]} />
-        <PolarGrid />
-        <Radar
-          dataKey='value'
-          fill='var(--color-value)'
-          fillOpacity={0.6}
-          dot={{
-            r: 4,
-            fillOpacity: 1
-          }}
-        />
-      </RadarChart>
-    </ChartContainer>
+    <ResponsiveContainer width='100%' height='100%'>
+      <ChartContainer config={chartConfig} className='mx-auto aspect-square'>
+        <RadarChart data={data}>
+          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <PolarAngleAxis dataKey='label' />
+          <PolarRadiusAxis domain={[0, 255]} />
+          <PolarGrid />
+          <Radar
+            dataKey='value'
+            fill='var(--color-value)'
+            fillOpacity={0.6}
+            dot={{
+              r: 4,
+              fillOpacity: 1
+            }}
+          />
+        </RadarChart>
+      </ChartContainer>
+    </ResponsiveContainer>
   )
 }
 
 export function StatBarChart({ data }: ChartProps) {
   return (
-    <ChartContainer config={chartConfig}>
-      <BarChart
-        accessibilityLayer
-        data={data}
-        layout='vertical'
-        margin={{
-          left: 0
-        }}
-      >
-        <CartesianGrid horizontal={false} />
-        <YAxis
-          dataKey='label'
-          type='category'
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(v) => v}
-        />
-        <XAxis dataKey='value' type='number' domain={[0, 255]} hide />
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent hideLabel />}
-        />
-        <Bar
-          dataKey='value'
+    <ResponsiveContainer width='100%' height='100%'>
+      <ChartContainer config={chartConfig} className='mx-auto aspect-square'>
+        <BarChart
+          accessibilityLayer
+          data={data}
           layout='vertical'
-          radius={5}
-          barSize={20}
-          fill='var(--color-value)'
+          maxBarSize={300}
+          margin={{
+            left: 0
+          }}
         >
-          <LabelList
-            dataKey='value'
-            position='right'
-            offset={8}
-            className='fill-foreground'
-            fontSize={12}
+          <CartesianGrid horizontal={false} />
+          <YAxis
+            dataKey='label'
+            type='category'
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(v) => v}
           />
-        </Bar>
-      </BarChart>
-    </ChartContainer>
+          <XAxis dataKey='value' type='number' domain={[0, 255]} hide />
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <Bar
+            dataKey='value'
+            layout='vertical'
+            radius={5}
+            barSize={20}
+            fill='var(--color-value)'
+          >
+            <LabelList
+              dataKey='value'
+              position='right'
+              offset={8}
+              className='fill-foreground'
+              fontSize={12}
+            />
+          </Bar>
+        </BarChart>
+      </ChartContainer>
+    </ResponsiveContainer>
   )
 }
 
@@ -139,8 +142,8 @@ function StatChart({
     Number(speed)
 
   return (
-    <div className='h-[300px]'>
-      <div className='relative flex h-8 items-center justify-center'>
+    <>
+      <div className='relative mt-1 flex h-8 items-center justify-center'>
         <Button
           variant='outline'
           size='icon'
@@ -155,13 +158,14 @@ function StatChart({
           <span> {total}</span>
         </p>
       </div>
-
-      {isRadarChart ? (
-        <StatRadarChart data={chartData} />
-      ) : (
-        <StatBarChart data={chartData} />
-      )}
-    </div>
+      <div className='mt-2 h-[260px]'>
+        {isRadarChart ? (
+          <StatRadarChart data={chartData} />
+        ) : (
+          <StatBarChart data={chartData} />
+        )}
+      </div>
+    </>
   )
 }
 

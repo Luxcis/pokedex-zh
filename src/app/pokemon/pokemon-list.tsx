@@ -182,7 +182,6 @@ function PokemonItem({
           </div>
           <span className='text-xs'>#{index}</span>
         </div>
-        <div></div>
       </div>
     </Link>
   )
