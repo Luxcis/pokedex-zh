@@ -37,7 +37,7 @@ const links: {
 }[] = [
   {
     title: 'Inbox',
-    label: '128',
+    label: '首页',
     icon: House,
     variant: 'default'
   },
@@ -133,37 +133,3 @@ export function Nav() {
     </div>
   )
 }
-
-// const defaultLayout = [20, 32, 48]
-// const navCollapsedSize = 4
-
-// export function CollpasableNav() {
-//   const { collapsed, setCollapsed } = useLayoutStore((state) => state)
-
-//   return (
-//     <ResizablePanel
-//       defaultSize={defaultLayout[0]}
-//       collapsedSize={navCollapsedSize}
-//       collapsible={true}
-//       minSize={15}
-//       maxSize={20}
-//       onCollapse={() => {
-//         setCollapsed(true)
-//         document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-//           true
-//         )}`
-//       }}
-//       onResize={() => {
-//         setCollapsed(false)
-//         document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(
-//           false
-//         )}`
-//       }}
-//       className={cn(
-//         collapsed && 'min-w-[50px] transition-all duration-300 ease-in-out'
-//       )}
-//     >
-//       <Nav isCollapsed={collapsed} />
-//     </ResizablePanel>
-//   )
-// }

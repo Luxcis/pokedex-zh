@@ -14,14 +14,13 @@ import {
 import { SettingsSheet } from './settings-sheet'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
 
 export const mainNavigation = [
-  { name: 'home', href: '/', icon: House },
-  { name: 'pokemon', href: '/pokemon', icon: PawPrint },
-  { name: 'ability', href: '/ability', icon: HandPalm },
-  { name: 'move', href: '/move', icon: Lightbulb },
-  { name: 'item', href: '/item', icon: Backpack }
+  { label: '首页', href: '/', icon: House },
+  { label: '图鉴', href: '/pokemon', icon: PawPrint },
+  { label: '特性', href: '/ability', icon: Lightbulb },
+  { label: '招式', href: '/move', icon: HandPalm },
+  { label: '道具', href: '/item', icon: Backpack }
 ]
 
 export const SidebarCategory = ({ children }: { children: string }) => (
@@ -33,7 +32,6 @@ export const SidebarCategory = ({ children }: { children: string }) => (
 interface SidebarProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function Sidebar({ className }: SidebarProps) {
-  const t = useTranslations('index')
   const pathname = usePathname()
 
   return (
@@ -43,13 +41,8 @@ export function Sidebar({ className }: SidebarProps) {
         className
       )}
     >
-      {/* <div className='grid w-72 grid-cols-3 gap-2 px-3 pt-4'>
-        <Button variant='outline'>
-          <GithubLogo size={18} />
-        </Button>
-      </div> */}
       <nav className='px-3 pb-2'>
-        <SidebarCategory>Home</SidebarCategory>
+        {/* <SidebarCategory>Home</SidebarCategory> */}
         <div className='space-y-1'>
           {mainNavigation.map((item) => (
             <Button
@@ -65,13 +58,13 @@ export function Sidebar({ className }: SidebarProps) {
             >
               <Link href={item.href}>
                 <item.icon className='mr-4 h-4 w-4' aria-hidden='true' />
-                {t(item.name)}
+                {item.label}
               </Link>
             </Button>
           ))}
         </div>
       </nav>
-      <nav className='px-3 pt-2'>
+      {/* <nav className='px-3 pt-2'>
         <SettingsSheet>
           <Button
             variant='ghost'
@@ -80,11 +73,11 @@ export function Sidebar({ className }: SidebarProps) {
           >
             <div className='cursor-pointer'>
               <GearSix size={18} className='mr-4 h-4 w-4' aria-hidden='true' />
-              {t('settings')}
+              设置
             </div>
           </Button>
         </SettingsSheet>
-      </nav>
+      </nav> */}
     </div>
   )
 }

@@ -1,12 +1,10 @@
 import Image from 'next/image'
 import { DotsThreeOutline, GithubLogo } from '@phosphor-icons/react/dist/ssr'
 import { Button } from './ui/button'
-import { getTranslations } from 'next-intl/server'
 import MobileSidebar from './mobile-sidebar'
 import Link from 'next/link'
 
 export async function Header() {
-  const t = await getTranslations('index')
   return (
     <div className='flex items-center justify-between bg-white px-7 py-3.5 dark:bg-neutral-950 sm:flex-row sm:items-center sm:space-y-0 md:h-16'>
       <div className='flex flex-shrink-0 items-center'>
@@ -17,7 +15,7 @@ export async function Header() {
           src='/favicon.png'
           alt='宝可梦图鉴logo'
         />
-        <h1 className='pl-3 font-medium'>{t('title')}</h1>
+        <h1 className='pl-3 font-medium'>宝可梦图鉴</h1>
       </div>
       <div className='flex flex-shrink-0 items-center gap-2'>
         <Link href='https://github.com/42arch/pokedex-zh' target='_blank'>
