@@ -2,8 +2,7 @@ import type { PokemonDetail as PokemonDetailType } from '@/types'
 import PokemonDetail from './pokemon-detail'
 import TopBar from './top-bar'
 import MobilePage from './mobile-page'
-
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+import { fetchData } from '@/lib/fetch'
 
 export default async function Page({
   params
@@ -13,9 +12,7 @@ export default async function Page({
   }
 }) {
   const name = params.name
-
-  const res = await fetch(`${baseUrl}/api/pokemon/${name}`)
-  const data = (await res.json()) as PokemonDetailType
+  const data = await fetchData<PokemonDetailType>(`pokemon/${name}`)
 
   return (
     <>

@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+import { RefObject, useEffect, useState } from 'react'
 
-export default function useOnView(ref: React.RefObject<HTMLElement>) {
+export default function useOnView(ref: RefObject<HTMLElement>) {
   const [isIntersecting, setIsIntersecting] = useState(false)
 
   useEffect(() => {

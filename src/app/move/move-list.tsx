@@ -37,6 +37,7 @@ const PAGE_SIZE = 30
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 interface Props {
+  initialData: MoveList
   className?: string
 }
 
@@ -47,7 +48,7 @@ interface FilterOptions {
   order: Order
 }
 
-function AllMoveList({ className }: Props) {
+function AllMoveList({ initialData, className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
   const [name, setName] = useState('')
@@ -123,15 +124,23 @@ function AllMoveList({ className }: Props) {
           />
           <ScrollArea className='flex-grow'>
             <div className='flex flex-col gap-2'>
-              {data?.map((page) =>
-                page.contents.map((ability: MoveSimple, idx) => (
-                  <AbilityItem
-                    key={idx}
-                    data={ability}
-                    isSelected={params.name === ability.name}
-                  />
-                ))
-              )}
+              {isLoadingInitialData
+                ? initialData.map((move, idx) => (
+                    <AbilityItem
+                      key={idx}
+                      data={move}
+                      isSelected={params.name === move.name}
+                    />
+                  ))
+                : data?.map((page) =>
+                    page.contents.map((move: MoveSimple, idx) => (
+                      <AbilityItem
+                        key={idx}
+                        data={move}
+                        isSelected={params.name === move.name}
+                      />
+                    ))
+                  )}
             </div>
             <div ref={ref} className='mt-2 p-3 text-center text-sm'>
               {isLoadingMore

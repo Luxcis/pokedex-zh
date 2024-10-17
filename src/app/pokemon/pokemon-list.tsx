@@ -34,6 +34,7 @@ const PAGE_SIZE = 30
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 interface Props {
+  initialData: PokemonList
   className?: string
 }
 
@@ -44,7 +45,7 @@ interface FilterOptions {
   order: Order
 }
 
-function AllPokemonList({ className }: Props) {
+function AllPokemonList({ initialData, className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
   const [name, setName] = useState('')
@@ -118,15 +119,23 @@ function AllPokemonList({ className }: Props) {
           />
           <ScrollArea className='flex-grow'>
             <div className='flex flex-col gap-2'>
-              {data?.map((page) =>
-                page.contents.map((pokemon: PokemonSimple, idx) => (
-                  <PokemonItem
-                    key={idx}
-                    data={pokemon}
-                    isSelected={params.name === pokemon.name}
-                  />
-                ))
-              )}
+              {isLoadingInitialData
+                ? initialData.map((pokemon, idx) => (
+                    <PokemonItem
+                      key={idx}
+                      data={pokemon}
+                      isSelected={params.name === pokemon.name}
+                    />
+                  ))
+                : data?.map((page) =>
+                    page.contents.map((pokemon: PokemonSimple, idx) => (
+                      <PokemonItem
+                        key={idx}
+                        data={pokemon}
+                        isSelected={params.name === pokemon.name}
+                      />
+                    ))
+                  )}
             </div>
             <div ref={ref} className='mt-2 p-3 text-center'>
               {isLoadingMore

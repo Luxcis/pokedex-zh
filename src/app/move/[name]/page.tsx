@@ -2,8 +2,7 @@ import type { MoveDetail as MoveDetailType } from '@/types'
 import TopBar from './top-bar'
 import MoveDetail from './move-detail'
 import MobilePage from './mobile-page'
-
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+import { fetchData } from '@/lib/fetch'
 
 export default async function Page({
   params
@@ -13,9 +12,7 @@ export default async function Page({
   }
 }) {
   const name = params.name
-
-  const res = await fetch(`${baseUrl}/api/move/${name}`)
-  const data = (await res.json()) as MoveDetailType
+  const data = await fetchData<MoveDetailType>(`move/${name}`)
 
   return (
     <>
