@@ -52,14 +52,14 @@ export default async function RootLayout({
   return (
     <html lang='zh_CN'>
       <Head>
-        {process.env.NODE_ENV === 'production' && cloudflareToken && (
+        {cloudflareToken && (
           <script
             defer
             src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon={`{"token": "${cloudflareToken}"`}
           ></script>
         )}
-        {process.env.NODE_ENV === 'production' && gaTrackingId && (
+        {gaTrackingId && (
           <>
             <script
               async
