@@ -51,6 +51,8 @@ interface FilterOptions {
 function AllMoveList({ initialData, className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
+  const [fetched, setFetched] = useState(false)
+  const [moveList, setMoveList] = useState<MoveList>(initialData)
   const [name, setName] = useState('')
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     type: null,
@@ -96,7 +98,32 @@ function AllMoveList({ initialData, className }: Props) {
     if (isVisible && !isReachingEnd && !isLoadingMore) {
       setSize(size + 1)
     }
-  }, [isLoadingMore, isReachingEnd, isVisible, setSize, size])
+    if (data) {
+      setFetched(true)
+      const newList: MoveList = []
+      data.forEach((page) =>
+        page.contents.map((p: MoveSimple) => {
+          newList.push(p)
+        })
+      )
+      if (fetched) {
+        setMoveList(newList)
+      } else {
+        if (size > 1) {
+          setMoveList(newList)
+        }
+      }
+    }
+  }, [
+    data,
+    fetched,
+    isLoadingInitialData,
+    isLoadingMore,
+    isReachingEnd,
+    isVisible,
+    setSize,
+    size
+  ])
 
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
@@ -124,23 +151,13 @@ function AllMoveList({ initialData, className }: Props) {
           />
           <ScrollArea className='flex-grow'>
             <div className='flex flex-col gap-2'>
-              {isLoadingInitialData
-                ? initialData.map((move, idx) => (
-                    <AbilityItem
-                      key={idx}
-                      data={move}
-                      isSelected={params.name === move.name}
-                    />
-                  ))
-                : data?.map((page) =>
-                    page.contents.map((move: MoveSimple, idx) => (
-                      <AbilityItem
-                        key={idx}
-                        data={move}
-                        isSelected={params.name === move.name}
-                      />
-                    ))
-                  )}
+              {moveList.map((move, idx) => (
+                <MoveItem
+                  key={idx}
+                  data={move}
+                  isSelected={params.name === move.name}
+                />
+              ))}
             </div>
             <div ref={ref} className='mt-2 p-3 text-center text-sm'>
               {isLoadingMore
@@ -158,7 +175,7 @@ function AllMoveList({ initialData, className }: Props) {
 
 export default AllMoveList
 
-function AbilityItem({
+function MoveItem({
   data,
   isSelected
 }: {
@@ -175,7 +192,7 @@ function AbilityItem({
       )}
     >
       <div className='ml-2 flex flex-grow flex-col items-center'>
-        <div className='flex h-[56px] w-full items-center justify-between'>
+        <div className='flex h-[26px] w-full items-center justify-between'>
           <div className='flex h-full flex-col justify-evenly'>
             <span>{name}</span>
           </div>
@@ -238,7 +255,7 @@ function FilterOptions({
 
   return (
     <Accordion type='single' collapsible className='pr-4'>
-      <AccordionItem value='filter'>
+      <AccordionItem value='filter' className='border-b-0'>
         <AccordionTrigger className='justify-end gap-2 hover:no-underline'>
           筛选
         </AccordionTrigger>

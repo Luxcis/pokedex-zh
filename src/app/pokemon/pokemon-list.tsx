@@ -48,6 +48,8 @@ interface FilterOptions {
 function AllPokemonList({ initialData, className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
+  const [fetched, setFetched] = useState(false)
+  const [pokemonList, setPokemonList] = useState<PokemonList>(initialData)
   const [name, setName] = useState('')
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     type1: null,
@@ -91,7 +93,23 @@ function AllPokemonList({ initialData, className }: Props) {
     if (isVisible && !isReachingEnd && !isLoadingMore) {
       setSize(size + 1)
     }
-  }, [isLoadingMore, isReachingEnd, isVisible, setSize, size])
+    if (data) {
+      setFetched(true)
+      const newList: PokemonList = []
+      data.forEach((page) =>
+        page.contents.map((p: PokemonSimple) => {
+          newList.push(p)
+        })
+      )
+      if (fetched) {
+        setPokemonList(newList)
+      } else {
+        if (size > 1) {
+          setPokemonList(newList)
+        }
+      }
+    }
+  }, [data, fetched, isLoadingMore, isReachingEnd, isVisible, setSize, size])
 
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
@@ -119,25 +137,15 @@ function AllPokemonList({ initialData, className }: Props) {
           />
           <ScrollArea className='flex-grow'>
             <div className='flex flex-col gap-2'>
-              {isLoadingInitialData
-                ? initialData.map((pokemon, idx) => (
-                    <PokemonItem
-                      key={idx}
-                      data={pokemon}
-                      isSelected={params.name === pokemon.name}
-                    />
-                  ))
-                : data?.map((page) =>
-                    page.contents.map((pokemon: PokemonSimple, idx) => (
-                      <PokemonItem
-                        key={idx}
-                        data={pokemon}
-                        isSelected={params.name === pokemon.name}
-                      />
-                    ))
-                  )}
+              {pokemonList.map((pokemon, idx) => (
+                <PokemonItem
+                  key={idx}
+                  data={pokemon}
+                  isSelected={params.name === pokemon.name}
+                />
+              ))}
             </div>
-            <div ref={ref} className='mt-2 p-3 text-center'>
+            <div ref={ref} className='mt-2 p-3 text-center text-sm'>
               {isLoadingMore
                 ? '加载中...'
                 : isReachingEnd
@@ -260,8 +268,8 @@ function FilterOptions({
   }
 
   return (
-    <Accordion type='single' collapsible className='pr-4'>
-      <AccordionItem value='filter'>
+    <Accordion type='single' collapsible className=' pr-4'>
+      <AccordionItem value='filter' className='border-b-0'>
         <AccordionTrigger className='justify-end gap-2 hover:no-underline'>
           筛选
         </AccordionTrigger>

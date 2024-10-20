@@ -45,6 +45,8 @@ interface FilterOptions {
 function AllAbilityList({ initialData, className }: Props) {
   const ref = useRef<HTMLDivElement>(null!)
   const isVisible = useOnView(ref)
+  const [fetched, setFetched] = useState(false)
+  const [abilityList, setAbilityList] = useState<AbilityList>(initialData)
   const [name, setName] = useState('')
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     generation: null,
@@ -85,7 +87,23 @@ function AllAbilityList({ initialData, className }: Props) {
     if (isVisible && !isReachingEnd && !isLoadingMore) {
       setSize(size + 1)
     }
-  }, [isLoadingMore, isReachingEnd, isVisible, setSize, size])
+    if (data) {
+      setFetched(true)
+      const newList: AbilityList = []
+      data.forEach((page) =>
+        page.contents.map((p: AbilitySimple) => {
+          newList.push(p)
+        })
+      )
+      if (fetched) {
+        setAbilityList(newList)
+      } else {
+        if (size > 1) {
+          setAbilityList(newList)
+        }
+      }
+    }
+  }, [data, fetched, isLoadingMore, isReachingEnd, isVisible, setSize, size])
 
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
@@ -113,23 +131,13 @@ function AllAbilityList({ initialData, className }: Props) {
           />
           <ScrollArea className='flex-grow'>
             <div className='flex flex-col gap-2'>
-              {isLoadingInitialData
-                ? initialData?.map((ability, idx) => (
-                    <AbilityItem
-                      key={idx}
-                      data={ability}
-                      isSelected={params.name === ability.name}
-                    />
-                  ))
-                : data?.map((page) =>
-                    page.contents.map((ability: AbilitySimple, idx) => (
-                      <AbilityItem
-                        key={idx}
-                        data={ability}
-                        isSelected={params.name === ability.name}
-                      />
-                    ))
-                  )}
+              {abilityList.map((ability, idx) => (
+                <AbilityItem
+                  key={idx}
+                  data={ability}
+                  isSelected={params.name === ability.name}
+                />
+              ))}
             </div>
             <div ref={ref} className='mt-2 p-3 text-center text-sm'>
               {isLoadingMore
@@ -205,7 +213,7 @@ function FilterOptions({
 
   return (
     <Accordion type='single' collapsible className='pr-4'>
-      <AccordionItem value='filter'>
+      <AccordionItem value='filter' className='border-b-0'>
         <AccordionTrigger className='justify-end gap-2 hover:no-underline'>
           筛选
         </AccordionTrigger>
