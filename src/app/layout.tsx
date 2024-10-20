@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
 import './globals.css'
+import Head from 'next/head'
 
 export const fontInter = localFont({
   src: [
@@ -45,8 +46,42 @@ export default async function RootLayout({
   children: React.ReactNode
   params: { locale: string }
 }) {
+  const cloudflareToken = process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
+  const gaTrackingId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
+
   return (
     <html lang='zh_CN'>
+      <Head>
+        {process.env.NODE_ENV === 'production' && cloudflareToken && (
+          <script
+            defer
+            src='https://static.cloudflareinsights.com/beacon.min.js'
+            data-cf-beacon={`{"token": "${cloudflareToken}"`}
+          ></script>
+        )}
+        {process.env.NODE_ENV === 'production' && gaTrackingId && (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+            />
+
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${gaTrackingId}', {
+                    page_path: window.location.pathname,
+                  });
+                `
+              }}
+            />
+          </>
+        )}
+      </Head>
+
       <body
         className={cn(
           fontInter.variable,
