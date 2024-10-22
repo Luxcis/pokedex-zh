@@ -71,7 +71,7 @@ export default async function RootLayout({
         <Script
           defer
           src='https://static.cloudflareinsights.com/beacon.min.js'
-          data-cf-beacon={`{"token": "${cloudflareToken}"`}
+          data-cf-beacon={`{"token": "${cloudflareToken}"}`}
           strategy='afterInteractive'
         />
       </body>
