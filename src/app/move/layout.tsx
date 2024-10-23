@@ -1,7 +1,14 @@
 import { PropsWithChildren } from 'react'
 import AllMoveList from './move-list'
 import { fetchData } from '@/lib/fetch'
-import { MoveList, PaginatedResponse } from '@/types'
+import type { MoveList, PaginatedResponse } from '@/types'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: '宝可梦中文图鉴 | 招式列表',
+  description: '宝可梦中文图鉴，招式列表。',
+  keywords: ['宝可梦', '宝可梦图鉴', '招式列表']
+}
 
 export default async function Page({ children }: PropsWithChildren) {
   const data = await fetchData<PaginatedResponse<MoveList>>(

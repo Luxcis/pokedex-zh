@@ -3,14 +3,28 @@ import PokemonDetail from './pokemon-detail'
 import TopBar from './top-bar'
 import MobilePage from './mobile-page'
 import { fetchData } from '@/lib/fetch'
+import type { Metadata } from 'next'
 
-export default async function Page({
-  params
-}: {
-  params: {
-    name: string
+type Props = {
+  params: { name: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const name = params.name
+  const data = await fetchData<PokemonDetailType>(`pokemon/${name}`)
+
+  return {
+    title: `宝可梦图鉴 | ${data.name}`,
+    description: `宝可梦图鉴, ${data.name}`,
+    keywords: [data.name]
+    // openGraph: {
+    //   images: ['/some-specific-page-image.jpg']
+    // }
   }
-}) {
+}
+
+export default async function Page({ params }: Props) {
   const name = params.name
   const data = await fetchData<PokemonDetailType>(`pokemon/${name}`)
 

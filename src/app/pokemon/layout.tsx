@@ -2,6 +2,13 @@ import { PropsWithChildren } from 'react'
 import PokemonList from './pokemon-list'
 import { fetchData } from '@/lib/fetch'
 import type { PaginatedResponse, PokemonList as PokemonListType } from '@/types'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: '宝可梦中文图鉴 | 全国图鉴列表',
+  description: '宝可梦中文图鉴，全国图鉴列表。',
+  keywords: ['宝可梦', '宝可梦图鉴', '全国图鉴列表']
+}
 
 export default async function Page({ children }: PropsWithChildren) {
   const data = await fetchData<PaginatedResponse<PokemonListType>>(
