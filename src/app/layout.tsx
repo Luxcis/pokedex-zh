@@ -35,6 +35,33 @@ export const fontInter = localFont({
   display: 'swap'
 })
 
+export const fontSans = localFont({
+  src: [
+    {
+      path: '../../public/fonts/NotoSansSC-Regular.ttf',
+      weight: '400',
+      style: 'normal'
+    },
+    {
+      path: '../../public/fonts/NotoSansSC-medium.ttf',
+      weight: '500',
+      style: 'medium'
+    },
+    {
+      path: '../../public/fonts/NotoSansSC-SemiBold.ttf',
+      weight: '600',
+      style: 'semibold'
+    },
+    {
+      path: '../../public/fonts/NotoSansSC-Bold.ttf',
+      weight: '700',
+      style: 'bold'
+    }
+  ],
+  variable: '--font-sans',
+  display: 'swap'
+})
+
 export const metadata: Metadata = {
   title: '宝可梦图鉴',
   description: '宝可梦中文图鉴，快速查询，随时了解你的宝可梦伙伴！',
@@ -53,6 +80,7 @@ export default async function RootLayout({
     <html lang='zh_CN'>
       <body
         className={cn(
+          fontSans.variable,
           fontInter.variable,
           'mx-auto bg-white font-sans text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400'
         )}
