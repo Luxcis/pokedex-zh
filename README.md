@@ -13,6 +13,7 @@
 访问：
 
 https://pokedex.starllow.com
+
 https://pokedex-zh.netfily.app 
 
 ## 功能和进度
