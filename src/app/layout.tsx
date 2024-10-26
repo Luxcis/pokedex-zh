@@ -43,7 +43,7 @@ export const fontSans = localFont({
       style: 'normal'
     },
     {
-      path: '../../public/fonts/NotoSansSC-medium.ttf',
+      path: '../../public/fonts/NotoSansSC-Medium.ttf',
       weight: '500',
       style: 'medium'
     },

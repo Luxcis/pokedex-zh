@@ -33,6 +33,7 @@ interface SidebarProps extends HTMLAttributes<HTMLDivElement> {}
 
 export function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname()
+  const path = pathname.split('/')[1]
 
   return (
     <div
@@ -41,16 +42,16 @@ export function Sidebar({ className }: SidebarProps) {
         className
       )}
     >
-      <nav className='px-3 pb-2'>
+      <nav className='p-3'>
         {/* <SidebarCategory>Home</SidebarCategory> */}
         <div className='space-y-1'>
           {mainNavigation.map((item) => (
             <Button
               key={item.href}
-              variant={pathname === item.href ? 'default' : 'ghost'}
+              variant={`/${path}` === item.href ? 'default' : 'ghost'}
               className={cn(
                 'w-full justify-start',
-                item.href === pathname
+                `/${path}` === item.href
                   ? ''
                   : 'text-neutral-600 dark:text-neutral-400'
               )}

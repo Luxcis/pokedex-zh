@@ -19,18 +19,16 @@ function EvolutionChain({ data }: Props) {
                 className='relative flex w-[180px] flex-col items-center justify-center'
               >
                 {poke.stage === '1阶进化' || poke.stage === '2阶进化' ? (
-                  <div
-                    style={{
-                      background: '#ffcc00'
-                    }}
-                    className='nodrag nopan -translate-y-[20px] text-center text-xs'
-                  >
+                  <div className='nodrag nopan -translate-y-[25px] rounded-sm bg-yellow-300 px-2 py-1 text-center text-xs'>
                     {poke.text}
                   </div>
                 ) : (
                   ''
                 )}
-                <Link href={poke.name}>
+                <Link
+                  href={poke.name}
+                  className='rounded-lg  px-6 py-2 hover:bg-accent'
+                >
                   <Image
                     src={`/images/dream/${poke.image}`}
                     alt={poke.name}
@@ -38,9 +36,9 @@ function EvolutionChain({ data }: Props) {
                     height={100}
                   />
                   <p className='mt-2 text-center text-sm'>{poke?.name}</p>
+                  <p className='text-center text-xs'>{poke.form_name}</p>
                 </Link>
 
-                <p className='text-center text-sm'>{poke.form_name}</p>
                 <p className='mt-2 rounded-full bg-muted px-2 text-center text-xs text-muted-foreground'>
                   {poke?.stage}
                 </p>

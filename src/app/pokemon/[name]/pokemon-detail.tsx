@@ -47,7 +47,7 @@ function PokemonDetail({ className, data }: Props) {
           </TabsList>
           {data.forms.map((form, index) => (
             <TabsContent key={index} value={form.name}>
-              <div className='mt-2 flex flex-col items-center justify-center gap-4'>
+              <div className='mt-2 flex flex-col items-center justify-center gap-4 pt-4'>
                 <Image
                   src={`/images/official/${form.image}`}
                   alt={form.name}
@@ -69,7 +69,7 @@ function PokemonDetail({ className, data }: Props) {
                   <InfoCell title='重量' value={form.weight} />
                   <InfoCell title='体型' value={form.shape} />
                   <InfoCell
-                    title='经验值'
+                    title='100级经验值'
                     value={
                       <span>
                         {form.experience.number}
@@ -196,10 +196,8 @@ export default PokemonDetail
 
 function InfoCell({ title, value }: { title: string; value: ReactNode }) {
   return (
-    <div className='flex flex-col items-center justify-between rounded-lg bg-gray-100 px-4 py-2 lg:px-6'>
-      <div className='w-16 text-center text-sm text-muted-foreground'>
-        {title}
-      </div>
+    <div className='GAP-1 flex min-w-40 flex-col items-center justify-between rounded-lg bg-gray-100 px-4 py-2 lg:px-6'>
+      <div className='text-center text-xs text-muted-foreground'>{title}</div>
       <span className='text-center text-sm font-medium'>{value}</span>
     </div>
   )

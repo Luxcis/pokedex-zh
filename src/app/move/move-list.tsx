@@ -18,7 +18,6 @@ import {
 } from '@/types'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
 import {
   Accordion,
   AccordionContent,
@@ -60,7 +59,6 @@ function AllMoveList({ initialData, className }: Props) {
     generation: null,
     order: 'asc'
   })
-  const params = useParams()
 
   const getKey = (
     page: number,
@@ -152,11 +150,7 @@ function AllMoveList({ initialData, className }: Props) {
           <ScrollArea className='flex-grow'>
             <div className='flex flex-col gap-2'>
               {moveList.map((move, idx) => (
-                <MoveItem
-                  key={idx}
-                  data={move}
-                  isSelected={params.name === move.name}
-                />
+                <MoveItem key={idx} data={move} />
               ))}
             </div>
             <div ref={ref} className='mt-2 p-3 text-center text-sm'>
@@ -175,21 +169,12 @@ function AllMoveList({ initialData, className }: Props) {
 
 export default AllMoveList
 
-function MoveItem({
-  data,
-  isSelected
-}: {
-  data: MoveSimple
-  isSelected: boolean
-}) {
+function MoveItem({ data }: { data: MoveSimple }) {
   const { index, name } = data
   return (
     <Link
       href={`/move/${name}`}
-      className={cn(
-        'flex flex-row items-center gap-4 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:bg-accent',
-        isSelected ? 'bg-muted' : ''
-      )}
+      className='flex flex-row items-center gap-4 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:bg-accent'
     >
       <div className='ml-2 flex flex-grow flex-col items-center'>
         <div className='flex h-[26px] w-full items-center justify-between'>
