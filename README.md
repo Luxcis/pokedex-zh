@@ -10,6 +10,11 @@
 
 开源的宝可梦中文图鉴，提供最新（截至第九世代）的宝可梦图鉴数据。
 
+访问：
+
+https://pokedex.starllow.com
+https://pokedex-zh.netfily.app 
+
 ## 功能和进度
 
 - 宝可梦
