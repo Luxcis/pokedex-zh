@@ -4,6 +4,7 @@ import AbilityDetail from './ability-detail'
 import MobilePage from './mobile-page'
 import { fetchData } from '@/lib/fetch'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
 type Props = {
   params: { name: string }
@@ -13,6 +14,9 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = params.name
   const data = await fetchData<AbilityDetailType>(`ability/${name}`)
+  if (!data) {
+    notFound()
+  }
 
   return {
     title: `宝可梦图鉴 | ${data.name}`,
@@ -24,6 +28,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const name = params.name
   const data = await fetchData<AbilityDetailType>(`ability/${name}`)
+  if (!data) {
+    notFound()
+  }
 
   return (
     <>
