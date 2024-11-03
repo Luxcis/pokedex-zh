@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator'
 import type { EvolutionChain } from '@/types'
-import Image from 'next/image'
+import Image from '@/components/image'
 import Link from 'next/link'
 
 interface Props {

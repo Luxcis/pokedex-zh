@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from '@/components/image'
 import { DotsThreeOutline, GithubLogo } from '@phosphor-icons/react/dist/ssr'
 import { Button } from './ui/button'
 import MobileSidebar from './mobile-sidebar'

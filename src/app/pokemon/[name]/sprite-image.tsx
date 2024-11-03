@@ -1,6 +1,6 @@
 import { HomeImage } from '@/types'
 import { Sparkle } from '@phosphor-icons/react/dist/ssr'
-import Image from 'next/image'
+import Image from '@/components/image'
 
 interface Props {
   data: HomeImage
