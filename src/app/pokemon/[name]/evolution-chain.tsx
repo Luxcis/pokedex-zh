@@ -39,7 +39,7 @@ function EvolutionChain({ data }: Props) {
                   <p className='text-center text-xs'>{poke.form_name}</p>
                 </Link>
 
-                <p className='mt-2 rounded-full bg-muted px-2 text-center text-xs text-muted-foreground'>
+                <p className='mt-2 rounded-full bg-muted px-2 py-[2px] text-center text-xs text-muted-foreground'>
                   {poke?.stage}
                 </p>
               </div>

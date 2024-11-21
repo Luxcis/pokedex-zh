@@ -30,7 +30,7 @@ function TypeBadge({ type, size, active = true, onClick }: Props) {
       )}
 
       {size === 'normal' ? (
-        <span className='text-sm'>{type}</span>
+        <span className='w-8 text-sm '>{type}</span>
       ) : (
         <span className='text-xs brightness-200'>{type}</span>
       )}

@@ -475,6 +475,26 @@
                 "name": "喵喵",
                 "stage": "未进化",
                 "text": null,
+                "image": "052Meowth-Alola_Dream.png",
+                "back_text": null,
+                "from": null,
+                "form_name": "阿罗拉的样子"
+            },
+            {
+                "name": "猫老大",
+                "stage": "1阶进化",
+                "text": "亲密度220以上或友好度158以上提升等级",
+                "image": "053Persian-Alola_Dream.png",
+                "back_text": "",
+                "from": "喵喵",
+                "form_name": "阿罗拉的样子"
+            }
+        ],
+        [
+            {
+                "name": "喵喵",
+                "stage": "未进化",
+                "text": null,
                 "image": "052Meowth-Galar_Dream.png",
                 "back_text": null,
                 "from": null,

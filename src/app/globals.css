@@ -121,7 +121,7 @@
   background-position: 0 -180px;
 }
 
-.type水 {
+.type-水 {
   background-position: 0 -200px;
 }
 
@@ -172,7 +172,3 @@
 /* .type-shadow {
   background-position: 0 -380px;
 } */
-
-.react-flow__attribution {
-  display: none;
-}
