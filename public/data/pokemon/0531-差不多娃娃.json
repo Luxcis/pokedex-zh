@@ -206,20 +206,11 @@
         [
             {
                 "name": "差不多娃娃",
-                "stage": "",
+                "stage": "不进化",
                 "text": null,
                 "image": "531Audino_Dream.png",
                 "back_text": null,
                 "from": null,
-                "form_name": null
-            },
-            {
-                "name": "差不多娃娃",
-                "stage": "超级差不多娃娃",
-                "text": "↔",
-                "image": "Dream_%E5%B7%AE%E4%B8%8D%E5%A4%9A%E5%A8%83%E5%A8%83%E8%BF%9B%E5%8C%96%E7%9F%B3_Sprite.png",
-                "back_text": "",
-                "from": "差不多娃娃",
                 "form_name": null
             }
         ]

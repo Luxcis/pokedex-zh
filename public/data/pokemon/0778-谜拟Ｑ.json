@@ -175,13 +175,17 @@
         }
     ],
     "evolution_chains": [
-        {
-            "name": "谜拟Ｑ",
-            "stage": "不进化",
-            "text": null,
-            "back_text": null,
-            "from": null
-        }
+        [
+            {
+                "name": "谜拟Ｑ",
+                "stage": "不进化",
+                "text": null,
+                "image": "778Mimikyu_Dream.png",
+                "back_text": null,
+                "from": null,
+                "form_name": null
+            }
+        ]
     ],
     "names": {
         "zh_hans": "谜拟Ｑ",

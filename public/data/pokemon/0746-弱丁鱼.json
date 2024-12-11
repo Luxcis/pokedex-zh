@@ -173,13 +173,17 @@
         }
     ],
     "evolution_chains": [
-        {
-            "name": "弱丁鱼",
-            "stage": "不进化",
-            "text": null,
-            "back_text": null,
-            "from": null
-        }
+        [
+            {
+                "name": "弱丁鱼",
+                "stage": "不进化",
+                "image": "746Wishiwashi-Solo_Dream.png",
+                "text": null,
+                "back_text": null,
+                "from": null,
+                "form_name": null
+            }
+        ]
     ],
     "names": {
         "zh_hans": "弱丁鱼",
