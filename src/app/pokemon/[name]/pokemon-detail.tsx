@@ -54,7 +54,6 @@ function PokemonDetail({ className, data }: Props) {
                   width={180}
                   height={180}
                 />
-
                 <section className='flex gap-2'>
                   {form.types.map((type) => (
                     <TypeBadge key={type} size='normal' type={type} />
@@ -65,6 +64,8 @@ function PokemonDetail({ className, data }: Props) {
                 </span>
 
                 <section className='grid grid-cols-2 gap-x-4 gap-y-2 lg:gap-x-8'>
+                  <InfoCell title='英文名' value={data.name_en} />
+                  <InfoCell title='日文名' value={data.name_jp} />
                   <InfoCell title='高度' value={form.height} />
                   <InfoCell title='重量' value={form.weight} />
                   <InfoCell title='体型' value={form.shape} />
@@ -130,7 +131,7 @@ function PokemonDetail({ className, data }: Props) {
                   />
                 </section>
 
-                <section className=' w-full '>
+                <section className='w-full '>
                   <SectionTitle>特性</SectionTitle>
                   <div className='flex flex-col items-center justify-center gap-4'>
                     {form.ability.map((a) => (
@@ -196,7 +197,7 @@ export default PokemonDetail
 
 function InfoCell({ title, value }: { title: string; value: ReactNode }) {
   return (
-    <div className='GAP-1 flex min-w-40 flex-col items-center justify-between rounded-lg bg-gray-100 px-4 py-2 lg:px-6'>
+    <div className='flex min-w-40 flex-col items-center justify-between gap-1 rounded-lg bg-gray-100 px-4 py-2 lg:px-6'>
       <div className='text-center text-xs text-muted-foreground'>{title}</div>
       <span className='text-center text-sm font-medium'>{value}</span>
     </div>

@@ -152,6 +152,9 @@ export type FormAbility = z.infer<typeof formAbilitySchema>
 
 export const pokemonDetailSchema = z.object({
   name: z.string(),
+  index: z.string(),
+  name_en: z.string(),
+  name_jp: z.string(),
   profile: z.string(),
   forms: z.array(
     z.object({

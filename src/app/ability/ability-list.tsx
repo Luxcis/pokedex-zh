@@ -229,7 +229,7 @@ function FilterOptions({
               </div>
               <div className='flex items-center space-x-2'>
                 <RadioGroupItem value='desc' id='r2' />
-                <Label htmlFor='r2'>逆序排列</Label>
+                <Label htmlFor='r2'>倒序排列</Label>
               </div>
             </RadioGroup>
           </div>

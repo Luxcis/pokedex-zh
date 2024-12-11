@@ -12,7 +12,7 @@ export const ORDERS = orderSchema.options
 
 export const ORDER_LABEL: Record<Order, string> = {
   asc: '顺序',
-  desc: '逆序'
+  desc: '倒序'
 }
 
 export const TYPES = typeSchema.options
