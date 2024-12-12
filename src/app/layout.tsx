@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import Script from 'next/script'
+import { OpenPanelComponent } from '@openpanel/nextjs'
 import { Analytics } from '@vercel/analytics/react'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { cn } from '@/lib/utils'
@@ -47,7 +47,8 @@ export default async function RootLayout({
   children: React.ReactNode
   params: { locale: string }
 }) {
-  const cloudflareToken = process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
+  // const cloudflareToken = process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
+  const opClientId = process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID
   const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
   return (
     <html lang='zh_CN'>
@@ -66,14 +67,19 @@ export default async function RootLayout({
             {children}
           </div>
         </div>
+        <OpenPanelComponent
+          clientId={opClientId || ''}
+          trackScreenViews={true}
+          trackOutgoingLinks={true}
+        />
         <Analytics />
         <GoogleAnalytics gaId={gaId || ''} />
-        <Script
+        {/* <Script
           defer
           src='https://static.cloudflareinsights.com/beacon.min.js'
           data-cf-beacon={`{"token": "${cloudflareToken}"}`}
           strategy='afterInteractive'
-        />
+        /> */}
       </body>
     </html>
   )
