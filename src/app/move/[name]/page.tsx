@@ -1,19 +1,64 @@
-import type { MoveDetail as MoveDetailType } from '@/types'
+import type {
+  MoveDetail as MoveDetailType,
+  MoveList,
+  PokemonList
+} from '@/types'
 import TopBar from './top-bar'
 import MoveDetail from './move-detail'
 import MobilePage from './mobile-page'
-import { fetchData } from '@/lib/fetch'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { findFile, readFile } from '@/lib/file'
 
 type Props = {
   params: { name: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+const getDetailData = async (name: string) => {
+  try {
+    const file = await findFile(name, 'move')
+    if (file) {
+      const data = await readFile<MoveDetailType>(`move/${file}`)
+      const pokemonList = await readFile<PokemonList>('pokemon_full_list.json')
+
+      data.pokemon.egg.forEach((poke) => {
+        const detail = pokemonList.find((p) => p.name === poke.name)
+        poke.types = detail?.types ?? []
+        poke.meta = detail ? detail.meta : null
+      })
+      data.pokemon.level.forEach((poke) => {
+        const detail = pokemonList.find((p) => p.name === poke.name)
+        poke.types = detail?.types ?? []
+        poke.meta = detail ? detail.meta : null
+      })
+      data.pokemon.machine.forEach((poke) => {
+        const detail = pokemonList.find((p) => p.name === poke.name)
+        poke.types = detail?.types ?? []
+        poke.meta = detail ? detail.meta : null
+      })
+      data.pokemon.tutor.forEach((poke) => {
+        const detail = pokemonList.find((p) => p.name === poke.name)
+        poke.types = detail?.types ?? []
+        poke.meta = detail ? detail.meta : null
+      })
+      return data
+    }
+    return null
+  } catch (error) {
+    return null
+  }
+}
+
+export async function generateStaticParams() {
+  const list = await readFile<MoveList>('move_list.json')
+  return list.map((item) => ({
+    name: item.name
+  }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = params.name
-  const data = await fetchData<MoveDetailType>(`move/${name}`)
+  const data = await getDetailData(name)
   if (!data) {
     notFound()
   }
@@ -27,7 +72,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
   const name = params.name
-  const data = await fetchData<MoveDetailType>(`move/${name}`)
+  const data = await getDetailData(name)
   if (!data) {
     notFound()
   }

@@ -1,3 +1,4 @@
+import { cache } from '@/lib/cache'
 import { findFile, readFile } from '@/lib/file'
 import { AbilityDetail, PokemonDetail } from '@/types'
 import { NextResponse } from 'next/server'
@@ -21,7 +22,9 @@ export async function GET(request: Request, context: any) {
           )
         })
       )
-      return NextResponse.json(data)
+      const res = NextResponse.json(data)
+      cache(res)
+      return res
     }
     return NextResponse.json(null)
   } catch (error) {

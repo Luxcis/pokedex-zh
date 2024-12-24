@@ -32,7 +32,7 @@ import { Label } from '@/components/ui/label'
 import TypeBadge from '@/components/type-badge'
 import CategoryBadge from '@/components/category-badge'
 
-const PAGE_SIZE = 30
+const PAGE_SIZE = 50
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 interface Props {

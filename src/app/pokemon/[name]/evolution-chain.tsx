@@ -27,6 +27,7 @@ function EvolutionChain({ data }: Props) {
                 )}
                 <Link
                   href={poke.name}
+                  prefetch={false}
                   className='rounded-lg  px-6 py-2 hover:bg-accent'
                 >
                   <Image

@@ -28,7 +28,7 @@ import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
 
-const PAGE_SIZE = 30
+const PAGE_SIZE = 50
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
 interface Props {
@@ -154,6 +154,7 @@ function AbilityItem({ data }: { data: AbilitySimple }) {
   return (
     <Link
       href={`/ability/${name}`}
+      prefetch={false}
       className='flex flex-row items-center gap-4 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:bg-accent'
     >
       <div className='ml-2 flex flex-grow items-center justify-between'>

@@ -61,6 +61,7 @@ function AbilityDetail({ className, data }: Props) {
               <Link
                 key={poke.name}
                 href={`/pokemon/${linkName}`}
+                prefetch={false}
                 className='flex flex-row items-center gap-4 rounded-lg border px-4 py-3 text-left text-sm transition-all hover:bg-accent'
               >
                 <div className='flex items-center'>

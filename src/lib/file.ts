@@ -16,7 +16,8 @@ export async function findFile(name: string, directoryName: string) {
   const files = await fs.readdir(directoryPath)
   const matchedFile = files.find((file) => {
     const pName = file.split('-')[1]
-    return pName.startsWith(name)
+    return pName.startsWith(decodeURIComponent(name))
   })
+
   return matchedFile
 }

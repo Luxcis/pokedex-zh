@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server'
 import { Order, PokemonList, Type } from '@/types'
 import { readFile } from '@/lib/file'
+import { cache } from '@/lib/cache'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const page = parseInt(searchParams.get('page') || '0')
-  const pageSize = parseInt(searchParams.get('pageSize') || '20')
+  const pageSize = parseInt(searchParams.get('pageSize') || '50')
   const name = searchParams.get('name') || ''
   const type1 = searchParams.get('type1') || ''
   const type2 = searchParams.get('type2') || ''
@@ -14,6 +15,7 @@ export async function GET(request: Request) {
 
   try {
     const allData = await readFile<PokemonList>('pokemon_full_list.json')
+    console.log('poke full', allData)
     const filteredData = allData
       .filter(
         (p) =>
@@ -43,12 +45,14 @@ export async function GET(request: Request) {
     const total = orderedData.length
 
     const data = orderedData.splice(page * pageSize, pageSize)
-    return NextResponse.json({
+    const res = NextResponse.json({
       total: total,
       page: page,
       pageSize: pageSize,
       contents: data
     })
+    cache(res)
+    return res
   } catch (error) {
     return NextResponse.error()
   }
