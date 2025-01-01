@@ -4,8 +4,6 @@
   <p>快速查询，随时了解你的宝可梦伙伴！</p>
 </div>
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b122183c-78bc-410d-81d0-674b0b993989/deploy-status)](https://app.netlify.com/sites/pokedex-zh/deploys)
-
 ## 说明
 
 开源的宝可梦中文图鉴，提供最新（截至第九世代）的宝可梦图鉴数据。
@@ -13,8 +11,6 @@
 访问：
 
 https://pokedex.starllow.com
-
-https://pokedex-zh.netfily.app 
 
 ## 功能和进度
 
