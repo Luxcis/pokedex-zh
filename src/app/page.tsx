@@ -17,7 +17,8 @@ export default function IndexPage() {
         <NavItem title='全国图鉴' href='/pokemon' />
         <NavItem title='特性' href='/ability' />
         <NavItem title='招式' href='/move' />
-        <NavItem title='道具' href='/item' />
+        <NavItem title='克制' href='/effect' />
+        <NavItem title='融合' href='/fusion' />
       </div>
     </main>
   )

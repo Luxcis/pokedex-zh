@@ -19,7 +19,7 @@ function TypeBadge({ type, size, active = true, onClick }: Props) {
       className={cn(
         'flex cursor-pointer items-center justify-center gap-2 rounded px-2 py-0.5',
         active ? 'text-white' : 'bg-muted text-muted-foreground',
-        size === 'normal' ? 'min-w-20' : ''
+        size === 'normal' ? 'min-w-24' : ''
       )}
       style={{
         backgroundColor: active ? color : ''

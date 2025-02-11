@@ -4,14 +4,13 @@ import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
 import { HTMLAttributes } from 'react'
 import {
-  House,
-  PawPrint,
+  Dna,
   HandPalm,
+  House,
   Lightbulb,
-  Backpack,
-  GearSix
+  PawPrint,
+  Pentagon
 } from '@phosphor-icons/react'
-import { SettingsSheet } from './settings-sheet'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 
@@ -20,7 +19,8 @@ export const mainNavigation = [
   { label: '图鉴', href: '/pokemon', icon: PawPrint },
   { label: '特性', href: '/ability', icon: Lightbulb },
   { label: '招式', href: '/move', icon: HandPalm },
-  { label: '道具', href: '/item', icon: Backpack }
+  { label: '克制', href: '/effect', icon: Pentagon },
+  { label: '融合', href: '/fusion', icon: Dna }
 ]
 
 export const SidebarCategory = ({ children }: { children: string }) => (

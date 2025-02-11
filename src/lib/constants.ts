@@ -40,7 +40,7 @@ export const TYPE_COLORS: Record<Type, string> = {
   龙: '#5060e1',
   恶: '#50413f',
   妖精: '#ef70ef',
-  未知: '#44685e'
+  未知: '#676767'
 }
 
 export const CATEGORY_TYPE: Record<Category, string> = {
@@ -48,3 +48,29 @@ export const CATEGORY_TYPE: Record<Category, string> = {
   特殊: '#2266cc',
   变化: '#999999'
 }
+
+const Z = 0
+const O = 1
+const H = 0.5
+const D = 2
+
+export const TYPE_TABLE: number[][] = [
+  [O, O, O, O, O, O, O, O, O, O, O, O, H, Z, O, O, H, O],
+  [O, H, H, O, D, D, O, O, O, O, O, D, H, O, H, O, D, O],
+  [O, D, H, O, H, O, O, O, D, O, O, O, D, O, H, O, O, O],
+  [O, O, D, H, H, O, O, O, Z, D, O, O, O, O, H, O, O, O],
+  [O, H, D, O, H, O, O, H, D, H, O, H, D, O, H, O, H, O],
+  [O, H, H, O, D, H, O, O, D, D, O, O, O, O, D, O, H, O],
+  [D, O, O, O, O, D, O, H, O, H, H, H, D, Z, O, D, D, H],
+  [O, O, O, O, D, O, O, H, H, O, O, O, H, H, O, O, Z, D],
+  [O, D, O, D, H, O, O, D, O, Z, O, H, D, O, O, O, D, O],
+  [O, O, O, H, D, O, D, O, O, O, O, D, H, O, O, O, H, O],
+  [O, O, O, O, O, O, D, D, O, O, H, O, O, O, O, Z, H, O],
+  [O, H, O, O, D, O, H, H, O, H, D, O, O, H, O, D, H, H],
+  [O, D, O, O, O, D, H, O, H, D, O, D, O, O, O, O, H, O],
+  [Z, O, O, O, O, O, O, O, O, O, D, O, O, D, O, H, O, O],
+  [O, O, O, O, O, O, O, O, O, O, O, O, O, O, D, O, H, Z],
+  [O, O, O, O, O, O, H, O, O, O, D, O, O, D, O, H, O, H],
+  [O, H, H, H, O, D, O, O, O, O, O, O, D, O, O, O, H, D],
+  [O, H, O, O, O, O, D, H, O, O, O, O, O, O, D, D, H, O]
+]
