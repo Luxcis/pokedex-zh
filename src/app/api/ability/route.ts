@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     const filteredData = allData
       .filter(
         (p) =>
-          p.name.startsWith(name) ||
+          p.name.includes(name) ||
           p.name_en.toLowerCase().startsWith(name) ||
           p.name_jp.startsWith(name)
       )
