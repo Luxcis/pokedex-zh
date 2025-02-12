@@ -3,7 +3,7 @@
 import { PaginatedResponse, PokemonDetail, PokemonList, Type } from '@/types'
 import { useState } from 'react'
 import { fetchData, fetchDataWithoutApi } from '@/lib/fetch'
-import { Combobox } from '@/app/fusion/combobox'
+import { Combobox, Option } from '@/app/fusion/combobox'
 import { Label } from '@/components/ui/label'
 import TypeBadge from '@/components/type-badge'
 import StatChart from '@/app/pokemon/[name]/stat-chart'
@@ -16,23 +16,21 @@ export default function Page() {
   const [firstPokemon, setFirstPokemon] = useState<PokemonDetail>()
   const [secondPokemonIndex, setSecondPokemonIndex] = useState<string>('')
   const [secondPokemon, setSecondPokemon] = useState<PokemonDetail>()
-  const [pokemonList, setPokemonList] = useState<PokemonList[]>([])
+  const [pokemonList, setPokemonList] = useState<Option[]>([])
   const loadedPokemonList = () => {
     fetchData<PaginatedResponse<PokemonList>>(
       `pokemon?page=0&pageSize=1500`
     ).then((res) => {
       setPokemonList(
-        res.contents.filter(
-          (pokemon: PokemonList) => !pokemon.name.includes('-')
-        )
+        res.contents.map((p) => {
+          return { index: p.index, name: p.name }
+        })
       )
     })
   }
   const handleChange = (value: string) => {
     setFirstPokemonIndex(value)
-    const pkm: PokemonList = pokemonList.find(
-      (p) => p.index === value
-    ) as PokemonList
+    const pkm: Option = pokemonList.find((p) => p.index === value) as Option
     const key = `${pkm.index}-${pkm.name}`
     fetchDataWithoutApi<PokemonDetail>(`data/pokemon/${key}.json`).then(
       (res) => {
@@ -42,9 +40,7 @@ export default function Page() {
   }
   const handleChange2 = (value: string) => {
     setSecondPokemonIndex(value)
-    const pkm: PokemonList = pokemonList.find(
-      (p) => p.index === value
-    ) as PokemonList
+    const pkm: Option = pokemonList.find((p) => p.index === value) as Option
     const key = `${pkm.index}-${pkm.name}`
     fetchDataWithoutApi<PokemonDetail>(`data/pokemon/${key}.json`).then(
       (res) => {
@@ -92,6 +88,10 @@ export default function Page() {
 }
 
 interface FusionResultProp {
+  firstPokemon?: PokemonDetail
+  secondPokemon?: PokemonDetail
+}
+interface FusionDetailProp {
   firstPokemon: PokemonDetail
   secondPokemon: PokemonDetail
 }
@@ -115,7 +115,7 @@ function FusionResult({ firstPokemon, secondPokemon }: FusionResultProp) {
   }
 }
 
-function FusionDetail({ firstPokemon, secondPokemon }: FusionResultProp) {
+function FusionDetail({ firstPokemon, secondPokemon }: FusionDetailProp) {
   // 头部的第一属性
   // 身体存在第二属性就用第二属性否则身体的第一属性并且和头部第一属性不一致才存在第二属性
   let types = [

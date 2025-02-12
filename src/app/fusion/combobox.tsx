@@ -15,7 +15,7 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover'
 
-interface Option {
+export interface Option {
   index: string
   name: string
 }
