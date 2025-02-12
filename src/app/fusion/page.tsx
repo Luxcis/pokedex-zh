@@ -22,9 +22,11 @@ export default function Page() {
       `pokemon?page=0&pageSize=1500`
     ).then((res) => {
       setPokemonList(
-        res.contents.map((p) => {
-          return { index: p.index, name: p.name }
-        })
+        res.contents
+          .map((p) => {
+            return { index: p.index, name: p.name }
+          })
+          .filter((p) => !p.name.includes('-'))
       )
     })
   }
